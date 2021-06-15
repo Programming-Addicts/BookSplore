@@ -2,14 +2,21 @@ from fastapi import FastAPI
 import dotenv
 import os
 
+from starlette.config import Config
+from starlette.middleware.sessions import SessionMiddleware
 
-from endpoints import user_endpoint, follow_endpoint
+from endpoints import home,auth,follow
 from database.database import Database
 
-app = FastAPI()
+config = Config(".env")
 
-app.include_router(user_endpoint.router)
-app.include_router(follow_endpoint.router)
+app = FastAPI()
+app.add_middleware(SessionMiddleware, secret_key=os.environ.get("SECRET_KEY"))
+
+app.include_router(home.router)
+app.include_router(follow.router)
+app.include_router(auth.router)
+
 
 @app.on_event("startup")
 async def on_startup():

@@ -1,10 +1,6 @@
 from typing import List
 
-from fastapi import APIRouter, Request, HTTPException
-from pydantic import BaseModel
-
-from models import User
-from database import user_utils
+from fastapi import APIRouter, Request
 
 router = APIRouter(tags=["Follow Users"])
 
