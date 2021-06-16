@@ -5,7 +5,7 @@ import os
 from starlette.config import Config
 from starlette.middleware.sessions import SessionMiddleware
 
-from endpoints import home,auth,follow
+from endpoints import follow
 from database.database import Database
 
 config = Config(".env")
@@ -13,9 +13,9 @@ config = Config(".env")
 app = FastAPI()
 app.add_middleware(SessionMiddleware, secret_key=os.environ.get("SECRET_KEY"))
 
-app.include_router(home.router)
+#app.include_router(home.router)
 app.include_router(follow.router)
-app.include_router(auth.router)
+#app.include_router(auth.router)
 
 
 @app.on_event("startup")
