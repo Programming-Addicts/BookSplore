@@ -10,6 +10,16 @@ const routes = [
     name: 'Home',
     component: Home
   },
+  {
+    path: '/login',
+    name: 'Home',
+    component: Home
+  },
+  {
+    path: '/sighup',
+    name: 'Home',
+    component: Home
+  }
 ]
 
 const router = new VueRouter({

@@ -5,6 +5,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
     <link rel="icon" href="<%= BASE_URL %>favicon.ico">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Cabin&display=swap" rel="stylesheet">
     <title><%= htmlWebpackPlugin.options.title %></title>
   </head>
   <body>
@@ -15,8 +17,11 @@
     <!-- built files will be auto injected -->
   </body>
   <style>
-body {
+body, html, #app {
   background-color: #262C37;
+  width: 100%;
+  height: 100%;
+  margin: 0;
 }
   </style>
 </html>

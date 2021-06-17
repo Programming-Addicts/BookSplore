@@ -1,13 +1,27 @@
 <template>
-	<nav-bar />
+  <div :style="getHeight()">
+    <nav-bar/>
+    <landing-page/>
+  </div>
 </template>
 
 <script>
 import NavBar from "../components/NavBar.vue";
+import LandingPage from "../components/LandingPage.vue";
 
 export default {
-	components: { NavBar },
-	name: "Home",
+  name: "Home",
+	components: {
+    NavBar,
+    LandingPage
+  },
+  methods: {
+    getHeight() {
+      return {
+        "height": `${window.innerHeight}px`
+      }
+    }
+  }
 };
 </script>
 
