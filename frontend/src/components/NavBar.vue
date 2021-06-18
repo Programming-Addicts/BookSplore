@@ -1,16 +1,17 @@
 <template>
-	<div id="nav">
-    <table><tr>
-      <td class="logo-container">
+	<div id="nav" :class="[centred ? 'centred' : '']">
+    <table><tr >
+      <td class='logo-container'>
         <img src="../assets/BookSploreIcon.svg" />
-        <span class="title bold">Book</span>
-        <span class="title italic">Splore</span>
+        <p class="title bold">Book</p>
+        <p class="title italic">Splore</p>
       </td>
-      <td class="fill-col" />
-      <td class="button-container">
+      
+      <td v-if="!centred" class="fill-col" />
+      <td v-if="!centred" class="button-container">
         <router-link class="login-link" to="/login">Log In</router-link>
       </td>
-      <td class="button-container">
+      <td v-if="!centred" class="button-container">
         <router-link class="signup-link" to="/signup">Sign Up</router-link>
       </td>
     </tr></table>
@@ -20,14 +21,27 @@
 <script>
 export default {
 	name: "NavBar",
+  props: {
+    centred: {
+      type: Boolean,
+      default: false
+    },
+  }
 };
 </script>
 
 <style scoped>
 
+.centred {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .fill-col {
   width: 100%;
 }
+
 
 .button-container {
   overflow: hidden;
@@ -71,6 +85,15 @@ export default {
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+.logo-container img {
+  height: 66px;
+}
+.logo-container p {
+  margin: 0%;
 }
 
 .title-div {
@@ -88,8 +111,6 @@ export default {
 	font-family: "Cabin";
 	font-size: 37px;
 	text-align: center;
-  position: absolute;
-  top: 24px;
   color: white;
 }
 
@@ -99,6 +120,5 @@ export default {
 
 .italic {
 	font-style: italic;
-  left: 160px;
 }
 </style>
