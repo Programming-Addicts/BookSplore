@@ -33,6 +33,10 @@ export default {
 
 <style scoped>
 
+svg {
+  margin-top: 80px;
+}
+
 .circle {
   position: absolute;
   border-radius: 50%;
