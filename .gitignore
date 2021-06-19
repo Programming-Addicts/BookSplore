@@ -24,3 +24,11 @@ pnpm-debug.log*
 
 */__pycache__/
 *.pyc
+
+backend/.env
+backend/.venv
+backend/env/
+backend/venv/
+backend/ENV/
+backend/env.bak/
+backend/venv.bak/
