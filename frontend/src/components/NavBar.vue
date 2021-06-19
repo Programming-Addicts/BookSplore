@@ -1,18 +1,14 @@
 <template>
 	<div id="nav" :class="[centred ? 'centred' : '']">
-    <table><tr >
+    <table><tr>
       <td class='logo-container'>
         <img src="../assets/BookSploreIcon.svg" />
         <p class="title bold">Book</p>
         <p class="title italic">Splore</p>
       </td>
       
-      <td v-if="!centred" class="fill-col" />
       <td v-if="!centred" class="button-container">
-        <router-link class="login-link" to="/login">Log In</router-link>
-      </td>
-      <td v-if="!centred" class="button-container">
-        <router-link class="signup-link" to="/signup">Sign Up</router-link>
+        <router-link class="signup-link" to="/signup">Sign In With Google</router-link>
       </td>
     </tr></table>
 	</div>
@@ -32,6 +28,10 @@ export default {
 
 <style scoped>
 
+table {
+  width: 100%;
+}
+
 .centred {
   display: flex;
   align-items: center;
@@ -50,17 +50,6 @@ export default {
   text-decoration: none;
 }
 
-.login-link {
-  color: white;
-  text-decoration: none;
-  font-family: Lato;
-  font-size: 25px;
-  font-style: normal;
-  font-weight: 500;
-  letter-spacing: 0.03em;
-  text-align: center;
-}
-
 .signup-link {
   font-family: Lato;
   font-style: normal;
@@ -74,6 +63,8 @@ export default {
   padding-bottom: 15px;
   margin-left: 10px;
   margin-right: 10px;
+  margin-top: 8px;
+  float: right;
 
   background: #79A9D1;
   color: black;
