@@ -8,7 +8,11 @@
       </td>
       
       <td v-if="!centred" class="button-container">
-        <router-link class="signup-link" to="/signup">Sign In With Google</router-link>
+        <a
+        class="signup-link"
+        :href="BASE_URL + '/login'"
+        >
+        Sign In With Google</a>
       </td>
     </tr></table>
 	</div>
@@ -22,6 +26,10 @@ export default {
       type: Boolean,
       default: false
     },
+    BASE_URL: {
+      type: String,
+      default: "http://127.0.0.1:8000"
+    }
   }
 };
 </script>
