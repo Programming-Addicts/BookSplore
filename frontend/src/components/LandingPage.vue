@@ -1,6 +1,6 @@
 <template>
   <div class="main">
-    <div class="section1">
+    <div class="section1 section">
       <div class="circle">
         <div class="textTitle">
           <p class="title bold">Book</p>
@@ -23,19 +23,22 @@
         class="reading-img"
       />
     </div>
-    <div class="section2">
-      <div class="outer1">
-        <div class="innerLeft">
-          <img src="../assets/reading_online.svg" >
-          <div class="leftBottom">
+    <div class="section2 section">
+      <p class="outer1">Acquaint yourself with books you never knew about</p>
+      <div class="outer2">
+
+          <img src="../assets/reading_online.svg" class="reading_online"/>
+          <div class="bottomLeft">
             <p>Well, what are you waiting for?</p>
-            <p class="createAccount">Create an account on BookSplore for free!</p>
+            <p class="createAccount">
+              Create an account on BookSplore for free!
+            </p>
           </div>
-        </div>
-        <div class="innerRight">
-          <p>Browse through hundreds of books, review your favourite reads, and follow your friends’ progress, right in the comfort of your browser!</p>
-          <img src="../assets/books.svg" >
-        </div>
+          <p class="topRight">
+            Browse through hundreds of books, review your favourite reads, and
+            follow your friends’ progress, right in the comfort of your browser!
+          </p>
+          <img src="../assets/books.svg" class="bottomRight"/>
       </div>
     </div>
     <Footer></Footer>
@@ -43,12 +46,12 @@
 </template>
 
 <script>
-import Footer from "./Footer.vue"
+import Footer from "./Footer.vue";
 
 export default {
   name: "LandingPage1",
   components: {
-    Footer
+    Footer,
   },
   methods: {
     getRadius() {
@@ -65,7 +68,16 @@ export default {
 .main {
   display: flex;
   flex-direction: column;
+
+  /* scroll-snap-type: mandatory;
+  scroll-snap-points-y: repeat(300px);
+  scroll-snap-type: y mandatory; */
+
 }
+
+/* .section {
+  scroll-snap-align: start;
+} */
 
 .section1 {
   display: grid;
@@ -73,6 +85,7 @@ export default {
   gap: 0%;
 
   grid-template-areas: "circle sun reading";
+  margin-top: -5%;
 }
 
 /* circle styling start ----------------------- */
@@ -175,6 +188,81 @@ export default {
   z-index: 1;
 }
 
+.section2 {
+  display: flex;
+  flex-direction: column;
+}
 
+.outer1 {
+  font-family: Lato;
+  font-size: 60px;
+  font-weight: 800;
+  color: white;
+  text-align: center;
+
+  padding-left: 330px;
+  padding-right: 330px;
+  margin-top: 2%;
+  margin: 0%;
+}
+
+.outer2 {
+  display: grid;
+  grid-template-areas: 
+  "topLeft topRight"
+  "bottomLeft bottomRight";
+
+}
+
+.reading_online {
+  grid-area: topLeft;
+  width: 700px;
+  height: 400px;
+
+  margin-left: 11%;
+  margin-right: 0%;
+  margin-top: 7%;
+}
+.topRight {
+  grid-area: topRight;
+  font-size: 35px;
+  font-weight: 700;
+  color: white;
+  font-family: Lato;
+
+  margin-right: 8%;
+  margin-left: -6%;
+  margin-top: 5%;
+  z-index: 2;
+}
+.bottomLeft {
+  grid-area: bottomLeft;
+  color: white;
+  font-family: Lato;
+  font-size: 38px;
+  font-weight: 700;
+
+  margin-left: 10%;
+  margin-top: 5%;
+  z-index: 2;
+
+  word-wrap: none;
+}
+.bottomLeft p {
+  margin: 0%;
+  padding: 0%;
+}
+.bottomLeft .createAccount {
+  color: #AED8FF;
+}
+
+.bottomRight {
+  grid-area: bottomRight;
+  z-index: 0;
+  width: 700px;
+
+  margin-top: -35%;
+  margin-left: -10%;
+}
 
 </style>
