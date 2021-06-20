@@ -31,7 +31,7 @@
           <div class="bottomLeft">
             <p>Well, what are you waiting for?</p>
             <p class="createAccount">
-              Create an account on BookSplore for free!
+             <a href="#">Create an account on BookSplore for free!</a> 
             </p>
           </div>
           <p class="topRight">
@@ -252,8 +252,13 @@ export default {
   margin: 0%;
   padding: 0%;
 }
-.bottomLeft .createAccount {
+.bottomLeft .createAccount a {
   color: #AED8FF;
+  cursor: pointer;
+  text-decoration: none;
+}
+.bottomLeft .createAccount:hover {
+  text-decoration: underline;
 }
 
 .bottomRight {
