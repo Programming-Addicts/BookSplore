@@ -12,7 +12,7 @@
         class="signup-link"
         :href="BASE_URL + '/login'"
         >
-        Sign In With Google</a>
+        Sign In With <img src="../assets/google.svg" width="22" height="22" /></a> <!-- Fix the aligment and change the font please -->
       </td>
     </tr></table>
 	</div>
