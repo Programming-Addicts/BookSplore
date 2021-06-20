@@ -78,8 +78,12 @@ table {
   color: black;
   text-decoration: none;
   border-radius: 10px;
-}
 
+  transition: 300ms;
+}
+.signup-link:active {
+  transform: scale(0.9);
+}
 .logo-container {
   overflow: hidden;
   white-space: nowrap;
@@ -105,8 +109,8 @@ table {
 	height: 80px;
   border-bottom: 0.1px white solid;
   background: #181C23;
-  position: absolute;
-  z-index: 1;
+  position: relative;
+  z-index: 2;
 }
 
 .title {
