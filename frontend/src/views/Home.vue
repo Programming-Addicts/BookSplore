@@ -1,5 +1,5 @@
 <template>
-  <div :style="getHeight()">
+  <div style="height: 100%;">
     <nav-bar/>
     <landing-page/>
   </div>

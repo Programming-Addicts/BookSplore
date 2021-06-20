@@ -18,8 +18,8 @@
       <img src="../assets/sun.svg" width="300" height="300" class="sun-img" />
       <img
         src="../assets/BooksImage.svg"
-        width="720"
-        height="720"
+        width="900px"
+        height="900px"
         class="reading-img"
       />
     </div>
@@ -68,16 +68,7 @@ export default {
 .main {
   display: flex;
   flex-direction: column;
-
-  /* scroll-snap-type: mandatory;
-  scroll-snap-points-y: repeat(300px);
-  scroll-snap-type: y mandatory; */
-
 }
-
-/* .section {
-  scroll-snap-align: start;
-} */
 
 .section1 {
   display: grid;
@@ -107,7 +98,7 @@ export default {
 .welcomeWords {
   font-family: Lato;
   color: white;
-  font-size: 60px;
+  font-size: 55px;
   font-weight: 700;
 
   margin-left: 23%;
@@ -118,7 +109,7 @@ export default {
 .grayWords {
   font-family: Lato;
   color: #b4b4b4;
-  font-size: 35px;
+  font-size: 30px;
   font-weight: 800;
 
   word-wrap: break-word;
@@ -186,6 +177,8 @@ export default {
 
   grid-area: reading;
   z-index: 1;
+
+  margin-bottom: 30px;
 }
 
 .section2 {
