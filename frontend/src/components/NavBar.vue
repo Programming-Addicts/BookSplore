@@ -80,6 +80,13 @@ table {
   border-radius: 10px;
 
   transition: 300ms;
+
+  display: flex;  
+  justify-content: center;
+  align-items: center;
+}
+.signup-link img {
+  padding-left: 5px;
 }
 .signup-link:active {
   transform: scale(0.9);
