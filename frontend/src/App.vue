@@ -1,5 +1,5 @@
 <template>
-		<router-view />
+	<router-view />
 </template>
 
 <script>
@@ -8,7 +8,7 @@ export default {
   mounted() {
     this.$session.start()
     console.log(this.$session.getAll())
-  }
+  },
 };
 </script>
 

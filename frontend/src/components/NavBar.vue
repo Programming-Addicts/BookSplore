@@ -12,7 +12,7 @@
         class="signup-link"
         :href="BASE_URL + '/login'"
         >
-        Sign In With <img src="../assets/google.svg" width="22" height="22" /></a> <!-- Fix the aligment and change the font please -->
+        Sign In With <img src="../assets/google.svg" width="23" height="23" /></a> <!-- Fix the aligment and change the font please -->
       </td>
     </tr></table>
 	</div>
@@ -86,7 +86,8 @@ table {
   align-items: center;
 }
 .signup-link img {
-  padding-left: 5px;
+  padding-left: 7px;
+  margin-top: -3px;
 }
 .signup-link:active {
   transform: scale(0.9);

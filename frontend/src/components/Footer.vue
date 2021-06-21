@@ -5,7 +5,7 @@
       <p class="title bold">Book</p>
       <p class="title italic">Splore</p>
     </div>
-    <a class="github" href="#">
+    <a class="github" href="https://github.com/Programming-Addicts/BookSplore">
         <p>See the source code on Github</p>
         <img src="../assets/Github_Logo.svg">
     </a>
@@ -69,18 +69,19 @@ export default {
     font-family: Lato;
 
     display: flex;
-    flex-direction: row;
     cursor: pointer;
+    justify-content: center;
 }
 .github p {
     margin: 0%;
     padding-top: 12px;
     padding-right: 10px;
-
+    font-size: 20px;
 }
 .github p:hover {
-    border-bottom: 4px solid #9DD4F2;
+    text-decoration: underline
 }
+
 .github:link {
     text-decoration: none;
 }

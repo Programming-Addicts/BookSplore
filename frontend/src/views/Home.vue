@@ -1,7 +1,7 @@
 <template>
   <div style="height: 100%;">
     <nav-bar/>
-    <landing-page/>
+      <landing-page :backend_url="backend_url"/>
   </div>
 </template>
 
@@ -11,6 +11,11 @@ import LandingPage from "../components/LandingPage.vue";
 
 export default {
   name: "Home",
+  data() {
+    return {
+      backend_url: "http://localhost:8000"
+    }
+  },
 	components: {
     NavBar,
     LandingPage
