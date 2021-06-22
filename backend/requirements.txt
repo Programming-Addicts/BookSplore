@@ -1,3 +1,4 @@
+aiohttp==3.7.4.post0
 asgiref==3.3.4
 asyncpg==0.23.0
 Authlib==0.15.4
