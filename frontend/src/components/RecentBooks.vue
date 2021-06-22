@@ -7,7 +7,7 @@
     <div class="bookList">
         <div v-for="book in books" :key="book" class="book">
             <img src="../assets/BookIcon.svg">
-            <p>{{book}}</p>
+            <a :href="book.link">{{book.name}}</a>
         </div>
     </div>
   </div>
@@ -84,15 +84,23 @@ export default {
     color: #A2DCEE;
 
     column-gap: 10px;
-    padding-left: 32px;
+    margin-left: 32px;
     padding-bottom: 0%;
     margin-bottom: 0%;
 
     word-break: break-all;
+    cursor: pointer;
 }
 
-.bookList div p {
+.bookList div a {
     margin: 0%;
+    color: inherit;
+}
+.bookList div:hover {
+    text-decoration: underline;
+}
+.bookList div a:link {
+    text-decoration: none;
 }
 .bookList div img {
     margin: 0%;

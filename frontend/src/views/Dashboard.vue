@@ -18,17 +18,42 @@ export default {
   data() {
     return {
       UserBooks: [
-        "booooooooooooooooooooooooooooooooooooook",
-        "book1",
-        "book2",
-        "book3",
-        "book4",
-        "book5",
-        "book",
-        "book",
-        "book",
-        "book",
-        "book",
+        {
+          "name": "boooooooooooo0ooooooooooooo oooooook",
+          "link": "#"
+        },
+        {
+          "name": "book",
+          "link": "#"
+        },
+        {
+          "name": "book",
+          "link": "#"
+        },
+        {
+          "name": "book",
+          "link": "#"
+        },
+        {
+          "name": "book",
+          "link": "#"
+        },
+        {
+          "name": "book",
+          "link": "#"
+        },
+        {
+          "name": "book",
+          "link": "#"
+        },
+        {
+          "name": "book",
+          "link": "#"
+        },
+        {
+          "name": "book",
+          "link": "#"
+        },
       ],
     };
   },
