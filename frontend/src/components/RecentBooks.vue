@@ -1,5 +1,5 @@
 <template>
-  <div class="recent" :style="cssVars">
+  <div class="recent">
     <p class="readsTitle">Your Reads</p>
     <!-- temporart search field -->
     <input type="text" class="search" placeholder="Find a book...."/>

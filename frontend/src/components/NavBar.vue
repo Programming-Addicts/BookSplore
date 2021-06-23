@@ -1,5 +1,5 @@
 <template>
-	<div id="nav" :class="[centred ? 'centred' : '']" :style="cssVars">
+	<div id="nav" :class="[centred ? 'centred' : '']" :style="cssVars()">
     <table><tr>
       <td class='logo-container'>
         <img src="../assets/BookSploreIcon.svg" />
@@ -7,12 +7,21 @@
         <p class="title italic">Splore</p>
       </td>
       
-      <td v-if="!centred" class="button-container">
+      <td v-if="!centred" class="button-container" >
         <a
+        v-if="navbar_type=='landingpage'"
         class="signup-link"
         :href="BASE_URL + '/login'"
         >
-        Sign In With <img src="../assets/google.svg" width="23" height="23" /></a> <!-- Fix the aligment and change the font please -->
+          Sign In With
+          <img src="../assets/google.svg" width="23" height="23" />
+        </a>
+
+        <!---- Navbar items for pages other than landing page ---->
+        <div v-if="navbar_type != 'landingpage'" class="link-container">
+          <a href="/dashboard">Dashboard</a>
+          <a href="/explore">Explore Books</a>
+        </div>
       </td>
     </tr></table>
 	</div>
@@ -33,9 +42,13 @@ export default {
     BASE_URL: {
       type: String,
       default: "http://127.0.0.1:8000"
-    }
+    },
+    navbar_type: {
+      type: String,
+      default: "landingpage"
+    },
   },
-  computed: {
+  methods: {
     cssVars() {
       return {
         '--position': this.fixed ? 'absolute': 'relative'
@@ -46,6 +59,16 @@ export default {
 </script>
 
 <style scoped>
+
+a {
+  text-decoration: none;
+  color: #ffffff;
+  font-size: 27px;
+  font-weight: 400;
+  font-family: Lato;
+  float: right;
+  margin: 15px;
+}
 
 table {
   width: 100%;

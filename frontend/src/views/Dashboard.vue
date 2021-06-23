@@ -1,11 +1,13 @@
 <template>
-  <div class="dashboard" :style="cssVars">
-    <nav-bar :fixed="true" />
+  <div class="dashboard">
+    <!--- auth-component --->
+    <nav-bar :fixed="true" navbar_type="authenticated" />
     <recent-books :books="UserBooks" />
   </div>
 </template>
 
 <script>
+// import AuthComponent from "../components/AuthComponent.vue"
 import RecentBooks from "../components/RecentBooks.vue";
 import NavBar from "../components/NavBar.vue";
 
@@ -14,6 +16,7 @@ export default {
   components: {
     RecentBooks,
     NavBar,
+    // AuthComponent
   },
   data() {
     return {
