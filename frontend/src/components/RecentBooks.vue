@@ -1,5 +1,5 @@
 <template>
-  <div class="recent" :style="cssVars">
+  <div class="recent">
     <p class="readsTitle">Your Reads</p>
     <!-- temporart search field -->
     <input type="text" class="search" placeholder="Find a book...."/>
@@ -45,7 +45,7 @@ export default {
   position: fixed;
   padding-top: 80px;
   left: 0%;
-  width: 25%;
+  width: inherit;
   height: 100%;
 
   border-right: 2px solid white;
