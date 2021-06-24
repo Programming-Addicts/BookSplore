@@ -41,20 +41,20 @@ export default {
     },
     BASE_URL: {
       type: String,
-      default: "http://127.0.0.1:8000"
+        default: "http://143.198.13.69:6969"
+      },
+      navbar_type: {
+        type: String,
+        default: "landingpage"
+      },
     },
-    navbar_type: {
-      type: String,
-      default: "landingpage"
-    },
-  },
-  methods: {
-    cssVars() {
-      return {
-        '--position': this.fixed ? 'absolute': 'relative'
+    methods: {
+      cssVars() {
+        return {
+          '--position': this.fixed ? 'absolute': 'relative'
+        }
       }
     }
-  }
 };
 </script>
 
