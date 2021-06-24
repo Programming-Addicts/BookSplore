@@ -1,6 +1,7 @@
 <template>
   <div class="dashboard">
-    <nav-bar :fixed="false" navbar_type="authenticated" />
+    <auth-component backend_url="https://booksplore.milind.me" />
+    <nav-bar :fixed="true" navbar_type="authenticated" />
     <recent-books :books="UserBooks"/>
     <table style="width: 100%;"><tr>
       <td class="recent-books" style="width: 30%;">
@@ -13,7 +14,7 @@
 </template>
 
 <script>
-// import AuthComponent from "../components/AuthComponent.vue"
+import AuthComponent from "../components/AuthComponent.vue"
 import RecentBooks from "../components/RecentBooks.vue";
 import NavBar from "../components/NavBar.vue";
 import Timeline from "../components/Timeline.vue";
@@ -24,7 +25,7 @@ export default {
     RecentBooks,
     NavBar,
     Timeline,
-    // AuthComponent
+    AuthComponent
   },
   data() {
     return {
