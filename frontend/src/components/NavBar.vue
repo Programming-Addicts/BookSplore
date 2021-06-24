@@ -40,8 +40,8 @@ export default {
       default: false,
     },
     BASE_URL: {
-      type: String,
-        default: "http://143.198.13.69:6969"
+        type: String,
+        default: "https://booksplore.milind.me"
       },
       navbar_type: {
         type: String,

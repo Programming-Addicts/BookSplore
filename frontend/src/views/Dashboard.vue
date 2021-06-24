@@ -1,5 +1,6 @@
 <template>
   <div class="dashboard">
+    <auth-component />
     <nav-bar :fixed="true" navbar_type="authenticated" />
     <div class="recentBooks">
       <recent-books :books="UserBooks" />
@@ -11,7 +12,7 @@
 </template>
 
 <script>
-// import AuthComponent from "../components/AuthComponent.vue"
+import AuthComponent from "../components/AuthComponent.vue"
 import RecentBooks from "../components/RecentBooks.vue";
 import NavBar from "../components/NavBar.vue";
 import Timeline from "../components/Timeline.vue";
@@ -22,7 +23,7 @@ export default {
     RecentBooks,
     NavBar,
     Timeline,
-    // AuthComponent
+    AuthComponent
   },
   data() {
     return {
