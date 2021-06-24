@@ -1,5 +1,5 @@
 <template>
-	<div id="nav" :class="[centred ? 'centred' : '']">
+	<div id="nav" :class="[centred ? 'centred' : '']" :style="cssVars()">
     <table><tr>
       <td class='logo-container'>
         <img src="../assets/BookSploreIcon.svg" />
@@ -7,12 +7,21 @@
         <p class="title italic">Splore</p>
       </td>
       
-      <td v-if="!centred" class="button-container">
+      <td v-if="!centred" class="button-container" >
         <a
+        v-if="navbar_type=='landingpage'"
         class="signup-link"
         :href="BASE_URL + '/login'"
         >
-        Sign In With <img src="../assets/google.svg" width="23" height="23" /></a> <!-- Fix the aligment and change the font please -->
+          Sign In With
+          <img src="../assets/google.svg" width="23" height="23" />
+        </a>
+
+        <!---- Navbar items for pages other than landing page ---->
+        <div v-if="navbar_type != 'landingpage'" class="link-container">
+          <a href="/dashboard">Dashboard</a>
+          <a href="/explore">Explore Books</a>
+        </div>
       </td>
     </tr></table>
 	</div>
@@ -26,15 +35,40 @@ export default {
       type: Boolean,
       default: false
     },
+    fixed: {
+      type: Boolean,
+      default: false,
+    },
     BASE_URL: {
       type: String,
-      default: "http://143.198.13.69:6969"
+        default: "http://143.198.13.69:6969"
+      },
+      navbar_type: {
+        type: String,
+        default: "landingpage"
+      },
+    },
+    methods: {
+      cssVars() {
+        return {
+          '--position': this.fixed ? 'absolute': 'relative'
+        }
+      }
     }
-  }
 };
 </script>
 
 <style scoped>
+
+a {
+  text-decoration: none;
+  color: #ffffff;
+  font-size: 27px;
+  font-weight: 400;
+  font-family: Lato;
+  float: right;
+  margin: 15px;
+}
 
 table {
   width: 100%;
@@ -117,7 +151,8 @@ table {
 	height: 80px;
   border-bottom: 0.1px white solid;
   background: #181C23;
-  position: relative;
+  /* position: relative; */
+  position: var(--position);
   z-index: 2;
 }
 
