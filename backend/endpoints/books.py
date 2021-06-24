@@ -1,4 +1,5 @@
 from fastapi import APIRouter, Request
+from fastapi.responses import JSONResponse
 import os
 from aiohttp import request as aiorequest
 import dotenv
@@ -9,7 +10,9 @@ router = APIRouter(tags=["Books"])
 
 
 @router.get('/books/search')
-async def search(request: Request, query: str, limit: int = 20, download: bool = False, filter: str = None, sorting: str = "relevance"):
+async def search(request: Request, query: str= None, book_id: str = None, limit: int = 20, download: bool = False, filter: str = None, sorting: str = "relevance"):
+    if not (query or book_id):
+        return JSONResponse({'Error': 'Please enter valid search parameters'}, status_code=404)
     url = 'https://www.googleapis.com/books/v1/volumes'
     params = {'key': api_key, 'q': query, 'maxResults': limit}
 
@@ -22,11 +25,18 @@ async def search(request: Request, query: str, limit: int = 20, download: bool =
     if sorting in ['relevance', 'newest']:
         params['orderBy'] = sorting
 
+    if book_id is not None:
+        url = f"https://www.googleapis.com/books/v1/volumes/{book_id}"
+        del params
+        params = {'key': api_key}
+    print(params)
     async with aiorequest('GET', url, params=params) as response:
         data = await response.json()
         books = []
-        for book in data['items']:
-
+        if data.get('totalItems') == 0:
+            return JSONResponse({'Invalid Query': 'No books were found.'}, status_code=404)
+        all_data = data.get('items') if data.get('items') is not None else [data]
+        for book in all_data:
             book_info = book['volumeInfo']
             access_info = book['accessInfo']
             has_pdf = access_info.get('pdf')
@@ -48,7 +58,9 @@ async def search(request: Request, query: str, limit: int = 20, download: bool =
                          }
             books.append(book_data)
 
-        return books
+        return books if book_id is None else books[0]
+
+
 
 
 
