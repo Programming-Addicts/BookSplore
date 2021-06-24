@@ -13,7 +13,7 @@ export default {
   name: "Home",
   data() {
     return {
-      backend_url: "http://localhost:8000"
+      backend_url: "https://booksplore.milind.me"
     }
   },
 	components: {

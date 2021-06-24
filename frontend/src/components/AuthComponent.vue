@@ -5,6 +5,7 @@
 <script>
 export default {
   name: "AuthComponent",
+  props: ["backend_url"],
   mounted() {
     fetch("https://booksplore.milind.me/users/current")
       .then(data => data.json())

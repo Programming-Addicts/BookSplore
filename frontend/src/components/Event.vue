@@ -58,6 +58,7 @@ export default {
 .event {
     display: flex;
     flex-direction: column;
+    width: 90%;
     margin: 30px;
     margin-bottom: 0%;
     position: relative;
