@@ -1,12 +1,14 @@
 <template>
   <div class="dashboard">
-    <nav-bar :fixed="true" navbar_type="authenticated" />
-    <div class="recentBooks">
-      <recent-books :books="UserBooks" />
-    </div>
-    <div class="timeline">
-      <timeline />
-    </div>
+    <nav-bar :fixed="false" navbar_type="authenticated" />
+    <recent-books :books="UserBooks"/>
+    <table style="width: 100%;"><tr>
+      <td class="recent-books" style="width: 30%;">
+      </td>
+      <td>
+        <timeline />
+      </td>
+    </tr></table>
   </div>
 </template>
 
@@ -42,6 +44,38 @@ export default {
         {
           "name": "My Experiences With Truth",
           "link": "#"
+        },
+        {
+          "name": "Writing a Compiler in Go",
+          "link": "#"
+        },
+        {
+          "name": "The Hunger Games",
+          "link": "#"
+        },
+        {
+          "name": "Immortals of Meluha",
+          "link": "#"
+        },
+        {
+          "name": "My Experiences With Truth",
+          "link": "#"
+        },
+        {
+          "name": "Writing a Compiler in Go",
+          "link": "#"
+        },
+        {
+          "name": "The Hunger Games",
+          "link": "#"
+        },
+        {
+          "name": "Immortals of Meluha",
+          "link": "#"
+        },
+        {
+          "name": "My Experiences With Truth",
+          "link": "#"
         }
       ],
     };
@@ -50,11 +84,9 @@ export default {
 </script>
 
 <style scoped>
-.recentBooks {
-    width: 25%;
+
+.recent-books {
+  width: 25%;
 }
-.timeline {
-    width: 75%;
-    padding-bottom: 100px;
-}
+
 </style>

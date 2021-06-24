@@ -1,5 +1,5 @@
 <template>
-    <div class="timeline">
+    <div class="timeline-inner">
         <div class="events" v-for="(ev, index) of SubscribedEvents" :key="index">
           <event
           :user="ev.user"
@@ -84,20 +84,13 @@ export default {
 </script>
 
 <style scoped>
-.timeline {
-    position: fixed;
-    right: 0%;
-    margin-bottom: 10%;
-    top: 80px;
-    width: inherit;
-    height: min-content;
+.timeline-inner {
+    width: 100%;
+    padding: 0;
+    margin: 0;
+    margin-top: 100px;
 }
 .events {
     height: inherit;
-    display: flex;
-    flex-direction: column;
-}
-.events .empty{
-    position: relative;
 }
 </style>
