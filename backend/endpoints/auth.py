@@ -1,7 +1,7 @@
-from fastapi import APIRouter, Request, status
+from fastapi import APIRouter, Request
 
 from starlette.config import Config
-from fastapi.responses import RedirectResponse, JSONResponse
+from fastapi.responses import RedirectResponse
 
 from authlib.integrations.starlette_client import OAuth
 
@@ -36,7 +36,7 @@ async def auth(request: Request):
     token = await oauth.google.authorize_access_token(request)
     req_user = await oauth.google.parse_id_token(request, token)
     db = request.app.state.db
-    user = await get_user(db, req_user['email'])
+    user = await get_user(db, email=req_user['email'])
     if user is None:
         # Creates a new user in the database
         user = User(**{'first_name': req_user['given_name'],
@@ -53,21 +53,11 @@ async def auth(request: Request):
 
     request.session['user'] = dict(user)
 
-    return RedirectResponse(url='http://127.0.0.1:8080')
+    return RedirectResponse(url='https://booksplore.netlify.app')
 
 
-@router.get('/logout')  # Tag it as "authentication" for our docs
+@router.get('/logout')
 async def logout(request: Request):
     # Remove the user
     request.session.pop('user', None)
-    return RedirectResponse(url='/')
-
-
-@router.get('/current-user')
-async def get_current_user(request: Request):
-    user_data = request.session.get('user')
-    if user_data is not None:
-        user = User(**user_data)
-        return user
-    else:
-        return JSONResponse({'None': 'No user is authenticated'}, status_code=status.HTTP_404_NOT_FOUND)
+    return RedirectResponse(url='https://booksplore.netlify.app')
