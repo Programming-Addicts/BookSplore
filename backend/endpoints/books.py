@@ -29,7 +29,7 @@ async def search(request: Request, query: str= None, book_id: str = None, limit:
         url = f"https://www.googleapis.com/books/v1/volumes/{book_id}"
         del params
         params = {'key': api_key}
-    print(params)
+
     async with aiorequest('GET', url, params=params) as response:
         data = await response.json()
         books = []

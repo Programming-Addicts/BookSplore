@@ -46,13 +46,20 @@ async def follow_user(request: Request, id: int):
     await request.app.state.db.execute("UPDATE users SET followers = $1 WHERE id = $2", json.dumps(new_followers), vars(to_follow)['id'])
     return JSONResponse({'Success': f'{vars(user)["first_name"]} followed {vars(to_follow)["first_name"]}'}, status_code=200)
 
+
 @router.patch("/unfollow")
 async def unfollow_user(request: Request, id: int):
     pass
 
+
 @router.get("/get-followers")
 async def get_followers(request: Request, id: int):
-    pass
+    user = await db_user.get_user(request.app.state.db, id=id)
+    if user is None:
+        return JSONResponse({'Error': 'No user with the given id was found'}, status_code=404)
+    followers = json.loads(user.followers)
+    return followers
+
 
 async def get_following(request: Request, id: int):
     pass
