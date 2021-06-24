@@ -1,8 +1,14 @@
 <template>
     <div class="timeline">
-        <!--div class="events" v-for="(ev, index) of Events" :key="index"-->
-        <!--event :user="Events[0].user"/-->
-        <!--/div-->
+        <div class="events" v-for="(ev, index) of SubscribedEvents" :key="index">
+          <event
+          :user="ev.user"
+          :eventType="ev.eventType"
+          :eventDescription="ev.eventDescription"
+          :eventTarget="ev.eventTarget"
+          :imageUrl="ev.imageUrl"
+          />
+        </div>
     </div>
 </template>
 
@@ -18,18 +24,59 @@ class BEvent {
   }
 }
 
-//import Event from "./Event.vue";
+import Event from "./Event.vue";
 
 export default {
     name: "Timeline",
     // props: ["events"],
     components: {
-        //Event
+        Event
     },
     data() {
       return {
-        "Events": [
-          BEvent("Milind", "follow", "5 books, 32 followers, @class PythonAddict", "@/assets/ProfilePicture.svg")
+        SubscribedEvents: [
+          new BEvent(
+              "Milind",
+              "follow",
+              "5 books, 32 followers",
+              "class PythonAddict",
+              require("../assets/ProfilePicture.svg")
+          ),
+          new BEvent(
+              "Milind",
+              "follow",
+              "5 books, 32 followers",
+              "class PythonAddict",
+              require("../assets/ProfilePicture.svg")
+          ),
+          new BEvent(
+              "Milind",
+              "follow",
+              "5 books, 32 followers",
+              "class PythonAddict",
+              require("../assets/ProfilePicture.svg")
+          ),
+          new BEvent(
+              "Milind",
+              "follow",
+              "5 books, 32 followers",
+              "class PythonAddict",
+              require("../assets/ProfilePicture.svg")
+          ),
+          new BEvent(
+              "Milind",
+              "follow",
+              "5 books, 32 followers",
+              "class PythonAddict",
+              require("../assets/ProfilePicture.svg")
+          ),
+          new BEvent(
+              "Milind",
+              "follow",
+              "5 books, 32 followers",
+              "class PythonAddict",
+              require("../assets/ProfilePicture.svg")
+          )
         ]
       }
     }
@@ -43,16 +90,12 @@ export default {
     margin-bottom: 10%;
     top: 80px;
     width: inherit;
-    /* height: 100%; */
+    height: min-content;
 }
 .events {
     height: inherit;
-    overflow: scroll;
-
     display: flex;
     flex-direction: column;
-
-    padding-bottom: 100px;
 }
 .events .empty{
     position: relative;

@@ -1,21 +1,21 @@
 <template>
     <div class="event">
         <div class="eventMsg">
-            <img :src="imageUrl" />
-            <a name="userName" href="#">{{ user }}</a>
+            <img :src="imageUrl" /> <!-- Change to user pfp later -->
+            <a name="userName" href="#" class="userLink">{{ user }}</a>
             <p name="action">{{ eventType == 'follow' ? 'started following' : 'reviewed' }}</p>
-            <a name="target" href="#" class="user-link">{{ eventTarget }}</a>
+            <a name="target" href="#" class="targetLink">{{ eventType == 'follow' ? '@' : '' }}{{ eventTarget }}</a>
         </div>
         <div class="eventBox">
             <div class="userInfo">
-                <img :src="imgUrl" />
+                <img :src="imageUrl" />
                 <div>
-                    <a name="userName">{{ eventTarget }}</a>
-                    <p name="info">eventDescription</p>
+                    <a name="targetName" class="targetName">{{ eventTarget }}</a>
+                    <p name="targetInfo" class="targetInfo">{{ eventDescription }}</p>
                 </div>
             </div>
-            <a href="#">
-                <button>Follow</button>
+            <a href="/">
+                <button class="action">{{ eventType == 'follow' ? 'Follow' : 'Read' }}</button>
             </a>
         </div>
     </div>
@@ -31,10 +31,33 @@ export default {
         eventTarget: String, // User that was followed / Book that was reviewed
         imageUrl: String,
     },
+    mounted() {
+      console.log(this.imageUrl)
+    }
 };
 </script>
 
 <style scoped>
+
+.targetInfo {
+  font-family: Lato;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 15px;
+  line-height: 30px;
+  color: rgba(255, 255, 255, 0.6);
+  margin: 0px;
+}
+
+.targetName {
+  font-family: Lato;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 20px;
+
+  color: rgba(255, 255, 255, 0.8);
+}
+
 .event {
     display: flex;
     flex-direction: column;
@@ -53,16 +76,6 @@ export default {
 }
 .eventMsg img {
     height: 40px;
-}
-.eventMsg a:link {
-    text-decoration: none;
-}
-.eventMsg a {
-    color: white;
-    padding: 3px;
-}
-.eventMsg a[name="userName"]:hover {
-    text-decoration: underline;
 }
 
 .eventBox {
@@ -89,8 +102,35 @@ export default {
     padding-right: 10px;
 }
 
-.user-link {
+.targetLink {
   color: #92BDFD;
+  text-decoration: none;
+  padding: 3px;
+}
+
+.userLink {
+  text-decoration: underline;
+  padding: 3px;
+  color: white
+}
+
+.action {
+  padding-left: 25px;
+  padding-right: 25px;
+  padding-top: 7px;
+  padding-bottom: 7px;
+
+  background: #262C37;
+  border: 1px solid #AAAAAA;
+  box-sizing: border-box;
+  border-radius: 10px;
+  
+  color: white;
+  cursor: pointer;
+  font-family: Lato;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 18px;
 }
 
 </style>

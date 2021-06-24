@@ -1,6 +1,6 @@
 <template>
   <div class="dashboard">
-    <nav-bar :fixed="true" />
+    <nav-bar :fixed="true" navbar_type="authenticated" />
     <div class="recentBooks">
       <recent-books :books="UserBooks" />
     </div>
