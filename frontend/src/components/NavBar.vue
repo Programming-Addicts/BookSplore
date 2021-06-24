@@ -42,19 +42,19 @@ export default {
     BASE_URL: {
       type: String,
       default: "https://booksplore.milind.me/"
-      },
-      navbar_type: {
+    },
+    navbar_type: {
         type: String,
         default: "landingpage"
-      },
     },
-    methods: {
-      cssVars() {
-        return {
-          '--position': this.fixed ? 'absolute': 'relative'
-        }
+  },
+  methods: {
+    cssVars() {
+      return {
+        '--position': this.fixed ? 'absolute': 'relative'
       }
     }
+  }
 };
 </script>
 

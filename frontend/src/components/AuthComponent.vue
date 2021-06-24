@@ -8,6 +8,7 @@ export default {
   props: ["backend_url"],
   mounted() {
     fetch("https://booksplore.milind.me/users/current")
+      .then(data => data.json())
       .catch(_ => {
           console.log(_)
           this.$router.push("/")

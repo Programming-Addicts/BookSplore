@@ -31,9 +31,6 @@ export default {
         eventTarget: String, // User that was followed / Book that was reviewed
         imageUrl: String,
     },
-    mounted() {
-      console.log(this.imageUrl)
-    }
 };
 </script>
 
