@@ -170,16 +170,22 @@ export default {
     flex-direction: column;
     row-gap: 0%;
     align-items: center;
+    border: 3px solid #3d475c;
+    border-radius: 5px;
+    padding: 40px;
 }
 .descDiv p {
     margin: 0%;
-    padding: 0px;
+    padding: 5px;
+}
+.descDiv .desc {
+    padding-left: 15px;
 }
 .descDiv .descExpand {
-    padding: 0%;
     color: #aac5fa;
     cursor: pointer;
     user-select: none;
+    padding-top: 30px;
 }
 .descDiv .descExpand:hover {
     text-decoration: underline;
