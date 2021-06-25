@@ -1,14 +1,7 @@
 <template>
     <div class="bookInfoDisplay">
         <div class="top">
-            <img
-                :src="
-                    bookData.cover !== null
-                        ? bookData.cover
-                        : require('../assets/ProfilePicture.svg')
-                "
-                class="cover"
-            />
+            <Cover :imgUrl="bookData.cover"/>
             <div class="info">
                 <div class="head">
                     <p class="title">{{ bookData.title }}</p>
@@ -79,8 +72,13 @@
 </template>
 
 <script>
+import Cover from "./Cover.vue"
+
 export default {
     name: "BookInfoDisplay",
+    components: {
+        Cover
+    },
     props: ["Book"],
     data() {
         return {
@@ -135,15 +133,6 @@ export default {
     display: flex;
     flex-direction: row;
     padding-bottom: 40px;
-}
-
-.cover {
-    width: 250px;
-    height: 350px;
-    background: #181c23;
-    border: 3px solid #3d475c;
-    border-radius: 10px;
-    box-shadow: 0px 5px 10px 0px #00000080;
 }
 
 .info {
