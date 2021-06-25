@@ -51,7 +51,7 @@ export default {
     methods: {
       cssVars() {
         return {
-          '--position': this.fixed ? 'absolute': 'relative'
+          '--position': this.fixed ? 'fixed': 'relative'
         }
       }
     }
