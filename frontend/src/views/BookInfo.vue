@@ -19,7 +19,7 @@
             </div>
             <div class="bottomSection">
                 <book-reviews :bookData="bookData" />
-                <more-by-author :book="moreBook" />
+                <more-by-author :mainBook="bookData" />
             </div>
         </div>
         <Footer />
@@ -59,7 +59,6 @@ export default {
             },
             bookData: {},
             fetched: false,
-            moreBook: {}
         };
     },
     methods: {
@@ -78,15 +77,7 @@ export default {
                 window.location.href = preview_link;
             }
         },
-        filterMoreByAuthor: (bookArray, mainBook) => {
-            const arr = bookArray.filter((value, index, arr) => {
-                index;
-                arr;
-                return value.id !== mainBook.id;
-            });
-            return arr[Math.floor(Math.random() * arr.length)];
-        },
-        cssVars: book => {
+       cssVars: book => {
             let color = {
                 background: "#7fb6f8",
                 font: "black"
@@ -126,22 +117,7 @@ export default {
             .then(result => {
                 console.log(result);
                 this.bookData = result;
-                fetch(
-                    `http://localhost:8000/books/search?query=inauthor:${this.bookData.authors[0]}&limit=10&download=false&sorting=relevance`
-                )
-                    .then(response => response.json())
-                    .then(result => {
-                        this.fetched = true;
-                        console.log(result);
-                        this.moreBook = this.filterMoreByAuthor(
-                            result,
-                            this.bookData
-                        );
-                    })
-                    .catch(error => {
-                        this.fetched = true;
-                        console.error(error);
-                    });
+                this.fetched = true;
             })
             .catch(error => {
                 console.error(error);

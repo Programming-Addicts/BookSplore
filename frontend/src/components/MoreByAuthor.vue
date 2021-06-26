@@ -1,8 +1,12 @@
 <template>
-    <div class="moreBook" v-on:click="$router.push(`/dev/book-info/${book.id}`);$router.go()">
-        <p class="top">Similar Books</p>
+    <div class="moreBook" v-if="fetched">
+        <p class="top">Similar Book</p>
         <a :href="`/dev/book-info/${book.id}`">
-        <Cover :imgUrl="book.image_links.thumbnail" :height="300" :width="200" />
+            <Cover
+                :imgUrl="book.image_links.thumbnail"
+                :height="300"
+                :width="200"
+            />
         </a>
         <p class="bookTitle">{{ book.title }}</p>
     </div>
@@ -16,7 +20,39 @@ export default {
     components: {
         Cover
     },
-    props: ["book"],
+    props: ["mainBook"],
+    methods: {
+        filterMoreByAuthor: (bookArray, mainBook) => {
+            const arr = bookArray.filter((value, index, arr) => {
+                index;
+                arr;
+                return value.id !== mainBook.id;
+            });
+            return arr[Math.floor(Math.random() * arr.length)];
+        }
+    },
+    data() {
+        return {
+            fetched: false,
+            book: {},
+        };
+    },
+    mounted() {
+        console.log(this.mainBook);
+        fetch(
+            `http://localhost:8000/books/search?query=inauthor:${this.mainBook.authors[0]}&limit=10&download=false&sorting=relevance`
+        )
+            .then(response => response.json())
+            .then(result => {
+                console.log(result);
+                this.book = this.filterMoreByAuthor(result, this.mainBook);
+                this.fetched = true;
+            })
+            .catch(error => {
+                this.fetched = true;
+                console.error(error);
+            });
+    }
 };
 </script>
 
@@ -29,7 +65,7 @@ export default {
     padding-left: 40px;
     padding-right: 40px;
 
-    border: 1px solid #C4C4C4;
+    border: 1px solid #c4c4c4;
     border-radius: 10px;
     color: white;
     cursor: pointer;
@@ -40,5 +76,4 @@ export default {
 .bookTitle {
     font-size: 20px;
 }
-
 </style>
