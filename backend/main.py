@@ -6,7 +6,7 @@ from starlette.config import Config
 from starlette.middleware.sessions import SessionMiddleware
 from fastapi.middleware.cors import CORSMiddleware
 
-from endpoints import follow, auth, home, books
+from endpoints import follow, auth, users, books
 from database.database import Database
 
 config = Config(".env")
@@ -22,16 +22,16 @@ app.add_middleware(SessionMiddleware, secret_key=os.environ.get("SECRET_KEY"))
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins='*',
+    allow_origins=origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
-app.include_router(home.router)
 app.include_router(follow.router)
 app.include_router(auth.router)
 app.include_router(books.router)
+app.include_router(users.router)
 
 @app.on_event("startup")
 async def on_startup():

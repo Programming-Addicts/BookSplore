@@ -11,7 +11,7 @@
         <a
         v-if="navbar_type=='landingpage'"
         class="signup-link"
-        :href="BASE_URL + '/login'"
+        href="https://booksplore.milind.me/login"
         >
           Sign In With
           <img src="../assets/google.svg" width="23" height="23" />
@@ -41,13 +41,13 @@ export default {
     },
     BASE_URL: {
       type: String,
-        default: "http://localhost:6969"
-      },
-      navbar_type: {
+      default: "https://booksplore.milind.me/"
+    },
+    navbar_type: {
         type: String,
         default: "landingpage"
-      },
     },
+  },
     methods: {
       cssVars() {
         return {
@@ -55,6 +55,7 @@ export default {
         }
       }
     }
+  }
 };
 </script>
 
