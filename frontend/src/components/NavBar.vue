@@ -48,10 +48,11 @@ export default {
         default: "landingpage"
     },
   },
-  methods: {
-    cssVars() {
-      return {
-        '--position': this.fixed ? 'absolute': 'relative'
+    methods: {
+      cssVars() {
+        return {
+          '--position': this.fixed ? 'fixed': 'relative'
+        }
       }
     }
   }

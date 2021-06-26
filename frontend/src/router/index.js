@@ -15,7 +15,7 @@ const routes = [
     component: Home
   },
   {
-    path: '/dev/book-info',
+    path: '/dev/book-info/:id',
     name: 'BookInfo',
     component: BookInfo
   },
