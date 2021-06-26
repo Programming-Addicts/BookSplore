@@ -5,6 +5,7 @@ from database.utils.user import get_user
 
 router = APIRouter(tags=["Users"])
 
+
 @router.get('/users/current')
 async def get_current_user(request: Request):
     user_data = request.session.get('user')

@@ -36,5 +36,20 @@ async def update_user(db:Database, user:User):
 async def get_followers_and_following(db:Database, user: User):
     query = """SELECT followers, following FROM users WHERE id = $1"""
     record = await db.fetchrow(query, user.id)
-    data = {'followers' : json.loads(record['followers']), 'following' : json.loads(record['following'])}
+    followers = []
+    followings = []
+    for follower in json.loads(record['followers']):
+        user = await get_user(db, id=follower)
+        user = vars(user)
+        for value in ['email', 'followers', 'following']:
+            del user[value]
+        followers.append(user)
+
+    for following in json.loads(record['following']):
+        user = await get_user(db, id=following)
+        user = vars(user)
+        for value in ['email', 'followers', 'following']:
+            del user[value]
+        followings.append(user)
+    data = {'followers': followers, 'following': followings}
     return data
