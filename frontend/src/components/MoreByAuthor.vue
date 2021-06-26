@@ -1,8 +1,10 @@
 <template>
-    <div class="moreBook">
-        <p class="top">More By Author</p>
-        <Cover :imgUrl="cover" :height="300" :width="200" />
-        <p class="bookTitle">{{ title }}</p>
+    <div class="moreBook" v-on:click="$router.push(`/dev/book-info/${book.id}`);$router.go()">
+        <p class="top">Similar Books</p>
+        <a :href="`/dev/book-info/${book.id}`">
+        <Cover :imgUrl="book.image_links.thumbnail" :height="300" :width="200" />
+        </a>
+        <p class="bookTitle">{{ book.title }}</p>
     </div>
 </template>
 
@@ -14,7 +16,7 @@ export default {
     components: {
         Cover
     },
-    props: ["cover", "title"]
+    props: ["book"],
 };
 </script>
 
@@ -30,6 +32,7 @@ export default {
     border: 1px solid #C4C4C4;
     border-radius: 10px;
     color: white;
+    cursor: pointer;
 }
 .top {
     font-size: 25px;

@@ -1,22 +1,25 @@
 <template>
-    <div class="bookInfo" :style="cssVars(dummyData)">
+    <div class="bookInfo" :style="cssVars(bookData)">
         <nav-bar :fixed="true" navbar_type="authenticated" />
-        <div class="bookInfoMain">
-            <book-info-display :Book="dummyData" />
+        <div class="bookInfoMain" v-if="fetched">
+            <book-info-display :Book="bookData" />
             <div class="downloadButtons">
-                <button id="pdf" v-on:click="getPdf()">
+                <button id="pdf" v-on:click="getPdf(bookData.pdf)">
                     Download Ebook as PDF
                 </button>
-                <button id="Epub" v-on:click="getEpub()">
+                <button id="Epub" v-on:click="getEpub(bookData.epub)">
                     Download Ebook as Epub
                 </button>
-                <button id="WebReader" v-on:click="getWebReader()">
+                <button
+                    id="WebReader"
+                    v-on:click="getWebReader(bookData.preview_link)"
+                >
                     Read on WebReader
                 </button>
             </div>
             <div class="bottomSection">
-                <book-reviews :bookData="dummyData" />
-                <more-by-author :title="'something, idk'" />
+                <book-reviews :bookData="bookData" />
+                <more-by-author :book="moreBook" />
             </div>
         </div>
         <Footer />
@@ -28,7 +31,7 @@ import NavBar from "../components/NavBar.vue";
 import Footer from "../components/Footer.vue";
 import BookInfoDisplay from "../components/BookInfoDisplay.vue";
 import BookReviews from "../components/BookReviews.vue";
-import MoreByAuthor from "../components/MoreByAuthor.vue"
+import MoreByAuthor from "../components/MoreByAuthor.vue";
 
 export default {
     name: "BookInfo",
@@ -37,7 +40,7 @@ export default {
         Footer,
         BookInfoDisplay,
         BookReviews,
-        MoreByAuthor,
+        MoreByAuthor
     },
     data() {
         return {
@@ -53,13 +56,36 @@ export default {
                 pdf: " ",
                 Epub: null,
                 WebReader: " "
-            }
+            },
+            bookData: {},
+            fetched: false,
+            moreBook: {}
         };
     },
     methods: {
-        getPdf: () => {},
-        getEpub: () => {},
-        getWebReader: () => {},
+        getPdf: pdfData => {
+            if (pdfData.acsTokenLink) {
+                window.location.href = pdfData.acsTokenLink;
+            }
+        },
+        getEpub: epubData => {
+            if (epubData.acsTokenLink) {
+                window.location.href = epubData.acsTokenLink;
+            }
+        },
+        getWebReader: preview_link => {
+            if (preview_link) {
+                window.location.href = preview_link;
+            }
+        },
+        filterMoreByAuthor: (bookArray, mainBook) => {
+            const arr = bookArray.filter((value, index, arr) => {
+                index;
+                arr;
+                return value.id !== mainBook.id;
+            });
+            return arr[Math.floor(Math.random() * arr.length)];
+        },
         cssVars: book => {
             let color = {
                 background: "#7fb6f8",
@@ -70,23 +96,56 @@ export default {
                 font: "#444444"
             };
             return {
-                "--pdf-button-color": book.pdf
+                "--pdf-button-color": book.pdf.acsTokenLink
                     ? color.background
                     : gray.background,
-                "--Epub-button-color": book.Epub
+                "--Epub-button-color": book.epub.acsTokenLink
                     ? color.background
                     : gray.background,
-                "--WebReader-button-color": book.WebReader
+                "--WebReader-button-color": book.preview_link
                     ? color.background
                     : gray.background,
 
-                "--pdf-font-color": book.pdf ? color.font : gray.font,
-                "--Epub-font-color": book.Epub ? color.font : gray.font,
-                "--WebReader-font-color": book.WebReader
+                "--pdf-font-color": book.pdf.acsTokenLink
+                    ? color.font
+                    : gray.font,
+                "--Epub-font-color": book.epub.acsTokenLink
+                    ? color.font
+                    : gray.font,
+                "--WebReader-font-color": book.preview_link
                     ? color.font
                     : gray.font
             };
         }
+    },
+    mounted() {
+        fetch(
+            `http://localhost:8000/books/search?book_id=${this.$route.params.id}&limit=1&download=false&sorting=relevance`
+        )
+            .then(response => response.json())
+            .then(result => {
+                console.log(result);
+                this.bookData = result;
+                fetch(
+                    `http://localhost:8000/books/search?query=inauthor:${this.bookData.authors[0]}&limit=10&download=false&sorting=relevance`
+                )
+                    .then(response => response.json())
+                    .then(result => {
+                        this.fetched = true;
+                        console.log(result);
+                        this.moreBook = this.filterMoreByAuthor(
+                            result,
+                            this.bookData
+                        );
+                    })
+                    .catch(error => {
+                        this.fetched = true;
+                        console.error(error);
+                    });
+            })
+            .catch(error => {
+                console.error(error);
+            });
     }
 };
 </script>

@@ -5,7 +5,7 @@
             <div class="reviewHead">
                 <img :src="review.imageUrl">
                 <div>
-                    {{review.user}} <p>Posted on {{this.postDate}} </p>
+                    {{review.user}} <p>Posted on {{review.postDate}} </p>
                 </div>
             </div>
             <div class="reviewDesc"></div>

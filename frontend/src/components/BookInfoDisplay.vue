@@ -83,17 +83,17 @@ export default {
     data() {
         return {
             bookData: {
-                cover: this.Book.cover,
+                cover: this.Book.image_links.thumbnail,
                 title: this.Book.title,
-                author: this.Book.author,
-                published: this.Book.published,
+                author: this.Book.authors[0],
+                published: new Date(this.Book.publish_date),
                 publisher: this.Book.publisher,
                 language: this.Book.language,
-                pageCount: this.Book.pageCount,
+                pageCount: this.Book.page_count,
                 ratings: this.Book.ratings,
-                avgRating: this.Book.avgRating,
-                reviewsAmount: this.Book.reviewsAmount,
-                description: this.Book.desc
+                avgRating: this.Book.avg_rating,
+                reviewsAmount: this.Book.total_ratings,
+                description: this.Book.description
             },
             descExpanded: false,
             descMaxSize: 300,
@@ -112,6 +112,10 @@ export default {
             this.$refs.desc.innerHTML = descData.slice(0, this.descMaxSize) + "....";
             this.$refs.descExpand.innerHTML = "Expand";
         }
+    },
+    mounted() {
+        // console.log(this.$props.Book);
+        this.collapse(this.bookData.description);
     }
 };
 </script>
@@ -133,6 +137,7 @@ export default {
     display: flex;
     flex-direction: row;
     padding-bottom: 40px;
+    width: 100%;
 }
 
 .info {
@@ -140,6 +145,7 @@ export default {
     display: flex;
     flex-direction: column;
     margin-left: 50px;
+    width: 100%;
 }
 
 .head {
@@ -195,6 +201,7 @@ export default {
     flex-direction: row;
     padding-top: 44px;
     font-size: 27px;
+    margin-right: 20%;
 }
 
 .left {
@@ -208,7 +215,7 @@ export default {
 .right {
     display: flex;
     flex-direction: column;
-    width: 50%;
+    width: 45%;
     padding-left: 20px;
 }
 .left div,
@@ -218,11 +225,13 @@ export default {
     justify-content: space-between;
     align-items: center;
     padding-right: 5px;
+
 }
 .left div p,
 .right div p {
     margin: 0%;
     padding-bottom: 13px;
     color: #aac5fa;
+    align-items: center;
 }
 </style>
