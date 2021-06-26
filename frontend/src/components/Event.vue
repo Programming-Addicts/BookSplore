@@ -31,9 +31,6 @@ export default {
         eventTarget: String, // User that was followed / Book that was reviewed
         imageUrl: String,
     },
-    mounted() {
-      console.log(this.imageUrl)
-    }
 };
 </script>
 
@@ -61,6 +58,7 @@ export default {
 .event {
     display: flex;
     flex-direction: column;
+    width: 90%;
     margin: 30px;
     margin-bottom: 0%;
     position: relative;

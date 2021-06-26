@@ -1,17 +1,20 @@
 <template>
   <div class="dashboard">
+    <auth-component backend_url="https://booksplore.milind.me" />
     <nav-bar :fixed="true" navbar_type="authenticated" />
-    <div class="recentBooks">
-      <recent-books :books="UserBooks" />
-    </div>
-    <div class="timeline">
-      <timeline />
-    </div>
+    <recent-books :books="UserBooks"/>
+    <table style="width: 100%;"><tr>
+      <td class="recent-books" style="width: 30%;">
+      </td>
+      <td>
+        <timeline />
+      </td>
+    </tr></table>
   </div>
 </template>
 
 <script>
-// import AuthComponent from "../components/AuthComponent.vue"
+import AuthComponent from "../components/AuthComponent.vue"
 import RecentBooks from "../components/RecentBooks.vue";
 import NavBar from "../components/NavBar.vue";
 import Timeline from "../components/Timeline.vue";
@@ -22,11 +25,43 @@ export default {
     RecentBooks,
     NavBar,
     Timeline,
-    // AuthComponent
+    AuthComponent
   },
   data() {
     return {
       UserBooks: [
+        {
+          "name": "Writing a Compiler in Go",
+          "link": "#"
+        },
+        {
+          "name": "The Hunger Games",
+          "link": "#"
+        },
+        {
+          "name": "Immortals of Meluha",
+          "link": "#"
+        },
+        {
+          "name": "My Experiences With Truth",
+          "link": "#"
+        },
+        {
+          "name": "Writing a Compiler in Go",
+          "link": "#"
+        },
+        {
+          "name": "The Hunger Games",
+          "link": "#"
+        },
+        {
+          "name": "Immortals of Meluha",
+          "link": "#"
+        },
+        {
+          "name": "My Experiences With Truth",
+          "link": "#"
+        },
         {
           "name": "Writing a Compiler in Go",
           "link": "#"
@@ -50,11 +85,9 @@ export default {
 </script>
 
 <style scoped>
-.recentBooks {
-    width: 25%;
+
+.recent-books {
+  width: 25%;
 }
-.timeline {
-    width: 75%;
-    padding-bottom: 100px;
-}
+
 </style>

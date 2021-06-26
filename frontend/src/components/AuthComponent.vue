@@ -5,8 +5,10 @@
 <script>
 export default {
   name: "AuthComponent",
+  props: ["backend_url"],
   mounted() {
-    fetch("http://127.0.0.1:8000/current-user")
+    fetch("https://booksplore.milind.me/users/current")
+      .then(data => data.json())
       .catch(_ => {
           console.log(_)
           this.$router.push("/")

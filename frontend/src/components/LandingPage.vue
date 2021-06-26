@@ -51,7 +51,7 @@
           <div class="bottomLeft" :style="scaleFont(35)">
             <p>Well, what are you waiting for?</p>
             <p class="createAccount">
-              <a :href="backend_url + '/login'">
+              <a href="http://booksplore.milind.me/login">
                 Create an account on BookSplore for free!
               </a> 
             </p>
@@ -100,9 +100,6 @@ export default {
         "font-size": `${window.innerHeight * num / 796}px`
       }
     },
-    redirectToLogin() {
-      document.location.href = (this.backend_url + 'login/'), false
-    }
   }
 };
 </script>
