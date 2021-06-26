@@ -12,7 +12,7 @@ router = APIRouter(tags=["Books"])
 @router.get('/books/search')
 async def search(request: Request, query: str= None, book_id: str = None, limit: int = 20, download: bool = False, filter: str = None, sorting: str = "relevance"):
     if not (query or book_id):
-        return JSONResponse({'Error': 'Please enter valid search parameters'}, status_code=404)
+        return JSONResponse({'Error': 'Please enter valid search parameters'}, status_code=400)
     url = 'https://www.googleapis.com/books/v1/volumes'
     params = {'key': api_key, 'q': query, 'maxResults': limit}
 
@@ -49,6 +49,8 @@ async def search(request: Request, query: str= None, book_id: str = None, limit:
                          'description': book_info.get('description'),
                          'publisher': book_info.get('publisher'),
                          'publish_date' : book_info.get('publishedDate'),
+                         'avg_rating' : book_info.get('averageRating'),
+                         'total_ratings' : book_info.get('ratingsCount'),
                          'isbns' : book_info.get('industryIdentifiers'),
                          'page_count': book_info.get('pageCount'),
                          'image_links': book_info.get('imageLinks'),
