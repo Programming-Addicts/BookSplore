@@ -175,5 +175,8 @@ export default {
     display: flex;
     flex-direction: row;
     margin: 50px;
+    padding: 50px;
+    width: 100%;
+    justify-content: space-evenly;
 }
 </style>
