@@ -60,7 +60,7 @@ export default {
   props: {
     "backend_url": {
       type: String,
-      default: "http://localhost:8000"
+      default: "https://booksplore.milindm.me"
     },
   },
   data() {

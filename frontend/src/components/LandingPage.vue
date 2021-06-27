@@ -51,7 +51,7 @@
           <div class="bottomLeft" :style="scaleFont(35)">
             <p>Well, what are you waiting for?</p>
             <p class="createAccount">
-              <a href="http://booksplore.milind.me/login">
+              <a :href="backend_url + '/login'">
                 Create an account on BookSplore for free!
               </a> 
             </p>

@@ -3,6 +3,7 @@ from fastapi.responses import JSONResponse
 import os
 from aiohttp import request as aiorequest
 import dotenv
+from .utils.language import get_language
 
 dotenv.load_dotenv('.env')
 api_key = os.environ.get('GOOGLE_API_KEY')
@@ -10,7 +11,8 @@ router = APIRouter(tags=["Books"])
 
 
 @router.get('/books/search')
-async def search(request: Request, query: str= None, book_id: str = None, limit: int = 20, download: bool = False, filter: str = None, sorting: str = "relevance"):
+async def search(request: Request, query: str = None, book_id: str = None, limit: int = 20, download: bool = False,
+                 filter: str = None, sorting: str = "relevance"):
     if not (query or book_id):
         return JSONResponse({'Error': 'Please enter valid search parameters'}, status_code=400)
     url = 'https://www.googleapis.com/books/v1/volumes'
@@ -41,17 +43,19 @@ async def search(request: Request, query: str= None, book_id: str = None, limit:
             access_info = book['accessInfo']
             has_pdf = access_info.get('pdf')
             has_epub = access_info.get('epub')
-            if download and not (has_epub['isAvailable'] == True) or (has_pdf['isAvailable'] == True) and len(has_epub.keys()) < 2 and len(has_pdf.keys()) < 2:
+            if download and not (has_epub['isAvailable'] == True) or (has_pdf['isAvailable'] == True) and len(
+                    has_epub.keys()) < 2 and len(has_pdf.keys()) < 2:
                 continue
             book_data = {'id': book.get('id'),
                          'title': book_info.get('title'),
                          'authors': book_info.get('authors'),
                          'description': book_info.get('description'),
                          'publisher': book_info.get('publisher'),
-                         'publish_date' : book_info.get('publishedDate'),
-                         'avg_rating' : book_info.get('averageRating'),
-                         'total_ratings' : book_info.get('ratingsCount'),
-                         'isbns' : book_info.get('industryIdentifiers'),
+                         'publish_date': book_info.get('publishedDate'),
+                         'language': get_language(book_info.get('language')),
+                         'avg_rating': book_info.get('averageRating'),
+                         'total_ratings': book_info.get('ratingsCount'),
+                         'isbns': book_info.get('industryIdentifiers'),
                          'page_count': book_info.get('pageCount'),
                          'image_links': book_info.get('imageLinks'),
                          'preview_link': book_info.get('previewLink'),
@@ -59,10 +63,6 @@ async def search(request: Request, query: str= None, book_id: str = None, limit:
                          'epub': has_epub
                          }
             books.append(book_data)
+            return books
 
         return books if book_id is None else books[0]
-
-
-
-
-
