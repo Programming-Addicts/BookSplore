@@ -1,6 +1,6 @@
 <template>
   <div style="height: 100%;">
-    <nav-bar/>
+    <nav-bar :fixed="false"/>
       <landing-page :backend_url="backend_url"/>
   </div>
 </template>

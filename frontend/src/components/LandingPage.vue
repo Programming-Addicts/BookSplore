@@ -2,7 +2,7 @@
   <div class="main">
     <div class="section1 section">
       <div class="circle" :style="scaleRadius(900)">
-        <div class="textTitle">
+        <div class="textTitle" :style="scaleFont(60)">
           <p class="title bold">Book</p>
           <p class="title italic">Splore</p>
         </div>
@@ -108,6 +108,7 @@ export default {
 .main {
   display: flex;
   flex-direction: column;
+  padding-top: 20px;
 }
 
 .section1 {
@@ -184,7 +185,6 @@ export default {
 
 .title {
   font-family: "Cabin";
-  font-size: 60px;
   text-align: center;
   color: white;
   margin-bottom: 0%;
@@ -266,7 +266,7 @@ export default {
   margin-right: 8%;
   margin-left: -6%;
   margin-top: 5%;
-  z-index: 2;
+  z-index: 1;
 }
 .bottomLeft {
   grid-area: bottomLeft;
@@ -276,7 +276,7 @@ export default {
 
   margin-left: 10%;
   margin-top: 5%;
-  z-index: 2;
+  z-index: 1;
 
   word-wrap: none;
 }
