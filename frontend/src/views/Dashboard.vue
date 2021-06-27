@@ -1,6 +1,6 @@
 <template>
   <div class="dashboard">
-    <auth-component backend_url="https://booksplore.milind.me" />
+    <auth-component />
     <nav-bar :fixed="true" navbar_type="authenticated" />
     <recent-books :books="UserBooks"/>
     <table style="width: 100%;"><tr>

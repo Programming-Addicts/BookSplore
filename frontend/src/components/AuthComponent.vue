@@ -5,15 +5,15 @@
 <script>
 export default {
   name: "AuthComponent",
-  props: ["backend_url"],
   mounted() {
-    fetch("https://booksplore.milind.me/users/current")
-      .then(data => data.json())
-      .catch(_ => {
-          console.log(_)
-          this.$router.push("/")
+    fetch(this.$backend_url + "/users/current")
+    .then(
+        data => {
+            if (!data.ok) {
+                this.$router.push('/')
+            }
         }
-      )
+    )
   }
 }
 </script>

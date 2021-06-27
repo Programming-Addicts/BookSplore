@@ -1,7 +1,7 @@
 <template>
   <div style="height: 100%;">
-    <nav-bar/>
-      <landing-page :backend_url="backend_url"/>
+    <nav-bar :fixed="false"/>
+      <landing-page />
   </div>
 </template>
 
@@ -11,11 +11,6 @@ import LandingPage from "../components/LandingPage.vue";
 
 export default {
   name: "Home",
-  data() {
-    return {
-      backend_url: "https://booksplore.milind.me"
-    }
-  },
 	components: {
     NavBar,
     LandingPage

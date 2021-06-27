@@ -40,7 +40,7 @@ export default {
     mounted() {
         console.log(this.mainBook);
         fetch(
-            `http://localhost:8000/books/search?query=inauthor:${this.mainBook.authors[0]}&limit=10&download=false&sorting=relevance`
+            this.$backend_url + `/books/search?query=inauthor:${this.mainBook.authors[0]}&limit=10&download=false&sorting=relevance`
         )
             .then(response => response.json())
             .then(result => {
@@ -64,7 +64,11 @@ export default {
     font-family: Lato;
     padding-left: 40px;
     padding-right: 40px;
+    width: min-content;
+    height: min-content;
 
+    margin-left: 30px;
+    margin-right: 50px;
     border: 1px solid #c4c4c4;
     border-radius: 10px;
     color: white;
@@ -75,5 +79,6 @@ export default {
 }
 .bookTitle {
     font-size: 20px;
+    padding-bottom: 5px;
 }
 </style>

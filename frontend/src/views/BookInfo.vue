@@ -111,7 +111,7 @@ export default {
     },
     mounted() {
         fetch(
-            `http://localhost:8000/books/search?book_id=${this.$route.params.id}&limit=1&download=false&sorting=relevance`
+            this.$backend_url + `/books/search?book_id=${this.$route.params.id}&limit=1&download=false&sorting=relevance`
         )
             .then(response => response.json())
             .then(result => {
@@ -175,5 +175,8 @@ export default {
     display: flex;
     flex-direction: row;
     margin: 50px;
+    padding: 50px;
+    width: 100%;
+    justify-content: space-evenly;
 }
 </style>

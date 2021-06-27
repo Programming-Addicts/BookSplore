@@ -11,7 +11,7 @@
         <a
         v-if="navbar_type=='landingpage'"
         class="signup-link"
-        href="https://booksplore.milind.me/login"
+        :href="this.$backend_url + '/login'"
         >
           Sign In With
           <img src="../assets/google.svg" width="23" height="23" />
@@ -30,32 +30,29 @@
 <script>
 export default {
 	name: "NavBar",
-  props: {
-    centred: {
-      type: Boolean,
-      default: false
+    props: {
+        centred: {
+            type: Boolean,
+            default: false
+        },
+        fixed: {
+            type: Boolean,
+            default: false,
+        },
+        navbar_type: {
+            type: String,
+            default: "landingpage"
+        },
     },
-    fixed: {
-      type: Boolean,
-      default: false,
-    },
-    BASE_URL: {
-      type: String,
-      default: "https://booksplore.milind.me/"
-    },
-    navbar_type: {
-        type: String,
-        default: "landingpage"
-    },
-  },
     methods: {
-      cssVars() {
-        return {
-          '--position': this.fixed ? 'fixed': 'relative'
+        cssVars() {
+            return {
+                '--position': this.fixed ? 'fixed': 'relative'
+            }
         }
-      }
     }
   }
+}
 </script>
 
 <style scoped>

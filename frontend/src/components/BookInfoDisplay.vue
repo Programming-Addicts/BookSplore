@@ -41,7 +41,7 @@
                         <div>
                             <p>Average Ratings</p>
                             {{
-                                bookData.avgRatings ? bookData.avgRatings : "-"
+                                bookData.avgRating ? bookData.avgRating : "-"
                             }}
                         </div>
                         <div>
@@ -90,9 +90,9 @@ export default {
                 publisher: this.Book.publisher,
                 language: this.Book.language,
                 pageCount: this.Book.page_count,
-                ratings: this.Book.ratings,
+                ratings: this.Book.total_ratings,
                 avgRating: this.Book.avg_rating,
-                reviewsAmount: this.Book.total_ratings,
+                reviewsAmount: this.Book.reviews,
                 description: this.Book.description
             },
             descExpanded: false,
@@ -129,8 +129,7 @@ export default {
     font-family: Lato;
     color: white;
 
-    margin: 20px;
-    padding: 30px;
+    margin: 50px;
 }
 
 .top {
