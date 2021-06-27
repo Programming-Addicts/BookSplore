@@ -35,29 +35,32 @@ async def auth(request: Request):
     # Perform Google OAuth
     token = await oauth.google.authorize_access_token(request)
     req_user = await oauth.google.parse_id_token(request, token)
+    session_id  = request.cookies.get('session')
     db = request.app.state.db
     user = await get_user(db, email=req_user['email'])
     if user is None:
         # Creates a new user in the database
-        user = User(**{'first_name': req_user['given_name'],
+        user = User(**{'session_id': session_id,
+                       'first_name': req_user['given_name'],
                        'last_name': req_user['family_name'],
                        'email': req_user['email'],
                        'avatar_url': req_user['picture']})
         await create_user(db, user)
     else:
         # Updates name and profile picture in the database if changed
+        user.session_id = session_id
         user.first_name = req_user['given_name']
         user.last_name = req_user['family_name']
         user.avatar_url = req_user['picture']
         await update_user(db, user)
 
-    request.session['user'] = dict(user)
-
-    return RedirectResponse(url='https://booksplore.netlify.app')
+    return RedirectResponse(url='https://booksplore.netlify.app/dev/dashboard')
 
 
 @router.get('/logout')
 async def logout(request: Request):
-    # Remove the user
-    request.session.pop('user', None)
+    session_id = request.cookies.get('session')
+    user = await get_user(request.app.state.db, session_id=session_id)
+    user.session_id = None
+    await update_user(request.app.state.db, user)
     return RedirectResponse(url='https://booksplore.netlify.app')

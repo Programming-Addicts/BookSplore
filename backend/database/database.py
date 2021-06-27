@@ -1,6 +1,7 @@
 import asyncpg
 import asyncio
 
+
 class Database(object):
     def __init__(self, app, pool, loop=None, timeout: float = 60.0):
         self.app = app

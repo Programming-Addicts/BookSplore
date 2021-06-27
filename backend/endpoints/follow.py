@@ -12,8 +12,7 @@ router = APIRouter(tags=["Follow Users"])
 async def get_followers_and_following(request: Request, id: int = None):
     user = None
     if id is None:
-        req_user = request.session.get('user')
-        user = await db_user.get_user(request.app.state.db, email=req_user['email'])
+        user = await db_user.get_user(request.app.state.db, session_id=request.cookies.get('session'))
         if user is None:
             return JSONResponse({'None': 'No user is authenticated'}, status_code=401)
     else:
@@ -27,8 +26,7 @@ async def follow_user(request: Request, id: int):
     to_follow = await db_user.get_user(request.app.state.db, id=id)
     if to_follow is None:
         return JSONResponse({'Error': 'No such user exists'}, status_code=404)
-    req_user = request.session.get('user')
-    user = await db_user.get_user(request.app.state.db, email=req_user['email'])
+    user = await db_user.get_user(request.app.state.db, session_id=request.cookies.get('session'))
     if user is None:
         return JSONResponse({'None': 'No user is authenticated'}, status_code=401)
     current_following = json.loads(vars(user)['following'])
@@ -58,8 +56,7 @@ async def unfollow_user(request: Request, id: int):
     to_unfollow = await db_user.get_user(request.app.state.db, id=id)
     if to_unfollow is None:
         return JSONResponse({'Error': 'No such user exists'}, status_code=404)
-    req_user = request.session.get('user')
-    user = await db_user.get_user(request.app.state.db, email=req_user['email'])
+    user = await db_user.get_user(request.app.state.db, session_id=request.cookies.get('session'))
     if user is None:
         return JSONResponse({'None': 'No user is authenticated'}, status_code=401)
     current_following = json.loads(vars(user)['following'])

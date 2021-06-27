@@ -1,4 +1,4 @@
-languages = {'am': 'Amharic', 'ar': 'Arabic', 'eu': 'Basque', 'bn': 'Bengali', 'en-GB': 'English (UK)',
+LANGUAGES = {'am': 'Amharic', 'ar': 'Arabic', 'eu': 'Basque', 'bn': 'Bengali', 'en-GB': 'English (UK)',
        'pt-BR': 'Portuguese (Brazil)', 'bg': 'Bulgarian', 'ca': 'Catalan', 'chr': 'Cherokee', 'hr': 'Croatian',
        'cs': 'Czech', 'da': 'Danish', 'nl': 'Dutch', 'en': 'English (US)', 'et': 'Estonian', 'fil': 'Filipino',
        'fi': 'Finnish', 'fr': 'French', 'de': 'German', 'el': 'Greek', 'gu': 'Gujarati', 'iw': 'Hebrew', 'hi': 'Hindi',
@@ -10,4 +10,4 @@ languages = {'am': 'Amharic', 'ar': 'Arabic', 'eu': 'Basque', 'bn': 'Bengali', '
        'ur': 'Urdu', 'uk': 'Ukrainian', 'vi': 'Vietnamese', 'cy': 'Welsh'}
 
 def get_language(code):
-    return languages.get(code)
+    language = LANGUAGES.get(code)
