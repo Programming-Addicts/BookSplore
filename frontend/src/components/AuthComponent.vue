@@ -5,9 +5,8 @@
 <script>
 export default {
   name: "AuthComponent",
-  props: ["backend_url"],
   mounted() {
-    fetch(this.backend_url + "/users/current")
+    fetch(this.$backend_url + "/users/current")
     .then(
         data => {
             if (!data.ok) {

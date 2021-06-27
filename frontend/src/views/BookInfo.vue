@@ -19,7 +19,7 @@
             </div>
             <div class="bottomSection">
                 <book-reviews :bookData="bookData" />
-                <more-by-author :mainBook="bookData" backend_url="https://booksplore.milindm.me" />
+                <more-by-author :mainBook="bookData" />
             </div>
         </div>
         <Footer />
@@ -111,7 +111,7 @@ export default {
     },
     mounted() {
         fetch(
-            this.backend_url + `/books/search?book_id=${this.$route.params.id}&limit=1&download=false&sorting=relevance`
+            this.$backend_url + `/books/search?book_id=${this.$route.params.id}&limit=1&download=false&sorting=relevance`
         )
             .then(response => response.json())
             .then(result => {

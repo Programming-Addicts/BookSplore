@@ -20,7 +20,7 @@ export default {
     components: {
         Cover
     },
-    props: ["mainBook", "backend_url"],
+    props: ["mainBook"],
     methods: {
         filterMoreByAuthor: (bookArray, mainBook) => {
             const arr = bookArray.filter((value, index, arr) => {
@@ -40,7 +40,7 @@ export default {
     mounted() {
         console.log(this.mainBook);
         fetch(
-            this.backend_url + `/books/search?query=inauthor:${this.mainBook.authors[0]}&limit=10&download=false&sorting=relevance`
+            this.$backend_url + `/books/search?query=inauthor:${this.mainBook.authors[0]}&limit=10&download=false&sorting=relevance`
         )
             .then(response => response.json())
             .then(result => {

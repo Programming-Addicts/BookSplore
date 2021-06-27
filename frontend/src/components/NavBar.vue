@@ -11,7 +11,7 @@
         <a
         v-if="navbar_type=='landingpage'"
         class="signup-link"
-        :href="backend_url + '/login'"
+        :href="this.$backend_url + '/login'"
         >
           Sign In With
           <img src="../assets/google.svg" width="23" height="23" />
@@ -38,10 +38,6 @@ export default {
         fixed: {
             type: Boolean,
             default: false,
-        },
-        backend_url: {
-            type: String,
-            default: "https://booksplore.milindm.me"
         },
         navbar_type: {
             type: String,

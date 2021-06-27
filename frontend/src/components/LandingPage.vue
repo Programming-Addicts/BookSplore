@@ -76,11 +76,13 @@ import Footer from "./Footer.vue";
 
 export default {
   name: "LandingPage1",
-  props: {
-    backend_url: String
-  },
   components: {
     Footer,
+  },
+  data() {
+    return {
+      backend_url: this.$backend_url,
+    }
   },
   methods: {
     scaleDownHeight(num) {

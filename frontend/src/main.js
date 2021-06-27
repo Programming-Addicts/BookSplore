@@ -3,9 +3,10 @@ import App from './App.vue'
 import router from './router'
 import VueSession from "vue-session"
 
-Vue.use(VueSession)
+Vue.use(VueSession);
 
-Vue.config.productionTip = false
+Vue.config.productionTip = false;
+Vue.prototype.$backend_url = "https://booksplore.milindm.me";
 
 new Vue({
   router,

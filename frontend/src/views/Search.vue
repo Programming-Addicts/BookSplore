@@ -65,12 +65,6 @@ export default {
     NavBar,
     Footer
   },
-  props: {
-    "backend_url": {
-      type: String,
-      default: "https://booksplore.milindm.me"
-    },
-  },
   data() {
     return {
       books: []
@@ -82,7 +76,7 @@ export default {
   methods: {
     async SearchBook() {
       let response = await fetch(
-          `${this.backend_url}/books/search?query=${this.$route.params.query}`
+          `${this.$backend_url}/books/search?query=${this.$route.params.query}`
         )
 
       return response.json()
