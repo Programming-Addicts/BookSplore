@@ -7,7 +7,8 @@ export default {
   name: "AuthComponent",
   props: ["backend_url"],
   mounted() {
-    fetch("https://localhost:8000/users/current")
+    fetch("https://booksplore.milind.me/users/current")
+      .then(data => data.json())
       .catch(_ => {
           console.log(_)
           this.$router.push("/")
