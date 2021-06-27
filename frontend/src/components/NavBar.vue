@@ -143,13 +143,13 @@ table {
 }
 
 #nav {
-	width: 100%;
+    width: 100%;
 	height: 80px;
-  border-bottom: 0.1px white solid;
-  background: #181C23;
-  /* position: relative; */
-  position: var(--position);
-  z-index: 2;
+    border-bottom: 0.1px white solid;
+    background: #181C23;
+    /* position: relative; */
+    position: var(--position);
+    z-index: 2;
 }
 
 .title {
