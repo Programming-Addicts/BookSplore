@@ -12,11 +12,18 @@
                             {{ review.postDate.toDateString().slice(4) }}
                         </p>
                     </div>
-                    <p>{{ renderStars(review.stars) }}</p>
+                    <p>
+                        <img
+                            :src="star"
+                            v-for="(star, i) of renderStars(review.stars)"
+                            :key="i"
+                            style="height: 20px;"
+                        />
+                    </p>
                 </div>
             </div>
             <div class="reviewDesc">
-                {{review.reviewDesc}}
+                {{ review.reviewDesc }}
             </div>
         </div>
     </div>
@@ -58,16 +65,22 @@ export default {
     },
     methods: {
         renderStars: starsAmount => {
-            let goldenStar = "⭐";
-            let greyStar = "★";
+            // let goldenStar = "⭐";
+            // let greyStar = "★";
+            let goldenStar = require("../assets/goldenStar.svg");
+            let grayStar = require("../assets/grayStar.svg");
             if (starsAmount > 5) {
                 console.error(`Invalid Amount of stars: ${starsAmount}`);
                 return;
             }
-            return (
-                goldenStar.repeat(starsAmount) +
-                greyStar.repeat(5 - starsAmount)
-            );
+            let arr = [];
+            for (let index = 0; index < starsAmount; index++) {
+                arr.push(goldenStar);
+            }
+            for (let index = 0; index < 5 - starsAmount; index++) {
+                arr.push(grayStar);
+            }
+            return arr;
         }
     }
 };
@@ -119,7 +132,7 @@ export default {
 .reviewHead p {
     margin: 0%;
     font-size: 20px;
-    color: #AAAAAA;
+    color: #aaaaaa;
     padding-top: 5px;
 }
 .reviewHead .userDate {
@@ -130,12 +143,11 @@ export default {
     padding-top: 5px;
 
     font-size: 28px;
-    color: #9AC2FF;
+    color: #9ac2ff;
 }
 
 .reviewDesc {
     font-size: 20px;
     padding-top: 20px;
 }
-
 </style>
