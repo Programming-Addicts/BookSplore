@@ -90,9 +90,6 @@ export default {
 .bookReviewMain {
     display: flex;
     flex-direction: column;
-    position: relative;
-    margin-left: 50px;
-    width: inherit;
     text-align: center;
 
     border: 1px solid #c4c4c4;

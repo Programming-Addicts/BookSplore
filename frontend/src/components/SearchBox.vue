@@ -31,7 +31,7 @@ export default {
     props: {
         endpoint: {
             type: String,
-            default: "/dev/search/#",
+            default: "/search/#",
             validator: value => {
                 return value.includes("#");
             }

@@ -16,7 +16,7 @@ const routes = [
     component: Home
   },
   {
-    path: '/dev/book-info/:id',
+    path: '/book-info/:id',
     name: 'BookInfo',
     component: BookInfo
   },
@@ -26,18 +26,18 @@ const routes = [
     component: Dashboard
   },
   {
-    path: '/dev/search/:query',
+    path: '/search/:query',
     name: 'Search',
     component: Search
   },
   {
-    path: '/dev/explore',
+    path: '/explore',
     name: 'Explore',
     component: Explore
   },
   {
-    path: '/dev/search',
-    name: 'Explore',
+    path: '/search',
+    name: 'Search_Explore',
     component: Explore
   }
 ]

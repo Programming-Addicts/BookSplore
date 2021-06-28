@@ -1,7 +1,7 @@
 <template>
     <div class="bookInfoDisplay">
         <div class="top">
-            <Cover :imgUrl="bookData.cover"/>
+            <Cover :imgUrl="bookData.cover" />
             <div class="info">
                 <div class="head">
                     <p class="title">{{ bookData.title }}</p>
@@ -22,7 +22,9 @@
                         </div>
                         <div>
                             <p>Publisher</p>
+                            <span>
                             {{ bookData.publisher ? bookData.publisher : "-" }}
+                            </span>
                         </div>
                         <div>
                             <p>Page count</p>
@@ -40,9 +42,7 @@
                         </div>
                         <div>
                             <p>Average Ratings</p>
-                            {{
-                                bookData.avgRating ? bookData.avgRating : "-"
-                            }}
+                            {{ bookData.avgRating ? bookData.avgRating : "-" }}
                         </div>
                         <div>
                             <p>Reviews</p>
@@ -56,7 +56,7 @@
                 </div>
             </div>
         </div>
-        <div class="descDiv" >
+        <div class="descDiv">
             <p class="desc" ref="desc" v-if="bookData.description">
                 {{ bookData.description.slice(0, descMaxSize) }}....
             </p>
@@ -75,7 +75,7 @@
 </template>
 
 <script>
-import Cover from "./Cover.vue"
+import Cover from "./Cover.vue";
 
 export default {
     name: "BookInfoDisplay",
@@ -99,7 +99,7 @@ export default {
                 description: this.Book.description
             },
             descExpanded: false,
-            descMaxSize: 300,
+            descMaxSize: 300
         };
     },
     methods: {
@@ -112,7 +112,8 @@ export default {
             this.$refs.descExpand.innerHTML = "Collapse";
         },
         collapse: function(descData) {
-            this.$refs.desc.innerHTML = descData.slice(0, this.descMaxSize) + "....";
+            this.$refs.desc.innerHTML =
+                descData.slice(0, this.descMaxSize) + "....";
             this.$refs.descExpand.innerHTML = "Expand";
         }
     },
@@ -139,15 +140,14 @@ export default {
     display: flex;
     flex-direction: row;
     padding-bottom: 40px;
-    width: 100%;
+    column-gap: 50px;
 }
 
 .info {
-    grid-area: info;
     display: flex;
     flex-direction: column;
-    margin-left: 50px;
-    width: 100%;
+
+    flex-wrap: wrap;
 }
 
 .head {
@@ -203,7 +203,13 @@ export default {
     flex-direction: row;
     padding-top: 44px;
     font-size: 27px;
-    margin-right: 20%;
+    /* margin-right: 20%; */
+}
+.infoTable span {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    padding-left: 4vw;
 }
 
 .left {
@@ -227,7 +233,6 @@ export default {
     justify-content: space-between;
     align-items: center;
     padding-right: 5px;
-
 }
 .left div p,
 .right div p {

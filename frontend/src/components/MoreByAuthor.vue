@@ -1,7 +1,7 @@
 <template>
     <div class="moreBook" v-if="fetched">
         <p class="top">Similar Book</p>
-        <a :href="`/dev/book-info/${book.id}`">
+        <a :href="`/book-info/${book.id}`">
             <Cover
                 :imgUrl="book.image_links.thumbnail"
                 :height="300"
@@ -68,7 +68,7 @@ export default {
     height: min-content;
 
     margin-left: 30px;
-    margin-right: 50px;
+    /* margin-right: 50px; */
     border: 1px solid #c4c4c4;
     border-radius: 10px;
     color: white;

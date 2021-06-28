@@ -39,6 +39,7 @@ export default {
   display: flex;
   flex-direction: row;
   align-items: center;
+  padding-right: 10px;
 }
 .logo-container img {
   height: 46px;

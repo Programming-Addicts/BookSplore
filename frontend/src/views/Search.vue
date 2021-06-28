@@ -10,7 +10,7 @@
         <search-result :book="book" />
     </div>
 
-    <router-link to="/dev/search" class="try-again">
+    <router-link to="/search" class="try-again">
         Not what you're looking for? Try again
     </router-link>
 

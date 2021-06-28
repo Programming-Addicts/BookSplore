@@ -1,5 +1,5 @@
 <template>
-<router-link :to="'/dev/book-info/' + book.id" class="container-link">
+<router-link :to="'/book-info/' + book.id" class="container-link">
     <table style="width: 100%;"><tr style="width: 100%;">
         <td>
             <img
@@ -26,7 +26,7 @@
 
                 <router-link
                     v-if="book.description ? book.description.length > 700 : false"
-                    to="/dev/book-info"
+                    to="/book-info"
                     class="link"
                 >
                     (Read More)

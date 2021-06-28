@@ -131,14 +131,13 @@ export default {
     padding-top: 80px;
     display: flex;
     flex-direction: column;
-    align-items: center;
+    width: 100%;
 }
 
 .downloadButtons {
     display: flex;
     flex-direction: row;
     justify-content: space-around;
-    width: 100%;
     margin-bottom: 3%;
 }
 .downloadButtons button {
@@ -175,8 +174,6 @@ export default {
     display: flex;
     flex-direction: row;
     margin: 50px;
-    padding: 50px;
-    width: 100%;
-    justify-content: space-evenly;
+    justify-content: space-between;
 }
 </style>
