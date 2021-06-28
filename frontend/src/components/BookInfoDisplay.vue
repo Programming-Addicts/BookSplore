@@ -56,9 +56,12 @@
                 </div>
             </div>
         </div>
-        <div class="descDiv">
-            <p class="desc" ref="desc">
+        <div class="descDiv" >
+            <p class="desc" ref="desc" v-if="bookData.description">
                 {{ bookData.description.slice(0, descMaxSize) }}....
+            </p>
+            <p class="noDesc" v-else style="color: gray;">
+                No description provided
             </p>
             <p
                 v-on:click="descMode(bookData.description)"
