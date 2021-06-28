@@ -6,6 +6,7 @@ import BookInfo from "../views/BookInfo.vue"
 import Dashboard from "../views/Dashboard.vue"
 import Search from "../views/Search.vue"
 import Explore from "../views/Explore.vue"
+import User from "../views/User.vue"
 
 Vue.use(VueRouter)
 
@@ -39,6 +40,11 @@ const routes = [
     path: '/search',
     name: 'Search_Explore',
     component: Explore
+  },
+  {
+    path: '/user',
+    name: 'UserProfile',
+    component: User
   }
 ]
 
