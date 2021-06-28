@@ -6,7 +6,7 @@
       <p class="title italic">Splore</p>
     </div>
     <a class="github" href="https://github.com/Programming-Addicts/BookSplore">
-        <p>See the source code on Github :)</p>
+        <p>See the source code on Github</p>
         <img src="../assets/Github_Logo.svg">
     </a>
   </div>
