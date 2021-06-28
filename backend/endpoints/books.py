@@ -63,6 +63,5 @@ async def search(request: Request, query: str = None, book_id: str = None, limit
                          'epub': has_epub
                          }
             books.append(book_data)
-            return books
 
         return books if book_id is None else books[0]
