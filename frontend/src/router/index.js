@@ -26,7 +26,7 @@ const routes = [
     component: Dashboard
   },
   {
-    path: '/search/:query',
+    path: '/search/:download_only/:query/',
     name: 'Search',
     component: Search
   },

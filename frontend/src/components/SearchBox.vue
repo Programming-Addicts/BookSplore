@@ -3,7 +3,7 @@
         :style="
             cssVars({
                 height: height,
-                width: width
+                width: width,
             })
         "
         class="inputOuter"
@@ -14,12 +14,13 @@
                 class="mainBox"
                 :placeholder="placeholder_"
                 v-model="query"
-                v-on:keyup.enter="sendQuery($router, endpoint, query)"
+                v-on:keyup.enter="sendQuery(endpoint, query)"
+                :style="`font-size: ${font_size};`"
             />
             <img
                 :src="require(`../assets/submitArrow.svg`)"
                 v-if="query"
-                @click="sendQuery($router, endpoint, query)"
+                @click="sendQuery(endpoint, query)"
             />
         </div>
     </div>
@@ -48,6 +49,11 @@ export default {
             type: String,
             default: `60vw`
         },
+        font_size: {
+            type: String,
+            default: "40px"
+       },
+        center: Boolean,
         test: String
     },
     data() {
@@ -59,11 +65,11 @@ export default {
         cssVars: vars => {
             return {
                 "--box-width": vars.width,
-                "--box-height": vars.height
+                "--box-height": vars.height,
             };
         },
-        sendQuery: ($router, endpoint, query) => {
-            $router.push(endpoint.replace("#", query));
+        sendQuery: (endpoint, query) => {
+            window.location.href = endpoint.replace("#", query)
         }
     }
 };
@@ -98,7 +104,6 @@ input {
     background: inherit;
     border: none;
 
-    font-size: 40px;
     text-decoration: none;
 }
 .inputBox img {

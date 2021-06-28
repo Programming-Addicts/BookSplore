@@ -3,7 +3,9 @@
         <nav-bar navbar_type="authenticated" />
         <div class="searchBox">
             Explore our wide collection of Books!
-            <search-box />
+            <search-box
+                :endpoint="`/search/${(downloadOnly ? 1 : 0)}/#`"
+            />
             <p>
                 <input type="checkbox" v-model="downloadOnly" />
                 Only show books which are available for download
@@ -67,6 +69,7 @@ export default {
 .searchBox p input[type="checkbox"] {
     background-color: gray;
     padding: 5px;
+    margin-right: 10px;
     transform: scale(2);
     -ms-transform: scale(2);
     -webkit-transform: scale(2);

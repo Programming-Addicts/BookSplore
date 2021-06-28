@@ -1,5 +1,5 @@
 <template>
-  <div class="footer">
+  <footer class="footer">
     <div class="logo-container">
       <img src="../assets/BookSploreIcon.svg" />
       <p class="title bold">Book</p>
@@ -9,7 +9,7 @@
         <p>See the source code on Github</p>
         <img src="../assets/Github_Logo.svg">
     </a>
-  </div>
+  </footer>
 </template>
 
 <script>
