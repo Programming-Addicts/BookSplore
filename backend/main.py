@@ -16,6 +16,8 @@ app = FastAPI()
 origins = [
     "http://localhost:8000",
     "http://localhost:8080",
+    "https://booksplore.milindm.me",
+    "https://booksplore.netlify.app"
 ]
 
 app.add_middleware(SessionMiddleware, secret_key=os.environ.get("SECRET_KEY"))
