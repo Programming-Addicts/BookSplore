@@ -1,10 +1,13 @@
 <template>
     <div class="review">
         <div class="reviewHead">
-            <img :src="review.imageUrl" />
+            <img :src="review.imageUrl" v-if="coverType === `book`" class="pfp" />
+            <Cover :imgUrl="review.imageUrl" height="115px" width="75px" v-else />
             <div>
                 <div class="userDate">
+                    <a :href="review.link">
                     {{ review.user }}
+                    </a>
                     <p>
                         Posted on
                         {{ review.postDate.toDateString().slice(4) }}
@@ -21,15 +24,28 @@
             </div>
         </div>
         <div class="reviewDesc">
-            {{ review.reviewDesc }}
+            {{ descLength? review.reviewDesc.slice(0, descLength) + `....` : review.reviewDesc }}
         </div>
     </div>
 </template>
 <script>
+import Cover from "./Cover.vue"
 
 export default {
     name: "Review",
-    props: ["review"],
+    // props: ["review","type"],
+    props: {
+        review: Object,
+        coverType: {
+            type: String,
+            default: "book"
+        },
+        descLength: Number,
+    },
+    components: {
+        Cover
+
+    },
     methods: {
         renderStars: starsAmount => {
             // let goldenStar = "⭐";
@@ -60,10 +76,14 @@ export default {
     flex-direction: column;
     border: 1px solid white;
     border-radius: 10px;
-    margin: 30px;
+    /* margin: 30px; */
     padding: 25px;
     text-align: left;
+
+    font-family: Lato;
+    color: white;
 }
+
 
 .reviewHead {
     display: flex;
@@ -74,8 +94,10 @@ export default {
     flex-direction: column;
 }
 .reviewHead img {
-    height: 80px;
     margin-right: 20px;
+}
+.reviewHead .pfp {
+    height: 80px;
 }
 .reviewHead p {
     margin: 0%;
@@ -93,9 +115,19 @@ export default {
     font-size: 28px;
     color: #9ac2ff;
 }
+.reviewHead .userDate a:hover {
+    text-decoration: underline;
+}
 
 .reviewDesc {
     font-size: 20px;
     padding-top: 20px;
+}
+
+a:link {
+    text-decoration: none;
+}
+a:visited{
+    color: inherit;
 }
 </style>

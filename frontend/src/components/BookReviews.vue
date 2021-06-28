@@ -52,6 +52,7 @@ export default {
     display: flex;
     flex-direction: column;
     text-align: center;
+    padding: 30px;
 
     border: 1px solid #c4c4c4;
     border-radius: 10px;
