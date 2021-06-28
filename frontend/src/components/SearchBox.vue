@@ -104,8 +104,6 @@ input {
 .inputBox img {
     height: 60px;
     cursor: pointer;
-    padding-top: 9px;
-    margin-left: 10px;
 
     transition: 200ms;
 }

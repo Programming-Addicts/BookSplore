@@ -50,6 +50,7 @@ export default {
     margin-top: 40px;
     align-items: center;
     justify-content: center;
+    text-align: center;
 
     font-size: 50px;
     font-weight: 500;
