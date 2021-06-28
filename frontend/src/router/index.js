@@ -5,6 +5,7 @@ import Home from '../views/Home.vue'
 import BookInfo from "../views/BookInfo.vue"
 import Dashboard from "../views/Dashboard.vue"
 import Search from "../views/Search.vue"
+import Explore from "../views/Explore.vue"
 
 Vue.use(VueRouter)
 
@@ -28,6 +29,16 @@ const routes = [
     path: '/dev/search/:query',
     name: 'Search',
     component: Search
+  },
+  {
+    path: '/dev/explore',
+    name: 'Explore',
+    component: Explore
+  },
+  {
+    path: '/dev/search',
+    name: 'Explore',
+    component: Explore
   }
 ]
 
