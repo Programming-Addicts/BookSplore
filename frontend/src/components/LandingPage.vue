@@ -3,7 +3,7 @@
     <div class="section1 section">
       <div class="circle" :style="scaleRadius(900)">
         <div class="textTitle" :style="scaleFont(60)">
-          <p class="title bold">Book</p>
+          <p class="title bold">Bookssss</p>
           <p class="title italic">Splore</p>
         </div>
         <p class="welcomeWords" :style="scaleFont(55)">

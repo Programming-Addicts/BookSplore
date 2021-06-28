@@ -1,6 +1,10 @@
-from fastapi import FastAPI
-import dotenv
+from fastapi import FastAPI, Request
+from fastapi.responses import HTMLResponse
+from fastapi.staticfiles import StaticFiles
+from fastapi.templating import Jinja2Templates
+
 import os
+import dotenv
 
 from starlette.config import Config
 from starlette.middleware.sessions import SessionMiddleware
@@ -12,6 +16,13 @@ from database.database import Database
 config = Config(".env")
 
 app = FastAPI()
+
+app.mount("/dist", StaticFiles(directory="dist/"), name="dist")
+app.mount("/css", StaticFiles(directory="dist/css"), name="css")
+app.mount("/img", StaticFiles(directory="dist/img"), name="img")
+app.mount("/js", StaticFiles(directory="dist/js"), name="js")
+
+templates = Jinja2Templates(directory="dist")
 
 origins = [
     "http://localhost:8000",
@@ -30,7 +41,6 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-app.include_router(home.router)
 app.include_router(follow.router)
 app.include_router(auth.router)
 app.include_router(books.router)
@@ -44,3 +54,7 @@ async def on_startup():
 @app.on_event("shutdown")
 async def shutdown():
     await app.state.db.close_connection()
+
+@app.get("/{full_path:path}")
+async def serve_frontend(request: Request, full_path: str):
+    return templates.TemplateResponse("index.html", {"request": request})
