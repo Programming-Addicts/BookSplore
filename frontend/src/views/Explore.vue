@@ -60,6 +60,8 @@ export default {
 }
 .searchBox p {
     font-size: 20px;
+    padding: 0%;
+    margin: 0%;
 }
 .searchBox p input[type="checkbox"] {
     background-color: gray;
