@@ -42,7 +42,7 @@ export default {
         },
         height: {
             type: String,
-            default: `100px`
+            default: `95px`
         },
         width: {
             type: String,

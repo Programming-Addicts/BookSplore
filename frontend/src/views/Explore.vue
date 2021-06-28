@@ -1,20 +1,23 @@
 <template>
     <div class="main">
-        <nav-bar navbar_type="authenticated"/>
+        <nav-bar navbar_type="authenticated" />
         <div class="searchBox">
             Explore our wide collection of Books!
             <search-box />
+            <p>
+                <input type="checkbox" v-model="downloadOnly" />
+                Only show books which are available for download
+            </p>
+            <img :src="require(`../assets/searching.svg`)" />
         </div>
-        <div class="footer">
         <Footer />
-        </div>
     </div>
 </template>
 
 <script>
 import NavBar from "../components/NavBar.vue";
 import Footer from "../components/Footer.vue";
-import SearchBox from "../components/SearchBox.vue"
+import SearchBox from "../components/SearchBox.vue";
 
 export default {
     name: "Explore",
@@ -22,6 +25,11 @@ export default {
         NavBar,
         Footer,
         SearchBox
+    },
+    data() {
+        return {
+            downloadOnly: false
+        };
     }
 };
 </script>
@@ -39,7 +47,7 @@ export default {
     width: 100%;
     margin: 0%;
     padding: 0%;
-    margin-top: 50px;
+    margin-top: 40px;
     align-items: center;
     justify-content: center;
 
@@ -47,9 +55,17 @@ export default {
     font-weight: 500;
     row-gap: 50px;
 }
-.footer {
-    bottom: 0%;
-    position: fixed;
+.searchBox img {
+    padding: 30px;
 }
-
+.searchBox p {
+    font-size: 20px;
+}
+.searchBox p input[type="checkbox"] {
+    background-color: gray;
+    padding: 5px;
+    transform: scale(2);
+    -ms-transform: scale(2);
+    -webkit-transform: scale(2);
+}
 </style>
