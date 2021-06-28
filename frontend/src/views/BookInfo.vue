@@ -148,7 +148,7 @@ export default {
     width: fit-content;
 
     font-family: Lato;
-    font-size: 30px;
+    font-size: 3vh;
     font-weight: 400;
 
     cursor: pointer;
@@ -173,7 +173,7 @@ export default {
 .bottomSection {
     display: flex;
     flex-direction: row;
-    margin: 50px;
-    justify-content: space-between;
+    margin: 5vw;
+    justify-content: space-evenly;
 }
 </style>

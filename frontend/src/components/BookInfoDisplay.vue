@@ -13,44 +13,72 @@
                 <div class="infoTable">
                     <div class="left">
                         <div>
-                            <p>Published</p>
-                            {{
-                                bookData.published
-                                    ? bookData.published.toDateString().slice(4)
-                                    : "-"
-                            }}
+                            <p class="lable">Published</p>
+                            <p class="notLable">
+                                {{
+                                    bookData.published
+                                        ? bookData.published
+                                              .toDateString()
+                                              .slice(4)
+                                        : "-"
+                                }}
+                            </p>
                         </div>
                         <div>
-                            <p>Publisher</p>
-                            <span>
-                            {{ bookData.publisher ? bookData.publisher : "-" }}
-                            </span>
+                            <p class="lable">Publisher</p>
+                            <p class="notLable">
+                                {{
+                                    bookData.publisher
+                                        ? bookData.publisher
+                                        : "-"
+                                }}
+                            </p>
                         </div>
                         <div>
-                            <p>Page count</p>
-                            {{ bookData.pageCount ? bookData.pageCount : "-" }}
+                            <p class="lable">Page count</p>
+                            <p class="notLable">
+                                {{
+                                    bookData.pageCount
+                                        ? bookData.pageCount
+                                        : "-"
+                                }}
+                            </p>
                         </div>
                         <div>
-                            <p>Language</p>
-                            {{ bookData.language ? bookData.language : "-" }}
+                            <p class="lable">Language</p>
+                            <p class="notLable">
+                                {{
+                                    bookData.language ? bookData.language : "-"
+                                }}
+                            </p>
                         </div>
                     </div>
                     <div class="right">
                         <div>
-                            <p>Ratings</p>
-                            {{ bookData.ratings ? bookData.ratings : "-" }}
+                            <p class="lable">Ratings</p>
+                            <p class="notLable">
+                                {{ bookData.ratings ? bookData.ratings : "-" }}
+                            </p>
                         </div>
                         <div>
-                            <p>Average Ratings</p>
-                            {{ bookData.avgRating ? bookData.avgRating : "-" }}
+                            <p class="lable">Average Ratings</p>
+                            <p class="notLable">
+                                {{
+                                    bookData.avgRating
+                                        ? bookData.avgRating
+                                        : "-"
+                                }}
+                            </p>
                         </div>
                         <div>
-                            <p>Reviews</p>
-                            {{
-                                bookData.reviewsAmount
-                                    ? bookData.reviewsAmount
-                                    : "-"
-                            }}
+                            <p class="lable">Reviews</p>
+                            <p class="notLable">
+                                {{
+                                    bookData.reviewsAmount
+                                        ? bookData.reviewsAmount
+                                        : "-"
+                                }}
+                            </p>
                         </div>
                     </div>
                 </div>
@@ -203,13 +231,12 @@ export default {
     flex-direction: row;
     padding-top: 44px;
     font-size: 27px;
-    /* margin-right: 20%; */
 }
-.infoTable span {
+.infoTable .notLable {
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
-    padding-left: 4vw;
+    margin: 0%;
 }
 
 .left {
@@ -234,8 +261,8 @@ export default {
     align-items: center;
     padding-right: 5px;
 }
-.left div p,
-.right div p {
+.left div .lable,
+.right div .lable {
     margin: 0%;
     padding-bottom: 13px;
     color: #aac5fa;

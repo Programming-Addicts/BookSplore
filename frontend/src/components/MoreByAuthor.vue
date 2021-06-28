@@ -64,7 +64,6 @@ export default {
     font-family: Lato;
     padding-left: 40px;
     padding-right: 40px;
-    width: min-content;
     height: min-content;
 
     margin-left: 30px;
@@ -72,8 +71,12 @@ export default {
     border: 1px solid #c4c4c4;
     border-radius: 10px;
     color: white;
+}
+
+a {
     cursor: pointer;
 }
+
 .top {
     font-size: 25px;
 }
