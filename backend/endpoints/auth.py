@@ -55,13 +55,15 @@ async def auth(request: Request):
     token = jwt.encode(
         {"id": user.id},
         key=secret_key,
-        algorithms="HS256"
+        algorithm="HS256"
     )
 
     user.token = token
 
     await update_user(db, user)
-    return RedirectResponse(f"/dev/dashboard?token={token}")
+    resp =  RedirectResponse(f"/dev/dashboard")
+    resp.headers['Authorization'] = token
+    return resp
 
 
 @router.get('/logout')
