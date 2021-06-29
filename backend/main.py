@@ -56,10 +56,7 @@ async def shutdown():
 
 @app.get("/{full_path:path}")
 async def serve_frontend(request: Request, full_path: str):
-<<<<<<< HEAD
     print(request.cookies.get('session'), "\n\n\n")
-=======
     if full_path == "favicon.ico":
         return FileResponse("dist/favicon.ico")
->>>>>>> b61111c4f6e983b320074fd4b3bf16017755f766
     return templates.TemplateResponse("index.html", {"request": request})
