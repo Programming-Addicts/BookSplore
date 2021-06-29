@@ -1,6 +1,8 @@
+from typing import Optional
+
 import os
 
-from fastapi import APIRouter, Request
+from fastapi import APIRouter, Request, Header
 import jwt
 import dotenv
 
@@ -52,19 +54,20 @@ async def auth(request: Request):
 
     token = jwt.encode(
         {"id": user.id},
-        key=secret_key
+        key=secret_key,
+        algorithms="HS256"
     )
 
     user.token = token
 
     await update_user(db, user)
-    return RedirectResponse(f"/dashboard?token={token}")
+    return RedirectResponse(f"/dev/dashboard?token={token}")
 
 
 @router.get('/logout')
-async def logout(request: Request):
-
-    # user = await get_user(request.app.state.db, token=token)
-    # user.session_id = None
-    # await update_user(request.app.state.db, user)
+async def logout(request: Request, authorization: Optional[str] = Header(None)):
+    user_id = jwt.decode(authorization, secret_key, algorithms="HS256")['id']
+    user = await get_user(request.app.state.db, id=user_id)
+    user.token = None
+    update_user(request.app.state.db, user)
     return RedirectResponse(url='/')
