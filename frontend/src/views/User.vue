@@ -4,10 +4,21 @@
         <main>
             <div class="left">
                 <div class="userInfo">
-                    <img :src="userInfo.pfp ? userInfo.pfp: require(`../assets/ProfilePicture.svg`)">
+                    <img
+                        :src="
+                            userInfo.pfp
+                                ? userInfo.pfp
+                                : require(`../assets/ProfilePicture.svg`)
+                        "
+                    />
                     <div class="userInfoText">
                         <p class="username">
-
+                            {{ userInfo.name }}
+                            <a :href="userInfo.followEndpoint">Follow</a>
+                        </p>
+                        <p class="followersEtc">
+                            {{ userInfo.reviews }} Reviews | {{ userInfo.followers }} Followers |
+                            Following {{ userInfo.following }}
                         </p>
                     </div>
                 </div>
@@ -119,6 +130,7 @@ export default {
                 reviews: 150,
                 followers: 123,
                 following: 56,
+                followEndpoint: ``
             }
         };
     },
@@ -134,20 +146,57 @@ export default {
 main {
     display: flex;
     flex-direction: row;
-    margin-top: 3vh;
+    margin-top: 4vh;
     margin-bottom: 5vh;
 
     font-family: Lato;
     color: white;
 }
+
+.left {
+    margin-left: 5vw;
+    margin-right: 5vw;
+}
+.userInfo {
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 4vh;
+    column-gap: 1vw;
+}
+.userInfo img {
+    height: 13vh;
+}
+.userInfo p {
+    margin: 0%;
+}
+.userInfoText .username {
+    font-size: 50px;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    column-gap: 1vw;
+}
+.userInfo .username a {
+    font-size: 30px;
+    font-weight: 400;
+    color: #89C1F5;
+    text-decoration: none;
+}
+.userInfo .username a:hover {
+    text-decoration: underline;
+}
+.userInfoText .followersEtc {
+    color: #AAAAAA;
+    font-size: 25px;
+    font-weight: 400;
+}
+
 .reviewsDiv {
     font-size: 35px;
     font-weight: 500;
-    margin-left: 5vw;
-    margin-right: 5vw;
     display: flex;
     flex-direction: column;
-    row-gap: 3vw;
+    row-gap: 1vw;
 }
 .reviewsDiv .reviews {
     display: flex;
