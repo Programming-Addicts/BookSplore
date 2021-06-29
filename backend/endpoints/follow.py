@@ -19,7 +19,7 @@ secret_key = os.environ.get("SECRET_KEY")
 @router.get("/follow/get")
 async def get_followers_and_following(request: Request, id: int = None, authorization: Optional[str] = Header(None)):
     try:
-        user_id = jwt.decode(authorization, secret_key, algorithms="HS256").get("id")
+        user_id = jwt.decode(authorization, secret_key, algorithm="HS256").get("id")
     except:
         return JSONResponse({'None': 'No user is authenticated'}, status_code=401)
     user = None
@@ -36,7 +36,7 @@ async def get_followers_and_following(request: Request, id: int = None, authoriz
 @router.post("/follow")
 async def follow_user(request: Request, id: int, authorization: Optional[str] = Header(None)):
     try:
-        user_id = jwt.decode(authorization, secret_key, algorithms="HS256").get("id")
+        user_id = jwt.decode(authorization, secret_key, algorithm="HS256").get("id")
     except:
         return JSONResponse({'None': 'No user is authenticated'}, status_code=401)
     to_follow = await db_user.get_user(request.app.state.db, id=id)
@@ -70,7 +70,7 @@ async def follow_user(request: Request, id: int, authorization: Optional[str] = 
 @router.post("/unfollow")
 async def unfollow_user(request: Request, id: int, authorization: Optional[str] = Header(None)):
     try:
-        user_id = jwt.decode(authorization, secret_key, algorithms="HS256").get("id")
+        user_id = jwt.decode(authorization, secret_key, algorithm="HS256").get("id")
     except:
         return JSONResponse({'None': 'No user is authenticated'}, status_code=401)
     if user_id is None:

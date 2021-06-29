@@ -55,7 +55,7 @@ async def auth(request: Request):
     token = jwt.encode(
         {"id": user.id},
         key=secret_key,
-        algorithms="HS256"
+        algorithm="HS256"
     )
 
     user.token = token
@@ -66,7 +66,7 @@ async def auth(request: Request):
 
 @router.get('/logout')
 async def logout(request: Request, authorization: Optional[str] = Header(None)):
-    user_id = jwt.decode(authorization, secret_key, algorithms="HS256")['id']
+    user_id = jwt.decode(authorization, secret_key, algorithm="HS256")['id']
     user = await get_user(request.app.state.db, id=user_id)
     user.token = None
     update_user(request.app.state.db, user)
