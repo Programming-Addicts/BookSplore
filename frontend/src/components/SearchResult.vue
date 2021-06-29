@@ -3,7 +3,7 @@
     <table style="width: 100%;"><tr style="width: 100%;">
         <td>
             <img
-                :src="book.image_links ? (book.image_links.thumbnail ? book.image_links.thumbnail : '../assets/BookSploreIcon.svg') : '../assets/BookSploreIcon.svg'"
+                :src="book.image_links ? (book.image_links.thumbnail ? book.image_links.thumbnail : require('../assets/BookSploreIcon.svg')) : require('../assets/BookSploreIcon.svg')"
                 height="210px"
                 width="150px"
             />

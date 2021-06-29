@@ -27,7 +27,7 @@ export default {
 
   background: #18191e;
   min-width: 100%;
-  height: 140px;
+  height: 100px;
 
   display: relative;
 }
@@ -40,9 +40,10 @@ export default {
   flex-direction: row;
   align-items: center;
   padding-right: 10px;
+  padding-top: 5px;
 }
 .logo-container img {
-  height: 46px;
+  height: 40px;
 }
 .logo-container p {
   margin: 0%;
@@ -50,9 +51,9 @@ export default {
 
 .title {
 	font-family: "Cabin";
-	font-size: 27px;
+	font-size: 25px;
 	text-align: center;
-  color: white;
+    color: white;
 }
 
 .bold {
@@ -65,7 +66,7 @@ export default {
 
 .github {
     color: #9DD4F2;
-    font-size: 25px;
+    font-size: 23px;
     font-weight: 700;
     font-family: Lato;
 
@@ -75,7 +76,7 @@ export default {
 }
 .github p {
     margin: 0%;
-    padding-top: 12px;
+    padding-top: 7px;
     padding-right: 10px;
     font-size: 20px;
 }

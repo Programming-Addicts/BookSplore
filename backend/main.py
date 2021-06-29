@@ -8,6 +8,7 @@ import dotenv
 
 from starlette.config import Config
 from starlette.middleware.sessions import SessionMiddleware
+from starlette.responses import FileResponse
 from fastapi.middleware.cors import CORSMiddleware
 
 from endpoints import home, follow, auth, users, books
@@ -57,4 +58,6 @@ async def shutdown():
 
 @app.get("/{full_path:path}")
 async def serve_frontend(request: Request, full_path: str):
+    if full_path == "favicon.ico":
+        return FileResponse("dist/favicon.ico")
     return templates.TemplateResponse("index.html", {"request": request})

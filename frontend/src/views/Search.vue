@@ -5,7 +5,7 @@
     <div style="width: 100%; display: flex; flex-direction: column; margin-top: 30px;">
         <h1>Search results for "{{ $route.params.query }}"</h1>
         
-        <div style="width: 100%; display: flex; justify-content: center; margin-bottom: 30px;">
+        <div style="width: 100%; display: flex; justify-content: center; margin-bottom: 20px;">
             <search-box
                 placeholder_="Not what you're looking for? Try again with different search terms!"
                 height="60px"
@@ -14,6 +14,11 @@
                 endpoint="/search/0/#"
             />
         </div>
+        
+        <h2 style="width: 100%; text-align: center; color: #BBBBBB;" v-if="books.length > 0 && resultFound">
+            {{ books.length > 0 ? `${books.length} results found` : "" }}
+        </h2>
+
     </div>
 
     <div v-if="resultFound" style="width: 100%;">
@@ -42,37 +47,54 @@ import SearchResult from "@/components/SearchResult.vue"
 import SearchBox from "@/components/SearchBox.vue"
 
 export default {
-  name: "BookSearch",
-  components: {
-    NavBar,
-    Footer,
-    SearchResult,
-    SearchBox
-  },
-  data() {
-    return {
-      books: [],
-      resultFound: true
-    }
-  },
-  mounted() {
-    this.SearchBook().then(data => {this.books = data;})
-  },
-  methods: {
-    async SearchBook() {
-        let response = await fetch(
-          `${this.$backend_url}/books/search?query=${this.$route.params.query}&download=${this.$route.params.download_only}`
-        )
-
-        if (response.status == 200) {
-            this.resultFound = true;
-        } else {
-            this.resultFound = false;
-        }
-
-      return response.json()
+    name: "BookSearch",
+    components: {
+        NavBar,
+        Footer,
+        SearchResult,
+        SearchBox
     },
-  }
+    data() {
+        return {
+            books: [],
+            resultFound: true,
+            num_results: 20
+        }
+    },
+    mounted() {
+        this.SearchBook(10).then(
+            data => {
+                this.books = data;
+                window.onscroll = () => {
+                    let bottomOfWindow = 
+                        Math.max(window.pageYOffset, document.documentElement.scrollTop, document.body.scrollTop) + window.innerHeight === document.documentElement.offsetHeight;
+                    
+                    if (bottomOfWindow) {
+                        this.num_results += 5
+                        this.SearchBook(this.num_results).then(
+                            data => {this.books = data}
+                        )
+                    }
+                }
+            }
+        )
+    },
+    methods: {
+        async SearchBook(num) {
+            let response = await fetch(
+              `${this.$backend_url}/books/search?query=${this.$route.params.query}&download=${this.$route.params.download_only}&limit=${num}`
+            )
+
+            if (response.status == 200) {
+                this.resultFound = true;
+            } else {
+                this.resultFound = false;
+            }
+
+            let data = response.json()
+            return data
+        },
+    }
 }
 
 </script>

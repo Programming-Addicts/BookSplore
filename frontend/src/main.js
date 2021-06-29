@@ -6,7 +6,7 @@ import VueSession from "vue-session"
 Vue.use(VueSession);
 
 Vue.config.productionTip = false;
-Vue.prototype.$backend_url = "https://booksplore.milindm.me";
+Vue.prototype.$backend_url = "";
 
 new Vue({
   router,
