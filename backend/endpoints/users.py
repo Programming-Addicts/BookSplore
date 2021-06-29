@@ -15,8 +15,9 @@ secret_key = os.environ.get("SECRET_KEY")
 @router.get('/current')
 async def get_current_user(request: Request, authorization: Optional[str] = Header(None)):
     try:
-        user_id = jwt.decode(authorization, secret_key, algorithm="HS256").get("id")
-    except:
+        user_id = jwt.decode(authorization, secret_key, algorithms="HS256").get("id")
+    except Exception as e:
+        print(e)
         return JSONResponse({'Error': 'Incorrect Authorization Token'}, status_code=401)
     user = await get_user(request.app.state.db, id=user_id)
     if user is not None:

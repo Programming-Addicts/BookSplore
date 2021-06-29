@@ -55,7 +55,7 @@ async def auth(request: Request):
     token = jwt.encode(
         {"id": user.id},
         key=secret_key,
-        algorithm="HS256"
+        algorithms="HS256"
     )
 
     user.token = token
@@ -67,7 +67,7 @@ async def auth(request: Request):
 @router.get('/logout')
 async def logout(request: Request, authorization: Optional[str] = Header(None)):
     try:
-        user_id = jwt.decode(authorization, secret_key, algorithm="HS256").get('id')
+        user_id = jwt.decode(authorization, secret_key, algorithms="HS256").get('id')
     except:
         return JSONResponse({'Error': 'Incorrect Authorization Token'}, status_code=401)
     user = await get_user(request.app.state.db, id=user_id)
