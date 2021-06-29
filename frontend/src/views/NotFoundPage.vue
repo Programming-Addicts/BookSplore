@@ -22,6 +22,9 @@ export default {
 </script>
 
 <style scoped>
+* {
+    font-family: Lato;
+}
 
 a {
     text-decoration: none;
