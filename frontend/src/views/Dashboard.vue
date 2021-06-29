@@ -1,6 +1,6 @@
 <template>
   <div class="dashboard">
-    <auth-component />
+    <!-- <auth-component /> -->
     <nav-bar :fixed="true" navbar_type="authenticated" />
     <recent-books :books="UserBooks"/>
     <table style="width: 100%;"><tr>
@@ -14,7 +14,7 @@
 </template>
 
 <script>
-import AuthComponent from "../components/AuthComponent.vue"
+// import AuthComponent from "../components/AuthComponent.vue"
 import RecentBooks from "../components/RecentBooks.vue";
 import NavBar from "../components/NavBar.vue";
 import Timeline from "../components/Timeline.vue";
@@ -25,13 +25,13 @@ export default {
     RecentBooks,
     NavBar,
     Timeline,
-    AuthComponent
+    // AuthComponent
   },
   mounted() {
     let token = this.$route.query.token;
     if (token) {
       window.localStorage.setItem('token', `${token}`);
-      this.$router.push('/dev/dashboard');
+      this.$router.push('Dashboard');
     }
   },
   data() {
