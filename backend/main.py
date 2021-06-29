@@ -11,7 +11,7 @@ from starlette.middleware.sessions import SessionMiddleware
 from starlette.responses import FileResponse
 from fastapi.middleware.cors import CORSMiddleware
 
-from endpoints import home, follow, auth, users, books
+from endpoints import follow, auth, users, books
 from database.database import Database
 
 config = Config(".env")
@@ -27,9 +27,7 @@ templates = Jinja2Templates(directory="dist")
 
 origins = [
     "http://localhost:8000",
-    "http://localhost:8080",
     "https://booksplore.milindm.me",
-    "https://booksplore.netlify.app"
 ]
 
 app.add_middleware(SessionMiddleware, secret_key=os.environ.get("SECRET_KEY"))
@@ -42,10 +40,10 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-app.include_router(follow.router)
-app.include_router(auth.router)
-app.include_router(books.router)
-app.include_router(users.router)
+app.include_router(follow.router, prefix="/api")
+app.include_router(auth.router, prefix="/api")
+app.include_router(books.router, prefix="/api/books")
+app.include_router(users.router, prefix="/api/users")
 
 @app.on_event("startup")
 async def on_startup():
@@ -58,6 +56,10 @@ async def shutdown():
 
 @app.get("/{full_path:path}")
 async def serve_frontend(request: Request, full_path: str):
+<<<<<<< HEAD
+    print(request.cookies.get('session'), "\n\n\n")
+=======
     if full_path == "favicon.ico":
         return FileResponse("dist/favicon.ico")
+>>>>>>> b61111c4f6e983b320074fd4b3bf16017755f766
     return templates.TemplateResponse("index.html", {"request": request})
