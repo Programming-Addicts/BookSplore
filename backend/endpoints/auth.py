@@ -51,28 +51,16 @@ async def auth(request: Request):
     user.first_name = req_user['given_name']
     user.last_name = req_user['family_name']
     user.avatar_url = req_user['picture']
+    await update_user(db, user)
 
     token = jwt.encode(
         {"id": user.id},
         key=secret_key,
         algorithm="HS256"
     )
-
-    user.token = token
-
-    await update_user(db, user)
-    resp =  RedirectResponse(f"/dev/dashboard")
-    resp.headers['Authorization'] = token
-    return resp
+    return RedirectResponse(f"/dev/dashboard?token={token}")
 
 
 @router.get('/logout')
-async def logout(request: Request, authorization: Optional[str] = Header(None)):
-    try:
-        user_id = jwt.decode(authorization, secret_key, algorithms="HS256").get('id')
-    except:
-        return JSONResponse({'Error': 'Incorrect Authorization Token'}, status_code=401)
-    user = await get_user(request.app.state.db, id=user_id)
-    user.token = None
-    update_user(request.app.state.db, user)
+async def logout():
     return RedirectResponse(url='/')
