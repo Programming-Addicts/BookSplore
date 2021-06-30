@@ -23,7 +23,7 @@ const routes = [
     component: BookInfo
   },
   {
-    path: '/dev/dashboard',
+    path: '/dashboard',
     name: 'Dashboard',
     component: Dashboard
   },

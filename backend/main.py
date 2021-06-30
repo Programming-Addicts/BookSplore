@@ -49,6 +49,10 @@ app.include_router(users.router, prefix="/api/users")
 async def on_startup():
     dotenv.load_dotenv('.env')
     app.state.db = await Database.create_pool(app, uri=os.environ.get("DB_URI"))
+    if os.environ.get('INIT') == 'True':
+        with open('tables.sql') as f:
+            await app.state.db.execute(f.read())
+        print("Initialized the database. You may now turn INIT to false in your .env")
 
 @app.on_event("shutdown")
 async def shutdown():
