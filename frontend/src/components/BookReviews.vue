@@ -1,35 +1,31 @@
 <template>
     <div class="bookReviewMain">
         <div class="reviewTitle">Reviews</div>
-        <div class="review" v-for="(review, index) of reviews" :key="index">
-            <div class="reviewHead">
-                <img :src="review.imageUrl" />
-                <div>
-                    <div class="userDate">
-                        {{ review.user }}
-                        <p>
-                            Posted on
-                            {{ review.postDate.toDateString().slice(4) }}
-                        </p>
+        
+        <div class="addReview">
+            <div class="addReviewTop">
+                <div class="left">
+                    <div class="top">
+                        Review
+                        <a class="bookName">{{ bookData.title }}</a>
                     </div>
-                    <p>
-                        <img
-                            :src="star"
-                            v-for="(star, i) of renderStars(review.stars)"
-                            :key="i"
-                            style="height: 20px;"
-                        />
-                    </p>
+                    <div class="belowTop">
+                        ⭐⭐⭐⭐⭐
+                    </div>
                 </div>
+                <button>Publish</button>
             </div>
-            <div class="reviewDesc">
-                {{ review.reviewDesc }}
-            </div>
+            <textarea cols="30" rows="10" v-model="newReview" placeholder="Publish a public review...." />
         </div>
+
+
+        <Review v-for="(review, index) of reviews" :key="index" :review="review" />
     </div>
 </template>
 
 <script>
+import Review from "./Review.vue"
+
 class BReview {
     constructor(user, postDate, stars, imageUrl, reviewDesc) {
         this.user = user;
@@ -43,6 +39,9 @@ class BReview {
 export default {
     name: "BookReviews",
     props: ["bookData"],
+    components: {
+        Review
+    },
     data() {
         return {
             reviews: [
@@ -60,29 +59,10 @@ export default {
                     require("../assets/ProfilePicture.svg"),
                     "I really want to dislike the Hunger Games series, but I can't put them down. I love a good, dystopian tale full of twists and turns. It had been many years since I read the original series so it took me a while to remember who Coriolanus would be later on. The tale covers the early Hunger Games and the changes that were employed to generate interest in them out in the districts. Coriolanus is a high school senior. HIs family has fallen on hard times during the war and he is raised by an older cousin and his grandmother. They live on their good name, but often go hungry. Coriolanus falls in love with the tribute he is assigned to, who is much like our later heroine Katniss. Coriolanus is set up numerous times by the Gamemaster and discovers how easily he can kill and betray others to defend himself. "
                 )
-            ]
+            ],
+            newReview: "",
         };
     },
-    methods: {
-        renderStars: starsAmount => {
-            // let goldenStar = "⭐";
-            // let greyStar = "★";
-            let goldenStar = require("../assets/goldenStar.svg");
-            let grayStar = require("../assets/grayStar.svg");
-            if (starsAmount > 5) {
-                console.error(`Invalid Amount of stars: ${starsAmount}`);
-                return;
-            }
-            let arr = [];
-            for (let index = 0; index < starsAmount; index++) {
-                arr.push(goldenStar);
-            }
-            for (let index = 0; index < 5 - starsAmount; index++) {
-                arr.push(grayStar);
-            }
-            return arr;
-        }
-    }
 };
 </script>
 
@@ -90,7 +70,9 @@ export default {
 .bookReviewMain {
     display: flex;
     flex-direction: column;
+    row-gap: 50px;
     text-align: center;
+    padding: 30px;
 
     border: 1px solid #c4c4c4;
     border-radius: 10px;
@@ -98,53 +80,68 @@ export default {
     font-family: Lato;
     color: white;
 }
+
 .reviewTitle {
     font-size: 45px;
     font-weight: 600;
     margin: 40px;
 }
 
-.review {
+.addReview {
     display: flex;
     flex-direction: column;
+    text-align: left;
+    row-gap: 30px;
+    padding: 30px;
+
     border: 1px solid white;
     border-radius: 10px;
-    margin: 30px;
-    padding: 25px;
-    text-align: left;
 }
+.addReview textarea {
+    resize: none;
+    background-color: inherit;
+    color: inherit;
+    font-family: inherit;
+    font-size: 20px;
+    padding: 15px;
+    height: 30vh;
 
-.reviewHead {
+    border: 2px solid white;
+    border-radius: 10px;
+    outline: none;
+    overflow: auto;
+}
+.addReview .addReviewTop {
     display: flex;
     flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
 }
-.reviewHead div {
-    display: flex;
-    flex-direction: column;
-}
-.reviewHead img {
-    height: 80px;
+.addReview .addReviewTop .left .top {
+    font-size: 25px;
+    font-weight: 500;
     margin-right: 20px;
 }
-.reviewHead p {
-    margin: 0%;
-    font-size: 20px;
-    color: #aaaaaa;
-    padding-top: 5px;
+.addReview .addReviewTop .left .top a {
+    font-style: italic;
+    color: #84C4FF;
 }
-.reviewHead .userDate {
-    display: flex;
-    flex-direction: row;
-    align-items: baseline;
-    column-gap: 10px;
-    padding-top: 5px;
+.addReview .addReviewTop button {
+    background: #7fb6f8;
+    border: none;
+    border-radius: 10px;
+    padding: 2vh;
+    width: fit-content;
+    height: fit-content;
 
-    font-size: 28px;
-    color: #9ac2ff;
+    font-family: Lato;
+    font-size: 3vh;
+    font-weight: 400;
+
+    cursor: pointer;
+    transition: 300ms;
 }
-
-.reviewDesc {
-    font-size: 20px;
-    padding-top: 20px;
+.addReview .addReviewTop button:active {
+    transform: scale(0.9);
 }
 </style>
