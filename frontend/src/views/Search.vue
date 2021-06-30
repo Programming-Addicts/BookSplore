@@ -150,6 +150,10 @@ export default {
     padding: 15px;
     margin: auto;
     margin-bottom: 30px;
+    transition: 300ms;
+}
+.result-box:hover {
+    transform: scale(1.01);
 }
 
 .no-result-box {

@@ -26,6 +26,8 @@
                 {{ review.reviewDesc }}
             </div>
         </div>
+
+        <Review v-for="(review, index) of reviews" :key="index" :review="review" />
     </div>
 </template>
 
@@ -146,5 +148,8 @@ export default {
 .reviewDesc {
     font-size: 20px;
     padding-top: 20px;
+}
+.addReview .addReviewTop button:hover {
+    transform: scale(1.1);
 }
 </style>
