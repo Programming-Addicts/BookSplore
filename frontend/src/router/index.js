@@ -7,7 +7,7 @@ import Dashboard from "../views/Dashboard.vue"
 import Search from "../views/Search.vue"
 import Explore from "../views/Explore.vue"
 import User from "../views/User.vue"
-import NotFoundPage from "../views/NotFoundPage.vue
+import NotFoundPage from "../views/NotFoundPage.vue"
 
 Vue.use(VueRouter)
 

@@ -1,7 +1,7 @@
 <template>
     <div class="bookInfoDisplay">
         <div class="top">
-            <Cover :imgUrl="bookData.cover" />
+            <Cover :imgUrl="bookData.cover" width="230px" />
             <div class="info">
                 <div class="head">
                     <p class="title">{{ bookData.title }}</p>
