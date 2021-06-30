@@ -1,18 +1,30 @@
 import json
+from typing import Optional
+import jwt
+import os
+import dotenv
 
-from fastapi import APIRouter, Request
+from fastapi import APIRouter, Request, Header
 from fastapi.responses import JSONResponse
+
 
 from database.utils import user as db_user
 
 router = APIRouter(tags=["Follow Users"])
+dotenv.load_dotenv('.env')
+
+secret_key = os.environ.get("SECRET_KEY")
 
 
 @router.get("/follow/get")
-async def get_followers_and_following(request: Request, id: int = None):
+async def get_followers_and_following(request: Request, id: int = None, authorization: Optional[str] = Header(None)):
+    try:
+        user_id = jwt.decode(authorization, secret_key, algorithms="HS256").get("id")
+    except:
+        return JSONResponse({'Error': 'Incorrect Authorization Token'}, status_code=401)
     user = None
     if id is None:
-        user = await db_user.get_user(request.app.state.db, session_id=request.cookies.get('session'))
+        user = await db_user.get_user(request.app.state.db, id=user_id)
         if user is None:
             return JSONResponse({'None': 'No user is authenticated'}, status_code=401)
     else:
@@ -21,12 +33,16 @@ async def get_followers_and_following(request: Request, id: int = None):
     return JSONResponse(data)
 
 
-@router.patch("/follow")
-async def follow_user(request: Request, id: int):
+@router.post("/follow")
+async def follow_user(request: Request, id: int, authorization: Optional[str] = Header(None)):
+    try:
+        user_id = jwt.decode(authorization, secret_key, algorithms="HS256").get("id")
+    except:
+        return JSONResponse({'Error': 'Incorrect Authorization Token'}, status_code=401)
     to_follow = await db_user.get_user(request.app.state.db, id=id)
     if to_follow is None:
         return JSONResponse({'Error': 'No such user exists'}, status_code=404)
-    user = await db_user.get_user(request.app.state.db, session_id=request.cookies.get('session'))
+    user = await db_user.get_user(request.app.state.db, id=user_id)
     if user is None:
         return JSONResponse({'None': 'No user is authenticated'}, status_code=401)
     current_following = json.loads(vars(user)['following'])
@@ -51,12 +67,18 @@ async def follow_user(request: Request, id: int):
                         status_code=200)
 
 
-@router.patch("/unfollow")
-async def unfollow_user(request: Request, id: int):
+@router.post("/unfollow")
+async def unfollow_user(request: Request, id: int, authorization: Optional[str] = Header(None)):
+    try:
+        user_id = jwt.decode(authorization, secret_key, algorithms="HS256").get("id")
+    except:
+        return JSONResponse({'Error': 'Incorrect Authorization Token'}, status_code=401)
+    if user_id is None:
+        return JSONResponse({'None': 'No user is authenticated'}, status_code=401)
     to_unfollow = await db_user.get_user(request.app.state.db, id=id)
     if to_unfollow is None:
         return JSONResponse({'Error': 'No such user exists'}, status_code=404)
-    user = await db_user.get_user(request.app.state.db, session_id=request.cookies.get('session'))
+    user = await db_user.get_user(request.app.state.db, id=user_id)
     if user is None:
         return JSONResponse({'None': 'No user is authenticated'}, status_code=401)
     current_following = json.loads(vars(user)['following'])
