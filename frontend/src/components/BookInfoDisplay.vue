@@ -154,7 +154,6 @@ export default {
 
 <style scoped>
 .bookInfoDisplay {
-    position: relative;
     display: flex;
     flex-direction: column;
 
@@ -174,8 +173,6 @@ export default {
 .info {
     display: flex;
     flex-direction: column;
-
-    flex-wrap: wrap;
 }
 
 .head {
@@ -231,12 +228,14 @@ export default {
     flex-direction: row;
     padding-top: 44px;
     font-size: 27px;
+
 }
 .infoTable .notLable {
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
     margin: 0%;
+    padding-left: 10px;
 }
 
 .left {
@@ -258,7 +257,6 @@ export default {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    align-items: center;
     padding-right: 5px;
 }
 .left div .lable,
@@ -266,6 +264,5 @@ export default {
     margin: 0%;
     padding-bottom: 13px;
     color: #aac5fa;
-    align-items: center;
 }
 </style>
