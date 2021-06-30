@@ -2,23 +2,23 @@ from database.database import Database
 from models.users import User
 import json
 
-async def get_user(db:Database, id = None, session_id = None, email=None):
-    if email and id and session_id:
-        return {"Bad Request" : "Search with id, session_id or email"}
+async def get_user(db:Database, id = None, token = None, email=None):
+    if email and id and token:
+        return {"Bad Request" : "Search with id, token or email"}
     query = "SELECT * FROM users WHERE "
     if email is not None:
         query += "email = $1"
-    elif session_id is not None:
-        query += "session_id = $1"
+    elif token is not None:
+        query += "token = $1"
     elif id is not None:
         query += "id = $1"
     else:
         return None
-    user = await db.fetchrow(query, session_id or id or email)
+    user = await db.fetchrow(query, token or id or email)
     if user is None:
         return None
     data = {'id': user['id'],
-            'session_id': user['session_id'],
+            'token': user['token'],
             'first_name': user['first_name'],
             'last_name': user['last_name'],
             'email': user['email'],
@@ -29,14 +29,14 @@ async def get_user(db:Database, id = None, session_id = None, email=None):
 
 
 async def create_user(db:Database, user: User):
-    query = """INSERT INTO users (session_id, first_name, last_name, email, avatar_url) VALUES ($1, $2, $3, $4, $5)"""
-    await db.execute(query, user.session_id, user.first_name, user.last_name, user.email, user.avatar_url)
+    query = """INSERT INTO users (token, first_name, last_name, email, avatar_url) VALUES ($1, $2, $3, $4, $5)"""
+    await db.execute(query, user.token, user.first_name, user.last_name, user.email, user.avatar_url)
     return await get_user(db, email=user.email)
 
 
 async def update_user(db:Database, user:User):
-    query = """UPDATE users SET session_id = $1 ,first_name = $2, last_name = $3, avatar_url = $4 WHERE email = $5"""
-    await db.execute(query, user.session_id, user.first_name, user.last_name, user.avatar_url, user.email)
+    query = """UPDATE users SET token = $1 ,first_name = $2, last_name = $3, avatar_url = $4 WHERE email = $5"""
+    await db.execute(query, user.token, user.first_name, user.last_name, user.avatar_url, user.email)
 
 async def get_followers_and_following(db:Database, user: User):
     query = """SELECT followers, following FROM users WHERE id = $1"""

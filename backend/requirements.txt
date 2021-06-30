@@ -1,3 +1,4 @@
+aiofiles==0.7.0
 aiohttp==3.7.4.post0
 asgiref==3.3.4
 asyncpg==0.23.0
@@ -10,7 +11,9 @@ h11==0.12.0
 httpx==0.18.1
 importlib-metadata==4.5.0
 itsdangerous==2.0.1
+Jinja2==3.0.1
 pydantic==1.8.2
+PyJWT==2.1.0
 python-dotenv==0.17.1
 starlette==0.14.2
 typing-extensions==3.10.0.0

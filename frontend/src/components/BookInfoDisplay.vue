@@ -116,7 +116,7 @@ export default {
             bookData: {
                 cover: this.Book.image_links.thumbnail,
                 title: this.Book.title,
-                author: this.Book.authors[0],
+                author: this.Book.authors.join(", "),
                 published: new Date(this.Book.publish_date),
                 publisher: this.Book.publisher,
                 language: this.Book.language,

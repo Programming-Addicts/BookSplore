@@ -27,6 +27,13 @@ export default {
     Timeline,
     AuthComponent
   },
+  mounted() {
+    let token = this.$route.query.token;
+    if (token) {
+      window.localStorage.setItem('token', `${token}`);
+      this.$router.push('/dev/dashboard');
+    }
+  },
   data() {
     return {
       UserBooks: [
