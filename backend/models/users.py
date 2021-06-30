@@ -3,11 +3,11 @@ from pydantic import BaseModel
 
 
 class User(BaseModel):
-    session_id: Optional[str]
     id: Optional[int]
-    first_name: str
-    last_name: str
+    token: Optional[str]
+    first_name: Optional[str]
+    last_name: Optional[str]
     email: str
-    avatar_url: str
+    avatar_url: Optional[str]
     followers: Optional[str]
     following: Optional[str]

@@ -7,6 +7,7 @@ import Dashboard from "../views/Dashboard.vue"
 import Search from "../views/Search.vue"
 import Explore from "../views/Explore.vue"
 import User from "../views/User.vue"
+import NotFoundPage from "../views/NotFoundPage.vue
 
 Vue.use(VueRouter)
 
@@ -27,7 +28,7 @@ const routes = [
     component: Dashboard
   },
   {
-    path: '/search/:query',
+    path: '/search/:download_only/:query/',
     name: 'Search',
     component: Search
   },
@@ -45,6 +46,11 @@ const routes = [
     path: '/dev/user',
     name: 'UserProfile',
     component: User
+  },
+  {
+    path: '/*',
+    name: 'NotFoundPage',
+    component: NotFoundPage
   }
 ]
 

@@ -1,23 +1,33 @@
-from fastapi import FastAPI
-import dotenv
+from fastapi import FastAPI, Request
+from fastapi.responses import HTMLResponse
+from fastapi.staticfiles import StaticFiles
+from fastapi.templating import Jinja2Templates
+
 import os
+import dotenv
 
 from starlette.config import Config
 from starlette.middleware.sessions import SessionMiddleware
+from starlette.responses import FileResponse
 from fastapi.middleware.cors import CORSMiddleware
 
-from endpoints import home, follow, auth, users, books
+from endpoints import follow, auth, users, books
 from database.database import Database
 
 config = Config(".env")
 
 app = FastAPI()
 
+app.mount("/dist", StaticFiles(directory="dist/"), name="dist")
+app.mount("/css", StaticFiles(directory="dist/css"), name="css")
+app.mount("/img", StaticFiles(directory="dist/img"), name="img")
+app.mount("/js", StaticFiles(directory="dist/js"), name="js")
+
+templates = Jinja2Templates(directory="dist")
+
 origins = [
     "http://localhost:8000",
-    "http://localhost:8080",
     "https://booksplore.milindm.me",
-    "https://booksplore.netlify.app"
 ]
 
 app.add_middleware(SessionMiddleware, secret_key=os.environ.get("SECRET_KEY"))
@@ -30,11 +40,10 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-app.include_router(home.router)
-app.include_router(follow.router)
-app.include_router(auth.router)
-app.include_router(books.router)
-app.include_router(users.router)
+app.include_router(follow.router, prefix="/api")
+app.include_router(auth.router, prefix="/api")
+app.include_router(books.router, prefix="/api/books")
+app.include_router(users.router, prefix="/api/users")
 
 @app.on_event("startup")
 async def on_startup():
@@ -44,3 +53,10 @@ async def on_startup():
 @app.on_event("shutdown")
 async def shutdown():
     await app.state.db.close_connection()
+
+@app.get("/{full_path:path}")
+async def serve_frontend(request: Request, full_path: str):
+    print(request.cookies.get('session'), "\n\n\n")
+    if full_path == "favicon.ico":
+        return FileResponse("dist/favicon.ico")
+    return templates.TemplateResponse("index.html", {"request": request})

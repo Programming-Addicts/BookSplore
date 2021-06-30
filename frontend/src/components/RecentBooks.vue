@@ -5,7 +5,7 @@
     <input type="text" class="search" placeholder="Find a book...."/>
     <!-- going to be replaced by the search component -->
     <div class="bookList">
-        <div v-for="book in books" :key="book" class="book">
+        <div v-for="(book, index) in books" :key="index" class="book">
             <img src="../assets/BookIcon.svg" :height="scaleHeight(45)">
             <a :href="book.link" :style="scaleFont(23)">
               {{ book.name.length > 29 ? book.name.slice(0, 23) + " . . ." : book.name}}
