@@ -1,6 +1,6 @@
 <template>
     <div class="main">
-        <nav-bar navbar_type="authenticated" />
+        <nav-bar navbar_type="authenticated" :fixed="true" />
         <div class="searchBox">
             Explore our wide collection of Books!
             <search-box

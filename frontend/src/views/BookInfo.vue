@@ -109,7 +109,7 @@ export default {
             };
         }
     },
-    mounted() {
+    created() {
         fetch(
             this.$backend_url + `/books/search?book_id=${this.$route.params.id}&limit=1&download=false&sorting=relevance`
         )

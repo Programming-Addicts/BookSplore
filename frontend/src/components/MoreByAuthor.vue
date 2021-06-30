@@ -4,8 +4,8 @@
         <a :href="`/book-info/${book.id}`">
             <Cover
                 :imgUrl="book.image_links.thumbnail"
-                :height="300"
-                :width="200"
+                height="25vw"
+                width="17vw"
             />
         </a>
         <p class="bookTitle">{{ book.title }}</p>

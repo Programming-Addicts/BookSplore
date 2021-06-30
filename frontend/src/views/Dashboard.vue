@@ -27,11 +27,11 @@ export default {
     Timeline,
     AuthComponent
   },
-  mounted() {
+  created() {
     let token = this.$route.query.token;
     if (token) {
       window.localStorage.setItem('token', `${token}`);
-      this.$router.push('Dashboard');
+      this.$router.push('dashboard');
     }
   },
   data() {
