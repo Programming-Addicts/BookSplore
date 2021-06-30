@@ -17,8 +17,8 @@
                             <a :href="userInfo.followEndpoint">Follow</a>
                         </p>
                         <p class="followersEtc">
-                            {{ userInfo.reviews }} Reviews | {{ userInfo.followers }} Followers |
-                            Following {{ userInfo.following }}
+                            {{ userInfo.reviews }} Reviews | <a @click="showList1=true">{{ userInfo.followers }} Followers</a> |
+                           <a> Following {{ userInfo.following }}</a>
                         </p>
                     </div>
                 </div>
@@ -56,6 +56,9 @@
                 </div>
             </div>
         </main>
+        <div class="test">
+            <floating-list />
+        </div>
         <Footer></Footer>
     </div>
 </template>
@@ -65,6 +68,7 @@ import NavBar from "../components/NavBar.vue";
 import Footer from "../components/Footer.vue";
 import Cover from "../components/Cover.vue";
 import Review from "../components/Review.vue";
+import FloatingList from "../components/FloatingList.vue"
 
 class UReview {
     constructor(user, postDate, stars, imageUrl, reviewDesc, link) {
@@ -83,7 +87,8 @@ export default {
         NavBar,
         Footer,
         Review,
-        Cover
+        Cover,
+        FloatingList
     },
     data() {
         return {
@@ -131,7 +136,9 @@ export default {
                 followers: 123,
                 following: 56,
                 followEndpoint: ``
-            }
+            },
+            showList1: true,
+            showLit12: false,
         };
     },
     methods: {
@@ -190,7 +197,16 @@ main {
     font-size: 25px;
     font-weight: 400;
 }
-
+.userInfoText .followersEtc a {
+    text-decoration: none;
+    cursor: pointer;
+}
+.userInfoText .followersEtc a:hover {
+    border: 3px solid rgb(199, 199, 199);
+    border-radius: 10px;
+    padding-left: 5px;
+    padding-right: 5px;
+}
 .reviewsDiv {
     font-size: 35px;
     font-weight: 500;
