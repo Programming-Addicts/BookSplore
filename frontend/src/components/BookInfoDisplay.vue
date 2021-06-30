@@ -114,7 +114,10 @@ export default {
     data() {
         return {
             bookData: {
-                cover: this.Book.image_links.thumbnail,
+                cover:
+                    (this.Book.image_links && this.Book.image_links.thumbnail)
+                    ? this.Book.image_links.thumbnail 
+                    : require('../assets/BookSploreIcon.svg'),
                 title: this.Book.title,
                 author: this.Book.authors.join(", "),
                 published: new Date(this.Book.publish_date),
@@ -169,13 +172,14 @@ export default {
     flex-direction: row;
     padding-bottom: 40px;
     column-gap: 50px;
+    width: 100%;
 }
 
 .info {
     display: flex;
     flex-direction: column;
-
     flex-wrap: wrap;
+    width: 100%;
 }
 
 .head {
@@ -231,6 +235,7 @@ export default {
     flex-direction: row;
     padding-top: 44px;
     font-size: 27px;
+    width: 100%;
 }
 .infoTable .notLable {
     overflow: hidden;

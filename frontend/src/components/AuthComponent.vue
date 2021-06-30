@@ -6,14 +6,7 @@
 export default {
   name: "AuthComponent",
   mounted() {
-    fetch(this.$backend_url + "/users/current")
-    .then(
-        data => {
-            if (!data.ok) {
-                this.$router.push('/')
-            }
-        }
-    )
+    console.log(window.localStorage.getItem("token"))
   }
 }
 </script>
