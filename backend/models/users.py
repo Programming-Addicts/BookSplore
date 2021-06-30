@@ -4,7 +4,6 @@ from pydantic import BaseModel
 
 class User(BaseModel):
     id: Optional[int]
-    token: Optional[str]
     first_name: Optional[str]
     last_name: Optional[str]
     email: str

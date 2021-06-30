@@ -4,7 +4,6 @@ import jwt
 import dotenv
 from fastapi import APIRouter, Request, Header
 from fastapi.responses import JSONResponse
-from models.users import User
 from database.utils.user import get_user
 
 router = APIRouter(tags=["Users"])
@@ -16,11 +15,12 @@ secret_key = os.environ.get("SECRET_KEY")
 async def get_current_user(request: Request, authorization: Optional[str] = Header(None)):
     try:
         user_id = jwt.decode(authorization, secret_key, algorithms="HS256").get("id")
-    except Exception as e:
-        print(e)
+    except:
         return JSONResponse({'Error': 'Incorrect Authorization Token'}, status_code=401)
     user = await get_user(request.app.state.db, id=user_id)
     if user is not None:
-        return user
+        user_data = dict(user)
+        del user_data['email']
+        return user_data
     else:
         return JSONResponse({'None': 'No user is authenticated'}, status_code=401)

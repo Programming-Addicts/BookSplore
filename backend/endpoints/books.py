@@ -1,12 +1,19 @@
-from fastapi import APIRouter, Request
+from datetime import datetime
+from models.reviews import Review
+from typing import Optional
+from fastapi import APIRouter, Request, Header, Form
 from fastapi.responses import JSONResponse
 import os
+import jwt
 from aiohttp import request as aiorequest
 import dotenv
+from database.utils.user import get_user
+from database.utils.review import create_review, get_reviews
 from .utils.language import get_language
 
 dotenv.load_dotenv('.env')
 api_key = os.environ.get('GOOGLE_API_KEY')
+secret_key = os.environ.get("SECRET_KEY")
 router = APIRouter(tags=["Books"])
 
 
@@ -65,3 +72,36 @@ async def search(request: Request, query: str = None, book_id: str = None, limit
             books.append(book_data)
 
         return books if book_id is None else books[0]
+
+@router.post('/review')
+async def post_review(request: Request, authorization: Optional[str] = Header(None),
+                      book_id: str = Form(...),
+                      stay_anonymous: bool = Form(...),
+                      content: str = Form(...),
+                      rating: int = Form(...)):
+    try:
+        user_id = jwt.decode(authorization, secret_key, algorithms="HS256").get("id")
+    except:
+        return JSONResponse({'Error': 'Incorrect Authorization Token'}, status_code=401)
+
+    # print(book_id, user_id, stay_annonymous, content, rating, sep="\n\n\n\n")
+
+    review = Review(book_id=book_id,
+                    user_id=user_id,
+                    stay_anonymous=stay_anonymous,
+                    content=content,
+                    rating=rating)
+
+    user = await get_user(request.app.state.db, id=user_id)
+    if user is not None:
+        try:
+            await create_review(request.app.state.db, review=review)
+        except:
+            return JSONResponse({'Error' : 'Invalid Request Body'} , status_code=400)
+        return {'Success' : 'Review successfully posted'}
+    else:
+        return JSONResponse({'None': 'No user is authenticated'}, status_code=401)
+
+@router.get('/review')
+async def get_review(request: Request, book_id: str):
+    return await get_reviews(request.app.state.db, book_id=book_id)
