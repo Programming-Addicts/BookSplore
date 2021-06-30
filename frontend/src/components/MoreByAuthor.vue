@@ -75,6 +75,10 @@ export default {
 
 a {
     cursor: pointer;
+    transition: 300ms;
+}
+a:hover {
+    transform: scale(1.05);
 }
 
 .top {

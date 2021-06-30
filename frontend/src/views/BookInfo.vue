@@ -154,8 +154,11 @@ export default {
     cursor: pointer;
     transition: 300ms;
 }
+.downloadButtons button:hover {
+    transform: scale(1.1);
+}
 .downloadButtons button:active {
-    transform: scale(0.9);
+    transform: scale(0.8);
 }
 .downloadButtons #pdf {
     background: var(--pdf-button-color);

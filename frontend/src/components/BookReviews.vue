@@ -18,7 +18,6 @@
             <textarea cols="30" rows="10" v-model="newReview" placeholder="Publish a public review...." />
         </div>
 
-
         <Review v-for="(review, index) of reviews" :key="index" :review="review" />
     </div>
 </template>
@@ -143,5 +142,8 @@ export default {
 }
 .addReview .addReviewTop button:active {
     transform: scale(0.9);
+}
+.addReview .addReviewTop button:hover {
+    transform: scale(1.1);
 }
 </style>

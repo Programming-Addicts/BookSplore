@@ -17,8 +17,9 @@
                             <a :href="userInfo.followEndpoint">Follow</a>
                         </p>
                         <p class="followersEtc">
-                            {{ userInfo.reviews }} Reviews | <a @click="showList1=true">{{ userInfo.followers }} Followers</a> |
-                           <a> Following {{ userInfo.following }}</a>
+                            {{ userInfo.reviews }} Reviews | 
+                            <a @click="showList1=true">{{ userInfo.followers }} Followers</a> 
+                            | <a> Following {{ userInfo.following }}</a>
                         </p>
                     </div>
                 </div>
@@ -57,7 +58,7 @@
             </div>
         </main>
         <div class="test">
-            <floating-list />
+            <floating-list title="Followers" />
         </div>
         <Footer></Footer>
     </div>
@@ -150,6 +151,11 @@ export default {
 </script>
 
 <style scoped>
+.test {
+    height: 300px;
+    width: 300px;
+    margin: 30px;
+}
 main {
     display: flex;
     flex-direction: row;
@@ -200,6 +206,7 @@ main {
 .userInfoText .followersEtc a {
     text-decoration: none;
     cursor: pointer;
+    transition: 300ms;
 }
 .userInfoText .followersEtc a:hover {
     border: 3px solid rgb(199, 199, 199);
@@ -240,5 +247,12 @@ main {
     padding: 20px;
     gap: 20px;
     height: max-content;
+}
+
+.recentBooksDiv .recentBooks a{
+    transition: 300ms;
+}
+.recentBooksDiv .recentBooks a:hover{
+    transform: scale(1.1);
 }
 </style>
