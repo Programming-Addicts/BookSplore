@@ -1,7 +1,7 @@
 <template>
 	<div id="nav" :class="[centred ? 'centred' : '']" :style="cssVars()">
     <table><tr>
-      <td class='logo-container'>
+      <td class='logo-container' @click="redirectToHome()">
         <img src="../assets/BookSploreIcon.svg" />
         <p class="title bold">Book</p>
         <p class="title italic">Splore</p>
@@ -49,7 +49,10 @@ export default {
             return {
                 '--position': this.fixed ? 'fixed': 'relative'
             }
-        }
+        },
+        redirectToHome() {
+            this.$router.push("/")
+        },
     }
   }
 </script>
@@ -64,6 +67,13 @@ a {
   font-family: Lato;
   float: right;
   margin: 15px;
+  transition: 0.2s all;
+
+}
+
+a:hover {
+    color: #79A9D1;
+    transition: 0.2s all;
 }
 
 table {
@@ -79,7 +89,6 @@ table {
 .fill-col {
   width: 100%;
 }
-
 
 .button-container {
   overflow: hidden;
@@ -103,25 +112,29 @@ table {
   margin-right: 10px;
   margin-top: 8px;
   float: right;
-
   background: #79A9D1;
   color: black;
   text-decoration: none;
   border-radius: 10px;
-
   transition: 300ms;
-
   display: flex;  
   justify-content: center;
   align-items: center;
 }
+
 .signup-link img {
   padding-left: 7px;
   margin-top: -3px;
 }
+
 .signup-link:active {
   transform: scale(0.9);
 }
+
+.signup-link:hover {
+    color: black;
+}
+
 .logo-container {
   overflow: hidden;
   white-space: nowrap;
@@ -129,10 +142,13 @@ table {
   display: flex;
   flex-direction: row;
   align-items: center;
+  cursor: pointer;
 }
+
 .logo-container img {
   height: 66px;
 }
+
 .logo-container p {
   margin: 0%;
 }
@@ -145,9 +161,7 @@ table {
 #nav {
     width: 100%;
 	height: 80px;
-    border-bottom: 0.1px white solid;
     background: #181C23;
-    /* position: relative; */
     position: var(--position);
     z-index: 2;
 }
@@ -156,7 +170,7 @@ table {
 	font-family: "Cabin";
 	font-size: 37px;
 	text-align: center;
-  color: white;
+    color: white;
 }
 
 .bold {
