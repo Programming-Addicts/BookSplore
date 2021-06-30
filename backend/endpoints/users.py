@@ -24,3 +24,13 @@ async def get_current_user(request: Request, authorization: Optional[str] = Head
         return user_data
     else:
         return JSONResponse({'None': 'No user is authenticated'}, status_code=401)
+
+@router.get('/search')
+async def search_user(request: Request, username: str):
+    user = await get_user(request.app.state.db, username=username)
+    if user is not None:
+        user_data = dict(user)
+        del user_data['email']
+        return user_data
+    else:
+        return JSONResponse({'None': 'No such user with the given username found.'}, status_code=404)

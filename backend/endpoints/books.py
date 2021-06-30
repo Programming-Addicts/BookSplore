@@ -1,4 +1,3 @@
-from datetime import datetime
 from models.reviews import Review
 from typing import Optional
 from fastapi import APIRouter, Request, Header, Form
@@ -46,7 +45,9 @@ async def search(request: Request, query: str = None, book_id: str = None, limit
             return JSONResponse({'Invalid Query': 'No books were found.'}, status_code=404)
         all_data = data.get('items') if data.get('items') is not None else [data]
         for book in all_data:
-            book_info = book['volumeInfo']
+            book_info = book.get('volumeInfo')
+            if book_info is None:
+                return JSONResponse({'Invalid Query' : 'No books were found.'}, status_code=404)
             access_info = book['accessInfo']
             has_pdf = access_info.get('pdf')
             has_epub = access_info.get('epub')
@@ -70,7 +71,7 @@ async def search(request: Request, query: str = None, book_id: str = None, limit
                          'epub': has_epub
                          }
             books.append(book_data)
-
+            
         return books if book_id is None else books[0]
 
 @router.post('/review')
