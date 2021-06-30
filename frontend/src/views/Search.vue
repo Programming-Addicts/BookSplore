@@ -3,27 +3,28 @@
     <nav-bar :fixed="false" navbar_type="authenticated" />
 
     <div style="width: 100%; display: flex; flex-direction: column; margin-top: 30px;">
-        <h1>Search results for "{{ $route.params.query }}"</h1>
+        <h1>{{ books && books.length > 0 ? books.length : 'No' }} results found for "{{ $route.params.query }}"</h1>
         
         <div style="width: 100%; display: flex; justify-content: center; margin-bottom: 20px;">
             <search-box
                 placeholder_="Not what you're looking for? Try again with different search terms!"
                 height="60px"
-                width="80vw"
+                width="86vw"
                 font_size="23px"
                 endpoint="/search/0/#"
             />
         </div>
-        
-        <h2 style="width: 100%; text-align: center; color: #BBBBBB;" v-if="books.length > 0 && resultFound">
-            {{ books.length > 0 ? `${books.length} results found` : "" }}
-        </h2>
 
+        <TabComponent @tabupdated="updateTab" />
+
+        
     </div>
 
-    <div v-if="resultFound" style="width: 100%;">
-        <div v-for="book of books" :key="book.id" class="result-box">
-            <search-result :book="book" />
+    <div v-if="resultFound" style="width: 100%; margin-top: 30px;">
+        <div v-if="'Books Genres ISBN'.includes(activeTab)">
+            <div v-for="book of books" :key="book.id" class="result-box">
+                <search-result :book="book" />
+            </div>
         </div>
     </div>
 
@@ -45,6 +46,7 @@ import NavBar from "@/components/NavBar.vue"
 import Footer from "@/components/Footer.vue"
 import SearchResult from "@/components/SearchResult.vue"
 import SearchBox from "@/components/SearchBox.vue"
+import TabComponent from "@/components/TabComponent.vue"
 
 export default {
     name: "BookSearch",
@@ -52,27 +54,41 @@ export default {
         NavBar,
         Footer,
         SearchResult,
-        SearchBox
+        SearchBox,
+        TabComponent
     },
     data() {
         return {
             books: [],
             resultFound: true,
-            num_results: 20
+            resultFoundGlobally: true,
+            num_results: 20,
+            activeTab: "Books"
         }
     },
     mounted() {
-        this.SearchBook(10).then(
+        this.SearchBook(0, 10, this.$route.params.query, true).then(
             data => {
                 this.books = data;
+                this.length = this.books.length
+                
                 window.onscroll = () => {
-                    let bottomOfWindow = 
-                        Math.max(window.pageYOffset, document.documentElement.scrollTop, document.body.scrollTop) + window.innerHeight === document.documentElement.offsetHeight;
                     
-                    if (bottomOfWindow) {
-                        this.num_results += 5
-                        this.SearchBook(this.num_results).then(
-                            data => {this.books = data}
+                    let bottomOfWindow = Math.max(
+                        window.pageYOffset, document.documentElement.scrollTop, document.body.scrollTop
+                    ) + window.innerHeight === document.documentElement.offsetHeight;
+                   
+                    if (bottomOfWindow && (this.activeTab == "Books" || this.activeTab == "Genres")) {
+                        
+                        let query = this.activeTab == "Books" ? "subject:#" : "#"
+                        
+                        this.SearchBook(this.num_results, 5, query.replace("#", this.$route.params.query), false).then(
+                            data => {
+                                if (this.resultFound) 
+                                    this.books.push(...data)
+                                this.length = this.books.length
+                                this.num_results += 5;
+                            }
                         )
                     }
                 }
@@ -80,19 +96,43 @@ export default {
         )
     },
     methods: {
-        async SearchBook(num) {
+        async SearchBook(offset, num, query, globallyUpdateResults) {
             let response = await fetch(
-              `${this.$backend_url}/books/search?query=${this.$route.params.query}&download=${this.$route.params.download_only}&limit=${num}`
+              `${this.$backend_url}/books/search?query=${query}&download=${this.$route.params.download_only}&limit=${num}&offset=${offset}`
             )
 
-            if (response.status == 200) {
-                this.resultFound = true;
+            if (globallyUpdateResults) {
+                this.resultFoundGlobally = response.status == 200;
             } else {
-                this.resultFound = false;
+                this.resultFound = response.status == 200;
             }
 
-            let data = response.json()
-            return data
+            return response.json()
+        },
+        updateTab(tab) {
+            if (tab == "ISBN") {
+                this.SearchBook(0, 10, `isbn:${this.$route.params.query}`).then(
+                    data => {
+                        this.books = data
+                        this.activeTab = "ISBN"
+                    }
+                )
+            } else if (tab == "Books") {
+                this.SearchBook(0, 20, `${this.$route.params.query}`).then(
+                    data => {
+                        this.books = data
+                        this.activeTab = "Books"
+                    }
+                )
+            } else if (tab == "Genres") {
+                console.log(tab)
+                this.SearchBook(0, 20, `subject:${this.$route.params.query}`).then(
+                    data => {
+                        this.books = data
+                        this.activeTab = "Genres"
+                    }
+                )
+            }
         },
     }
 }
@@ -104,8 +144,7 @@ export default {
 
 
 .result-box {
-    border: 0.5px white solid;
-    border-radius: 10px;
+    border-radius: 5px;
     background-color: rgba(0, 0, 0, 0.1);
     width: 85%;
     padding: 15px;
@@ -121,6 +160,7 @@ export default {
     margin: auto;
     margin-bottom: 30px;
     text-align: center;
+    font-family: Lato;
 }
 
 .try-again {

@@ -114,7 +114,10 @@ export default {
     data() {
         return {
             bookData: {
-                cover: this.Book.image_links.thumbnail,
+                cover:
+                    (this.Book.image_links && this.Book.image_links.thumbnail)
+                    ? this.Book.image_links.thumbnail 
+                    : require('../assets/BookSploreIcon.svg'),
                 title: this.Book.title,
                 author: this.Book.authors.join(", "),
                 published: new Date(this.Book.publish_date),
