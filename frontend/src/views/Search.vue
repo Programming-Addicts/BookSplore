@@ -66,7 +66,7 @@ export default {
             activeTab: "Books"
         }
     },
-    mounted() {
+    created() {
         this.SearchBook(0, 10, this.$route.params.query, true).then(
             data => {
                 this.books = data;
@@ -124,7 +124,7 @@ export default {
                         this.activeTab = "Books"
                     }
                 )
-            } else if (tab == "Genres", false) {
+            } else if (tab == "Genres") {
                 console.log(tab)
                 this.SearchBook(0, 20, `subject:${this.$route.params.query}`, false).then(
                     data => {

@@ -4,9 +4,13 @@
 
 <script>
 export default {
-  name: "AuthComponent",
-  mounted() {
-    console.log(window.localStorage.getItem("token"))
-  }
+    name: "AuthComponent",
+    created() {
+        let token = window.localStorage.getItem("token")
+
+        if (!token && !this.$route.query.token) {
+            this.$router.push("/?msg=You are not logged in. Please authenticate yourself to continue")
+        }
+    }
 }
 </script>
