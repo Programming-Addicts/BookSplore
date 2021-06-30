@@ -4,16 +4,13 @@
 
 <script>
 export default {
-  name: "AuthComponent",
-  mounted() {
-    fetch(this.$backend_url + "/users/current")
-    .then(
-        data => {
-            if (!data.ok) {
-                this.$router.push('/')
-            }
+    name: "AuthComponent",
+    created() {
+        let token = window.localStorage.getItem("token")
+
+        if (!token && !this.$route.query.token) {
+            this.$router.push("/?msg=You are not logged in. Please authenticate yourself to continue")
         }
-    )
-  }
+    }
 }
 </script>
