@@ -10,19 +10,19 @@ export default {
             default: require("../assets/ProfilePicture.svg")
         },
         width: {
-            type: Number,
-            default: 250
+            type: String,
+            default: '250px'
         },
         height: {
-            type: Number,
-            default: 350
+            type: String,
+            default: '350px'
         }
     },
     methods: {
         cssVars: (width, height) => {
             return {
-                '--width': width + 'px',
-                '--height': height + 'px',
+                '--width': width,
+                '--height': height,
             }
         }
     }

@@ -1,7 +1,7 @@
 <template>
     <div class="bookInfoDisplay">
         <div class="top">
-            <Cover :imgUrl="bookData.cover" />
+            <Cover :imgUrl="bookData.cover" width="230px" />
             <div class="info">
                 <div class="head">
                     <p class="title">{{ bookData.title }}</p>
@@ -157,7 +157,6 @@ export default {
 
 <style scoped>
 .bookInfoDisplay {
-    position: relative;
     display: flex;
     flex-direction: column;
 
@@ -178,7 +177,6 @@ export default {
 .info {
     display: flex;
     flex-direction: column;
-    flex-wrap: wrap;
     width: 100%;
 }
 
@@ -242,6 +240,7 @@ export default {
     white-space: nowrap;
     text-overflow: ellipsis;
     margin: 0%;
+    padding-left: 10px;
 }
 
 .left {
@@ -263,7 +262,6 @@ export default {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    align-items: center;
     padding-right: 5px;
 }
 .left div .lable,
@@ -271,6 +269,5 @@ export default {
     margin: 0%;
     padding-bottom: 13px;
     color: #aac5fa;
-    align-items: center;
 }
 </style>
