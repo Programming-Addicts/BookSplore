@@ -1,5 +1,5 @@
 <template>
-    <img :src="imgUrl" class="cover" :style="cssVars(width, height)" />
+    <img :src="imgUrl ? imgUrl: require(`../assets/ProfilePicture.svg`)" class="cover" :style="cssVars(width, height)" />
 </template>
 
 <script>
@@ -17,9 +17,6 @@ export default {
             type: Number,
             default: 350
         }
-    },
-    mounted() {
-        this.imgUrl = this.imgUrl? this.imgUrl: require("../assets/ProfilePicture.svg")
     },
     methods: {
         cssVars: (width, height) => {
