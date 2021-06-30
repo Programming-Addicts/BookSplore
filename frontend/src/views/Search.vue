@@ -111,22 +111,22 @@ export default {
         },
         updateTab(tab) {
             if (tab == "ISBN") {
-                this.SearchBook(0, 10, `isbn:${this.$route.params.query}`).then(
+                this.SearchBook(0, 10, `isbn:${this.$route.params.query}`, false).then(
                     data => {
                         this.books = data
                         this.activeTab = "ISBN"
                     }
                 )
             } else if (tab == "Books") {
-                this.SearchBook(0, 20, `${this.$route.params.query}`).then(
+                this.SearchBook(0, 20, `${this.$route.params.query}`, false).then(
                     data => {
                         this.books = data
                         this.activeTab = "Books"
                     }
                 )
-            } else if (tab == "Genres") {
+            } else if (tab == "Genres", false) {
                 console.log(tab)
-                this.SearchBook(0, 20, `subject:${this.$route.params.query}`).then(
+                this.SearchBook(0, 20, `subject:${this.$route.params.query}`, false).then(
                     data => {
                         this.books = data
                         this.activeTab = "Genres"

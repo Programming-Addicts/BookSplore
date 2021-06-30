@@ -26,9 +26,9 @@ export default {
         return {
             tabs: [
                 "Books",
-                "Users",
                 "Genres",
-                "ISBN"
+                "ISBN",
+                "Users"
             ],
             active: "Books"
         }
@@ -60,7 +60,7 @@ export default {
 }
 
 .selected {
-    color: #77BAF9;
+    color: #99DCFD;
     border: 1px #999999 solid;
     border-bottom: none;
     border-radius: 10px;

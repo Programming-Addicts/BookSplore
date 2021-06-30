@@ -172,13 +172,14 @@ export default {
     flex-direction: row;
     padding-bottom: 40px;
     column-gap: 50px;
+    width: 100%;
 }
 
 .info {
     display: flex;
     flex-direction: column;
-
     flex-wrap: wrap;
+    width: 100%;
 }
 
 .head {
@@ -234,6 +235,7 @@ export default {
     flex-direction: row;
     padding-top: 44px;
     font-size: 27px;
+    width: 100%;
 }
 .infoTable .notLable {
     overflow: hidden;
