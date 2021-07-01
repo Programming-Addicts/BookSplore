@@ -36,15 +36,12 @@
         Looks like there aren't any results for that query. You might want to rephrase your search terms for better results!
     </div>
 
-    <Footer />
-
   </div>
 </template>
 
 <script>
 
 import NavBar from "@/components/NavBar.vue"
-import Footer from "@/components/Footer.vue"
 import SearchResult from "@/components/SearchResult.vue"
 import SearchBox from "@/components/SearchBox.vue"
 import TabComponent from "@/components/TabComponent.vue"
@@ -55,7 +52,6 @@ export default {
     name: "BookSearch",
     components: {
         NavBar,
-        Footer,
         SearchResult,
         SearchBox,
         TabComponent,

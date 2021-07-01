@@ -106,13 +106,11 @@
                 </div>
             </div>
         </main>
-        <Footer />
     </div>
 </template>
 
 <script>
 import NavBar from "../components/NavBar.vue";
-import Footer from "../components/Footer.vue";
 import Cover from "../components/Cover.vue";
 import Review from "../components/Review.vue";
 import FloatingList from "../components/FloatingList.vue";
@@ -133,7 +131,6 @@ export default {
     name: "User",
     components: {
         NavBar,
-        Footer,
         Review,
         Cover,
         FloatingList,
