@@ -98,6 +98,7 @@ export default {
 }
 .reviewHead .pfp {
     height: 80px;
+    border-radius: 50%;
 }
 .reviewHead p {
     margin: 0%;
@@ -114,6 +115,12 @@ export default {
 
     font-size: 28px;
     color: #9ac2ff;
+}
+.reviewHead .userDate a{
+    cursor: pointer;
+    text-decoration: none;
+    word-wrap: break-word;
+    word-break: break-all;
 }
 .reviewHead .userDate a:hover {
     text-decoration: underline;
