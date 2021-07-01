@@ -1,10 +1,10 @@
 <template>
     <div>
-		<auth-component />
+        <auth-component />
         <nav-bar navbar_type="authenticated" />
         <main>
             <div class="left">
-                <div class="userInfo">
+                <div class="userInfo" v-if="infoLoaded">
                     <img
                         :src="
                             userInfo.pfp
@@ -24,16 +24,14 @@
                                     showList1 = !showList1;
                                     showList2 = false;
                                 "
-                                >{{ userInfo.followers }} Followers
+                                >{{ userInfo.followers.length }} Followers
                                 <transition name="slide-fade">
-                                <div
-                                    class="hoverList"
-                                    @click="showList1 = true"
-                                    v-if="showList1"
-                                    style="margin-left:10vw;"
-                                >
-                                    <floating-list title="Followers" />
-                                </div>
+                                    <div class="hoverList" v-if="showList1">
+                                        <floating-list
+                                            title="Followers"
+                                            :items="userInfo.followers"
+                                        />
+                                    </div>
                                 </transition>
                             </a>
                             |
@@ -43,16 +41,14 @@
                                     showList1 = false;
                                 "
                             >
-                                Following {{ userInfo.following }}
+                                {{ userInfo.following.length }} Following
                                 <transition name="slide-fade">
-                                <div
-                                    class="hoverList"
-                                    @click="showList2 = true"
-                                    v-if="showList2"
-                                    style="margin-left:22vw;"
-                                >
-                                    <floating-list title="Following" />
-                                </div>
+                                    <div class="hoverList" v-if="showList2">
+                                        <floating-list
+                                            title="Following"
+                                            :items="userInfo.following"
+                                        />
+                                    </div>
                                 </transition>
                             </a>
                         </p>
@@ -114,7 +110,7 @@ import Footer from "../components/Footer.vue";
 import Cover from "../components/Cover.vue";
 import Review from "../components/Review.vue";
 import FloatingList from "../components/FloatingList.vue";
-import AuthComponent from "../components/AuthComponent.vue"
+import AuthComponent from "../components/AuthComponent.vue";
 
 class UReview {
     constructor(user, postDate, stars, imageUrl, reviewDesc, link) {
@@ -135,7 +131,7 @@ export default {
         Review,
         Cover,
         FloatingList,
-        AuthComponent		
+        AuthComponent
     },
     data() {
         return {
@@ -176,22 +172,54 @@ export default {
                 }
             ],
             maxRecentBooks: 8,
-            userInfo: {
-                name: "devnull03",
-                pfp: null,
-                reviews: 150,
-                followers: 123,
-                following: 56,
-                followEndpoint: ``
-            },
+            userInfo: {},
             showList1: false,
-            showList2: false
+            showList2: false,
+            infoLoaded: false
         };
     },
     methods: {
         href: ($router, path) => {
             $router.push(path);
-        },
+        }
+    },
+    created() {
+        let usr = this.$route.params.usr;
+        fetch(
+            this.$backend_url +
+                `/users/search?username=${usr.replace("#", "%23")}`
+        )
+            .then(response => response.json())
+            .then(result => {
+                console.log(result);
+                fetch(this.$backend_url + `/follow/get?id=${result.id}`, {
+                    headers: {
+                        Authorization: window.localStorage.getItem("token")
+                    }
+                })
+                    .then(response => response.json())
+                    .then(result_ => {
+                        this.userInfo = {
+                            name: result.username,
+                            pfp: result.avatar_url,
+                            id: result.id,
+                            followEndpoint:
+                                this.$backend_url + `/follow?id=${result.id}`,
+                            followers: result_.followers,
+                            following: result_.following,
+                            reviews: 10
+                        };
+                        console.log(result_);
+                    })
+                    .catch(error => {
+                        console.error(error);
+                    });
+
+                this.infoLoaded = true;
+            })
+            .catch(error => {
+                console.error(error);
+            });
     }
 };
 </script>
@@ -208,13 +236,13 @@ export default {
     transition: all 200ms ease;
 }
 .slide-fade-leave-active {
-  transition: all 200ms cubic-bezier(1.0, 0.5, 0.8, 1.0);
+    transition: all 200ms cubic-bezier(1, 0.5, 0.8, 1);
 }
-.slide-fade-enter, .slide-fade-leave-to{
-  transform: translateY(10px);
-  opacity: 0;
+.slide-fade-enter,
+.slide-fade-leave-to {
+    transform: translateY(10px);
+    opacity: 0;
 }
-
 
 main {
     display: flex;
@@ -239,6 +267,7 @@ main {
 }
 .userInfo img {
     height: 13vh;
+    border-radius: 50%;
 }
 .userInfo p {
     margin: 0%;
@@ -249,6 +278,7 @@ main {
     display: flex;
     align-items: center;
     column-gap: 1vw;
+    width: 3vw;
 }
 .userInfo .username a {
     font-size: 30px;
@@ -263,12 +293,16 @@ main {
     color: #aaaaaa;
     font-size: 25px;
     font-weight: 400;
+    display: flex;
+    flex-direction: row;
+    column-gap: 5px;
 }
 .userInfoText .followersEtc a {
     text-decoration: none;
     cursor: pointer;
     user-select: none;
     transition: 300ms;
+    display: grid;
 }
 .userInfoText .followersEtc a:hover {
     border: 3px solid rgb(199, 199, 199);

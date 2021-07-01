@@ -1,16 +1,23 @@
 <template>
     <div class="floatingMain">
-        <div class="listTitle">{{title}} </div>
+        <div class="listTitle">{{ title }}</div>
         <div class="flist">
-            <div
-                class="listItem"
-                v-for="(item, index) of test_items"
+            <a
+                :href="`/dev/user/${item.username.replace('#', '%23')}`"
+                v-for="(item, index) of items"
                 :key="index"
-                @click="go($router, item.link)"
             >
-            <img :src="item.pfp ? item.pfp: require(`../assets/ProfilePicture.svg`)">
-            {{item.display_name}}
-            </div>
+                <div class="listItem">
+                    <img
+                        :src="
+                            item.avatar_url
+                                ? item.avatar_url
+                                : require(`../assets/ProfilePicture.svg`)
+                        "
+                    />
+                    {{ item.username }}
+                </div></a
+            >
         </div>
     </div>
 </template>
@@ -21,7 +28,7 @@ export default {
     props: ["title", "items"],
     methods: {
         go: ($router, link) => {
-            $router.push(link)
+            $router.push(link);
         }
     },
     data() {
@@ -30,40 +37,40 @@ export default {
                 {
                     pfp: null,
                     display_name: "class pythonaddict",
-                    link: ``,
+                    link: ``
                 },
                 {
                     pfp: null,
                     display_name: "class pythonaddict",
-                    link: ``,
+                    link: ``
                 },
                 {
                     pfp: null,
                     display_name: "class pythonaddict",
-                    link: ``,
+                    link: ``
                 },
                 {
                     pfp: null,
                     display_name: "class pythonaddict",
-                    link: ``,
+                    link: ``
                 },
                 {
                     pfp: null,
                     display_name: "class pythonaddict",
-                    link: ``,
+                    link: ``
                 },
                 {
                     pfp: null,
                     display_name: "class pythonaddict",
-                    link: ``,
+                    link: ``
                 },
                 {
                     pfp: null,
                     display_name: "class pythonaddict",
-                    link: ``,
-                },
+                    link: ``
+                }
             ]
-        }
+        };
     }
 };
 </script>
@@ -79,7 +86,7 @@ export default {
 
     display: flex;
     flex-direction: column;
-    z-index: 4;
+    z-index: 10;
     padding: 10px;
     /* row-gap: 20px; */
 
@@ -115,7 +122,7 @@ export default {
 
     font-size: 20px;
     font-weight: 500;
-    color: #89C1F5;
+    color: #89c1f5;
     box-shadow: 0px 2px 4px 0px #00000080;
     border-radius: 10px;
 
@@ -124,12 +131,16 @@ export default {
     user-select: none;
 }
 .floatingMain .flist .listItem:hover {
-    transform: scale(1.1);
+    transform: scale(1.01);
 }
 .floatingMain .flist .listItem:active {
     transform: scale(0.9);
 }
 .floatingMain .flist img {
     height: 5vh;
+    border-radius: 50%;
+}
+a {
+    text-decoration: none;
 }
 </style>
