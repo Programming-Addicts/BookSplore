@@ -107,7 +107,7 @@ input {
     text-decoration: none;
 }
 .inputBox img {
-    height: 60px;
+    height: 50%;
     cursor: pointer;
 
     transition: 200ms;

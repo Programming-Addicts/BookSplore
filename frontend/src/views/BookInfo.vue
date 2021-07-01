@@ -111,7 +111,12 @@ export default {
     },
     created() {
         fetch(
-            this.$backend_url + `/books/search?book_id=${this.$route.params.id}&limit=1&download=false&sorting=relevance`
+            this.$backend_url + `/books/get?book_id=${this.$route.params.id}`,
+			{
+				headers: {
+					Authorization: window.localStorage.getItem("token"),
+				},
+			}
         )
             .then(response => response.json())
             .then(result => {

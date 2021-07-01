@@ -102,7 +102,12 @@ export default {
     methods: {
         async SearchBook(offset, num, query, globallyUpdateResults) {
             let response = await fetch(
-              `${this.$backend_url}/books/search?query=${query}&download=${this.$route.params.download_only}&limit=${num}&offset=${offset}`
+				`${this.$backend_url}/books/search?query=${query}&download=${this.$route.params.download_only}&limit=${num}&offset=${offset}`,
+				{
+					headers: {
+						Authorization: window.localStorage.getItem("token")
+					}
+				}
             )
 
             if (globallyUpdateResults) {
@@ -110,7 +115,6 @@ export default {
             } else {
                 this.resultFound = response.status == 200;
             }
-
             return response.json()
         },
         updateTab(tab) {

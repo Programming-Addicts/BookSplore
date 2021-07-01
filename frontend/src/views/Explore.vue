@@ -5,7 +5,8 @@
         <div class="searchBox">
             Explore our wide collection of Books!
             <search-box
-                :endpoint="`/search/${(downloadOnly ? 1 : 0)}/#`"
+			:endpoint="`/search/${(downloadOnly ? 1 : 0)}/#`"
+			:height="scale(80)"
             />
             <p>
                 <input type="checkbox" v-model="downloadOnly" />
@@ -36,7 +37,12 @@ export default {
         return {
             downloadOnly: false
         };
-    }
+    },
+	methods: {
+		scale(num) {
+			return `${window.innerHeight * num / 796}px`
+		}
+	}
 };
 </script>
 
