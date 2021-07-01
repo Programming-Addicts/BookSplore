@@ -13,12 +13,14 @@ router = APIRouter(tags=["Users"])
 dotenv.load_dotenv('.env')
 secret_key = os.environ.get("SECRET_KEY")
 
-@router.get('/current')
-async def get_current_user(request: Request, authorization: Optional[str] = Header(None)):
+@router.get('/get')
+async def fetch_user(request: Request, id: int = None, authorization: Optional[str] = Header(None)):
     try:
         user_id = jwt.decode(authorization, secret_key, algorithms="HS256").get("id")
     except:
         return JSONResponse({'Error': 'Incorrect Authorization Token'}, status_code=401)
+    if id is not None:
+        user_id = id
     user = await get_user(request.app.state.db, id=user_id)
     if user is not None:
         user_data = dict(user)

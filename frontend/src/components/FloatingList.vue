@@ -3,7 +3,7 @@
         <div class="listTitle">{{ title }}</div>
         <div class="flist">
             <a
-                :href="`/dev/user/${item.username.replace('#', '%23')}`"
+                :href="`/user/${item.id}`"
                 v-for="(item, index) of items"
                 :key="index"
             >
