@@ -191,15 +191,12 @@ async def get_review(request: Request, book_id: str = None, user_id: int = None,
     if book_id and user_id:
         return JSONResponse({'Invalid Query' : 'Search either by book id OR user id'}, status_code=400)
 
-    reviews = None
+    reviews = []
 
     if book_id is not None:
         reviews = await get_reviews(request.app.state.db, book_id=book_id, offset=offset)
 
     elif user_id is not None:
         reviews = await get_reviews(request.app.state.db, user_id=user_id, offset=offset) 
-    
-    if reviews:
-        return reviews
-    else:
-        return JSONResponse({'Error' : 'No reviews matching the given parameters were found.'},status_code=404)
+
+    return reviews 
