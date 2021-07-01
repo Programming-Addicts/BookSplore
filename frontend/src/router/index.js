@@ -43,7 +43,7 @@ const routes = [
     component: Explore
   },
   {
-    path: '/dev/user',
+    path: '/dev/user/:usr',
     name: 'UserProfile',
     component: User
   },
