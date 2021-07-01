@@ -18,7 +18,7 @@
                 :style="`font-size: ${font_size};`"
             />
             <img
-                :src="require(`../assets/submitArrow.svg`)"
+                :src="require(`../assets/MagnifyingGlass.svg`)"
                 v-if="query"
                 @click="sendQuery(endpoint, query)"
             />

@@ -134,7 +134,7 @@ export default {
     transform: scale(1.01);
 }
 .floatingMain .flist .listItem:active {
-    transform: scale(0.9);
+    transform: scale(0.95);
 }
 .floatingMain .flist img {
     height: 5vh;

@@ -43,8 +43,9 @@ export default {
 				}
 			}
 			).then(
-				() => {
-					this.$router.push("/dashboard")
+				(response) => {
+					if (response.status == 200)
+						this.$router.push("/dashboard")
 				}
 			)
         }

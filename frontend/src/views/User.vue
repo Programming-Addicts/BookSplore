@@ -15,7 +15,13 @@
                     <div class="userInfoText">
                         <p class="username">
                             {{ userInfo.name }}
-                            <a :href="userInfo.followEndpoint">Follow</a>
+                            <a @click="follow($backend_url)">
+                                {{
+                                    userInfo.followers.includes(currentUser.id)
+                                        ? `Unfollow`
+                                        : `Follow`
+                                }}
+                            </a>
                         </p>
                         <p class="followersEtc">
                             {{ userInfo.reviews }} Reviews |
@@ -29,7 +35,7 @@
                                     <div class="hoverList" v-if="showList1">
                                         <floating-list
                                             title="Followers"
-                                            :items="userInfo.followers"
+                                            :items="userInfo.followersArr"
                                         />
                                     </div>
                                 </transition>
@@ -46,7 +52,7 @@
                                     <div class="hoverList" v-if="showList2">
                                         <floating-list
                                             title="Following"
-                                            :items="userInfo.following"
+                                            :items="userInfo.followingArr"
                                         />
                                     </div>
                                 </transition>
@@ -173,25 +179,22 @@ export default {
             ],
             maxRecentBooks: 8,
             userInfo: {},
+            currentUser: {},
             showList1: false,
             showList2: false,
             infoLoaded: false
         };
     },
-    methods: {
-        href: ($router, path) => {
-            $router.push(path);
-        }
-    },
     created() {
+        // for fetching the user who's page is being viewed -----------
         let usr = this.$route.params.usr;
         fetch(
             this.$backend_url +
                 `/users/search?username=${usr.replace("#", "%23")}`
         )
             .then(response => response.json())
-            .then(result => {
-                console.log(result);
+            .then(data => {
+				let result = data[0]
                 fetch(this.$backend_url + `/follow/get?id=${result.id}`, {
                     headers: {
                         Authorization: window.localStorage.getItem("token")
@@ -205,8 +208,10 @@ export default {
                             id: result.id,
                             followEndpoint:
                                 this.$backend_url + `/follow?id=${result.id}`,
-                            followers: result_.followers,
-                            following: result_.following,
+                            followersArr: result_.followers ? result_.followers : [],
+                            followingArr: result_.following ? result_.following : [],
+                            followers: JSON.parse(result.followers),
+                            following: JSON.parse(result.following),
                             reviews: 10
                         };
                         console.log(result_);
@@ -214,12 +219,29 @@ export default {
                     .catch(error => {
                         console.error(error);
                     });
-
-                this.infoLoaded = true;
             })
             .catch(error => {
                 console.error(error);
             });
+        // ---------------------------------------------------------
+
+        // for checking info about the user viewing the page -------
+
+        fetch(this.$backend_url + `/users/current`, {
+            headers: {
+                Authorization: window.localStorage.getItem("token")
+            }
+        })
+            .then(response => response.json())
+            .then(result => {
+                this.currentUser = result;
+                console.log(result);
+            })
+            .catch(error => {
+                console.error(error);
+            });
+        // ---------------------------------------------------------
+        this.infoLoaded = true;
     }
 };
 </script>
@@ -285,6 +307,7 @@ main {
     font-weight: 400;
     color: #89c1f5;
     text-decoration: none;
+    cursor: pointer;
 }
 .userInfo .username a:hover {
     text-decoration: underline;
