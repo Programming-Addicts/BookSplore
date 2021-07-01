@@ -146,10 +146,26 @@ export default {
             this.$refs.desc.innerHTML =
                 descData.slice(0, this.descMaxSize) + "....";
             this.$refs.descExpand.innerHTML = "Expand";
-        }
+        },
+        scaleDownHeight(num) {
+            return window.innerHeight * num / 796
+        },
+        scaleDownWidth(num) {
+            return window.innerWidth * num / 1536
+        },
+        scaleRadius(num) {
+            return {
+                width: `${window.innerHeight * num / 796}px`,
+                height: `${window.innerHeight * num / 796}px`
+            }
+        },
+        scaleFont(num) {
+            return {
+                "font-size": `${window.innerHeight * num / 796}px`
+            }
+        },
     },
     mounted() {
-        // console.log(this.$props.Book);
         this.collapse(this.bookData.description);
     }
 };

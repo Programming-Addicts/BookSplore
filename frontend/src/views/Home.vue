@@ -31,7 +31,20 @@ export default {
 
         let token = window.localStorage.getItem("token")
         if (token) {
-            this.$router.push("/dashboard")
+			fetch(
+			this.$backend_url + "/users/current",
+			{
+				headers: {
+					Authorization: token
+				}
+			}
+			).then(
+				response => {
+					if (response.status = 200) {
+						this.$router.push("/dashboard")
+					}
+				}
+			)
         }
     }
 };

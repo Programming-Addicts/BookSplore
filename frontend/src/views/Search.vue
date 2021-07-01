@@ -1,5 +1,6 @@
 <template>
   <div>
+	<auth-component />	
     <nav-bar :fixed="false" navbar_type="authenticated" />
 
     <div style="width: 100%; display: flex; flex-direction: column; margin-top: 30px;">
@@ -47,6 +48,8 @@ import Footer from "@/components/Footer.vue"
 import SearchResult from "@/components/SearchResult.vue"
 import SearchBox from "@/components/SearchBox.vue"
 import TabComponent from "@/components/TabComponent.vue"
+import AuthComponent from "../components/AuthComponent.vue"
+
 
 export default {
     name: "BookSearch",
@@ -55,7 +58,8 @@ export default {
         Footer,
         SearchResult,
         SearchBox,
-        TabComponent
+        TabComponent,
+		AuthComponent
     },
     data() {
         return {
