@@ -11,6 +11,26 @@ export default {
         if (!token && !this.$route.query.token) {
             this.$router.push("/?msg=You are not logged in. Please authenticate yourself to continue")
         }
+
+		fetch(
+			this.$backend_url + "/users/current",
+			{
+				headers: {
+					Authorization: token
+				}
+			}
+		).then(
+			response => {
+				if (response.status != 200) {
+					this.$router.push("/?msg=You are not logged in. Please authenticate yourself to continue")
+				}
+			}
+		).catch(
+			_ => {
+				console.log(_)
+				this.$router.push("/?msg=You are not logged in. Please authenticate yourself to continue")
+			}
+		)
     }
 }
 </script>

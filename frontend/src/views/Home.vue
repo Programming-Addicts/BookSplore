@@ -20,18 +20,33 @@ export default {
             return {
                 "height": `${window.innerHeight}px`
             }
-        }
+        },
+		sleep(ms) {
+			return new Promise(resolve => setTimeout(resolve, ms));
+		}	
     },
-    mounted() {
+    async mounted() {
+		await this.sleep(200)
         let msg = this.$route.query.msg
         if (msg) {
+			window.history.pushState("", "", "/")
             alert(msg)
-            this.$router.push("/")
         }
 
         let token = window.localStorage.getItem("token")
         if (token) {
-            this.$router.push("/dashboard")
+			fetch(
+			this.$backend_url + "/users/current",
+			{
+				headers: {
+					Authorization: token
+				}
+			}
+			).then(
+				() => {
+					this.$router.push("/dashboard")
+				}
+			)
         }
     }
 };

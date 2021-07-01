@@ -76,7 +76,7 @@ async def auth(request: Request):
         key=secret_key,
         algorithm="HS256"
     )
-    return RedirectResponse(f"/dev/dashboard?token={token}")
+    return RedirectResponse(f"/dashboard?token={token}")
 
 
 @router.get('/logout')

@@ -1,5 +1,6 @@
 <template>
     <div>
+		<auth-component />
         <nav-bar navbar_type="authenticated" />
         <main>
             <div class="left">
@@ -113,6 +114,7 @@ import Footer from "../components/Footer.vue";
 import Cover from "../components/Cover.vue";
 import Review from "../components/Review.vue";
 import FloatingList from "../components/FloatingList.vue";
+import AuthComponent from "../components/AuthComponent.vue"
 
 class UReview {
     constructor(user, postDate, stars, imageUrl, reviewDesc, link) {
@@ -132,7 +134,8 @@ export default {
         Footer,
         Review,
         Cover,
-        FloatingList
+        FloatingList,
+        AuthComponent		
     },
     data() {
         return {

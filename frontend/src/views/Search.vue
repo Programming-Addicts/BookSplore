@@ -1,5 +1,6 @@
 <template>
   <div>
+	<auth-component />	
     <nav-bar :fixed="false" navbar_type="authenticated" />
 
     <div style="width: 100%; display: flex; flex-direction: column; margin-top: 30px;">
@@ -20,7 +21,7 @@
         
     </div>
 
-    <div v-if="resultFound" style="width: 100%; margin-top: 30px;">
+    <div v-if="resultFoundGlobally" style="width: 100%; margin-top: 30px;">
         <div v-if="'Books Genres ISBN'.includes(activeTab)">
             <div v-for="book of books" :key="book.id" class="result-box">
                 <search-result :book="book" />
@@ -28,7 +29,7 @@
         </div>
     </div>
 
-    <div v-if="!resultFound" class="no-result-box">
+    <div v-if="!resultFoundGlobally" class="no-result-box">
         <div style="width: 100%; display: flex; justify-content: center; margin-bottom: 30px;">
             <img src="../assets/NoData.svg" width="400px" />
         </div>
@@ -47,6 +48,8 @@ import Footer from "@/components/Footer.vue"
 import SearchResult from "@/components/SearchResult.vue"
 import SearchBox from "@/components/SearchBox.vue"
 import TabComponent from "@/components/TabComponent.vue"
+import AuthComponent from "../components/AuthComponent.vue"
+
 
 export default {
     name: "BookSearch",
@@ -55,7 +58,8 @@ export default {
         Footer,
         SearchResult,
         SearchBox,
-        TabComponent
+        TabComponent,
+		AuthComponent
     },
     data() {
         return {

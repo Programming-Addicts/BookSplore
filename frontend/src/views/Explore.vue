@@ -1,6 +1,7 @@
 <template>
     <div class="main">
-        <nav-bar navbar_type="authenticated" :fixed="true" />
+		<auth-component />
+        <nav-bar navbar_type="authenticated" :fixed="false" />
         <div class="searchBox">
             Explore our wide collection of Books!
             <search-box
@@ -20,13 +21,16 @@
 import NavBar from "../components/NavBar.vue";
 import Footer from "../components/Footer.vue";
 import SearchBox from "../components/SearchBox.vue";
+import AuthComponent from "../components/AuthComponent.vue"
+
 
 export default {
     name: "Explore",
     components: {
         NavBar,
         Footer,
-        SearchBox
+        SearchBox,
+		AuthComponent
     },
     data() {
         return {
