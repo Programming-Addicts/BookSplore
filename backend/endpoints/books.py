@@ -199,4 +199,4 @@ async def get_review(request: Request, book_id: str = None, user_id: int = None,
     elif user_id is not None:
         reviews = await get_reviews(request.app.state.db, user_id=user_id, offset=offset) 
 
-    return reviews 
+    return reviews

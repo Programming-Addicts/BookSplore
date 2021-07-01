@@ -25,8 +25,8 @@ async def fetch_user(request: Request, id: int = None, authorization: Optional[s
     if user is not None:
         user.followers  = json.loads(user.followers)
         user.following = json.loads(user.following)
-        user.recent_books = json.loads(user.recent_books)
         user_data = dict(user)
+        del user_data['recent_books']
         del user_data['email']
         return user_data
     else:
