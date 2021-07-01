@@ -6,6 +6,7 @@ import dotenv
 
 from fastapi import APIRouter, Request, Header
 from fastapi.responses import JSONResponse
+from .utils.events import follow_event
 
 
 from database.utils import user as db_user
@@ -14,7 +15,6 @@ router = APIRouter(tags=["Follow Users"])
 dotenv.load_dotenv('.env')
 
 secret_key = os.environ.get("SECRET_KEY")
-
 
 @router.get("/follow/get")
 async def get_followers_and_following(request: Request, id: int = None, authorization: Optional[str] = Header(None)):
@@ -63,6 +63,8 @@ async def follow_user(request: Request, id: int, authorization: Optional[str] = 
     new_followers = list(set(current_followers))
     await request.app.state.db.execute("UPDATE users SET followers = $1 WHERE id = $2", json.dumps(new_followers),
                                        to_follow.id)
+
+    await follow_event(request.app.state.db, performer=user.id, target=to_follow.id)
     return JSONResponse({'Success': f'{user.first_name} followed {to_follow.first_name}'},
                         status_code=200)
 

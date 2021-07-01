@@ -8,7 +8,7 @@ import os
 import jwt
 from aiohttp import request as aiorequest
 import dotenv
-from database.utils.user import get_user, update_user
+from database.utils.user import get_user
 from database.utils.review import create_review, get_reviews
 from .utils.language import get_language
 
