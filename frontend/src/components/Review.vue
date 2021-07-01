@@ -99,10 +99,11 @@ export default {
                 );
             }
             return new BReview(
-                response.title,
+                response.book_data.title,
                 new Date(response.timestamp),
                 response.rating,
-                response.avatar_url,
+                // JSON.parse(response.book_data.image_links).thumbnail,
+                response.book_data.image_links.thumbnail,
                 response.content,
                 `/book-info/${response.book_id}`
             );
@@ -120,7 +121,6 @@ export default {
     flex-direction: column;
     border: 1px solid white;
     border-radius: 10px;
-    /* margin: 30px; */
     padding: 25px;
     text-align: left;
 

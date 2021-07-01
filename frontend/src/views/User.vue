@@ -89,7 +89,10 @@
                             :descLength="280"
                         />
                     </div>
-                    <div class="noReviews" v-else>This user has not reviewed any books yet <p style="height:60vh;"></p></div>
+                    <div class="noReviews" v-else>
+                        This user has not reviewed any books yet
+                        <p style="height:140vh;"></p>
+                    </div>
                 </div>
             </div>
             <div
@@ -129,17 +132,6 @@ import Review from "../components/Review.vue";
 import FloatingList from "../components/FloatingList.vue";
 import AuthComponent from "../components/AuthComponent.vue";
 
-class UReview {
-    constructor(user, postDate, stars, imageUrl, reviewDesc, link) {
-        this.user = user;
-        this.postDate = postDate;
-        this.stars = stars;
-        this.imageUrl = imageUrl;
-        this.reviewDesc = reviewDesc;
-        this.link = link;
-    }
-}
-
 export default {
     name: "User",
     components: {
@@ -177,7 +169,7 @@ export default {
             showList2: false,
             infoLoaded: false,
             booksFetched: true,
-            reviewsFetched:false 
+            reviewsFetched: false
         };
     },
     methods: {
@@ -234,7 +226,7 @@ export default {
                             followers: result.followers,
                             following: result.following
                         };
-                        // for fetching user's recent reviews ----------------------
+                        // for fetching user's recent reviews ----------------------(3)
 
                         fetch(
                             this.$backend_url +
@@ -243,14 +235,35 @@ export default {
                             .then(response => response.json())
                             .then(reviews => {
                                 console.log(reviews);
-                                this.reviews = reviews;
+                                this.reviews = reviews.reverse();
                                 this.reviewsFetched = true;
                             })
                             .catch(error => {
                                 console.error("reviews :", error);
                             });
 
-                        // ---------------------------------------------------------
+                        // ---------------------------------------------------------(3)
+
+                        // for fetching recent books -------------------------------(3)
+
+    // TODO: fix recent books rendering for different users :bonk:
+                        fetch(
+                            this.$backend_url +
+                                `/users/recent-books?user_id=${this.userInfo.id}`
+                        )
+                            .then(response => response.json())
+                            .then(books => {
+                                let modified = [];
+                                books.forEach(element => {
+                                    modified.push({
+                                        cover: element.image_links.thumbnail,
+                                        link: `/book-info/${element.book_id}`,
+                                    })
+                                });
+                                this.recentBooks = modified;
+                            });
+
+                        // ---------------------------------------------------------(3)
                     })
                     .catch(error => {
                         console.error("followers: ", error);
