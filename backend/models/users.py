@@ -12,3 +12,4 @@ class User(BaseModel):
     avatar_url: Optional[str]
     followers: Optional[str]
     following: Optional[str]
+    recent_books: Optional[str]

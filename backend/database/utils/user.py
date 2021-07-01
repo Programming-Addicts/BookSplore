@@ -25,7 +25,8 @@ async def get_user(db:Database, id = None, email= None, username= None):
             'email': user['email'],
             'avatar_url': user['avatar_url'],
             'followers' : user['followers'],
-            'following' : user['following']}
+            'following' : user['following'],
+            'recent_books' : user['recent_books']}
     return User(**data)
 
 

@@ -1,3 +1,4 @@
+import json
 from typing import Optional
 import os
 import jwt
@@ -49,3 +50,20 @@ async def search_user(request: Request, username: str):
         return users
     else:
         return JSONResponse({'None': 'No such user with the given username found.'}, status_code=404)
+
+@router.get('/recent-books')
+async def get_recent_books(request: Request, user_id: int):
+    db = request.app.state.db
+    user = await get_user(db, id=user_id)
+    recent_book_ids = json.loads(user.recent_books)
+    recent_books = []
+    for id in recent_book_ids:
+        book = await db.fetchrow("SELECT * FROM cached_books WHERE id = $1", id)
+        if book is None:
+            continue
+        book_data = {'book_id': book['book_id'],
+                     'title': book['title'],
+                     'image_links': json.loads(book['image_links'])}
+        recent_books.append(book_data)
+
+    return recent_books 

@@ -7,7 +7,8 @@ username VARCHAR(500),
 email VARCHAR(255) NOT NULL UNIQUE,
 avatar_url text,
 followers json DEFAULT '[]',
-following json DEFAULT '[]'
+following json DEFAULT '[]',
+recent_books json DEFAULT '[]'
 );
 
 ALTER TABLE users
@@ -21,4 +22,18 @@ CREATE TABLE reviews(
     content TEXT NOT NULL,
     "timestamp" TIMESTAMP WITHOUT TIME ZONE DEFAULT (NOW())::TIMESTAMP WITHOUT TIME ZONE,
     rating INTEGER CONSTRAINT rating_range CHECK (rating >= 0 AND rating <=5)
+);
+
+CREATE TABLE cached_books(
+    id BIGSERIAL PRIMARY KEY,
+    book_id VARCHAR(150) UNIQUE NOT NULL,
+    title VARCHAR(500),
+    image_links JSON
+);
+
+CREATE TABLE cached_searches(
+    id BIGSERIAL PRIMARY KEY,
+    book_id VARCHAR(150) UNIQUE NOT NULL,
+    "timestamp" TIMESTAMP WITHOUT TIME ZONE DEFAULT (NOW())::TIMESTAMP WITHOUT TIME ZONE,
+    response JSON
 );
