@@ -109,7 +109,7 @@ async def get_books_data(request: Request, book_id: str, authorization: Optional
         recent_books = json.loads(user.recent_books)
         recent_books = [cache['id']] + recent_books
         user.recent_books = json.dumps(list(set(recent_books))[:30])
-        await db.execute("UPDATE users SET recent_books = $1", user.recent_books)
+        await db.execute("UPDATE users SET recent_books = $1 WHERE id = $2", user.recent_books, user.id)
         return book_info
     else:
         url = f"https://www.googleapis.com/books/v1/volumes/{book_id}"
@@ -134,7 +134,7 @@ async def get_books_data(request: Request, book_id: str, authorization: Optional
             recent_books = json.loads(user.recent_books)
             recent_books = [cache['id']] + recent_books
             user.recent_books = json.dumps(list(set(recent_books)))
-            await db.execute("UPDATE users SET recent_books = $1", user.recent_books) 
+            await db.execute("UPDATE users SET recent_books = $1 WHERE id = $2", user.recent_books, user.id) 
             book_data = {'id': id,
                         'title': title,
                         'authors': authors,

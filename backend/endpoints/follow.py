@@ -98,5 +98,5 @@ async def unfollow_user(request: Request, id: int, authorization: Optional[str] 
     new_followers = list(set(current_followers))
     await request.app.state.db.execute("UPDATE users SET followers = $1 WHERE id = $2", json.dumps(new_followers),
                                        to_unfollow.id)
-    return JSONResponse({'Success': f'{user["first_name"]} unfollowed {to_unfollow["first_name"]}'},
+    return JSONResponse({'Success': f'{user.first_name} unfollowed {to_unfollow.first_name}'},
                         status_code=200)
