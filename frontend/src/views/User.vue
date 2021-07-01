@@ -187,14 +187,15 @@ export default {
     },
     created() {
         // for fetching the user who's page is being viewed -----------
-        let usr = this.$route.params.usr;
-        fetch(
-            this.$backend_url +
-                `/users/search?username=${usr.replace("#", "%23")}`
-        )
+        let id = this.$route.params.id;
+        fetch(this.$backend_url + `/users/get?id=${id}`, {
+            headers: {
+                Authorization: window.localStorage.getItem("token")
+            }
+        })
             .then(response => response.json())
-            .then(data => {
-				let result = data[0]
+            .then(result => {
+                console.log("Users", result);
                 fetch(this.$backend_url + `/follow/get?id=${result.id}`, {
                     headers: {
                         Authorization: window.localStorage.getItem("token")
@@ -202,22 +203,26 @@ export default {
                 })
                     .then(response => response.json())
                     .then(result_ => {
+                        console.log("followers:", result_);
                         this.userInfo = {
                             name: result.username,
                             pfp: result.avatar_url,
                             id: result.id,
                             followEndpoint:
                                 this.$backend_url + `/follow?id=${result.id}`,
-                            followersArr: result_.followers ? result_.followers : [],
-                            followingArr: result_.following ? result_.following : [],
+                            followersArr: result_.followers
+                                ? result_.followers
+                                : [],
+                            followingArr: result_.following
+                                ? result_.following
+                                : [],
                             followers: JSON.parse(result.followers),
                             following: JSON.parse(result.following),
                             reviews: 10
                         };
-                        console.log(result_);
                     })
                     .catch(error => {
-                        console.error(error);
+                        console.error("followers: ", error);
                     });
             })
             .catch(error => {
@@ -227,7 +232,7 @@ export default {
 
         // for checking info about the user viewing the page -------
 
-        fetch(this.$backend_url + `/users/current`, {
+        fetch(this.$backend_url + `/users/get`, {
             headers: {
                 Authorization: window.localStorage.getItem("token")
             }
@@ -238,7 +243,7 @@ export default {
                 console.log(result);
             })
             .catch(error => {
-                console.error(error);
+                console.error("current user: ", error);
             });
         // ---------------------------------------------------------
         this.infoLoaded = true;
