@@ -224,6 +224,7 @@ export default {
                     .then(response => response.json())
                     .then(result_ => {
                         console.log("followers:", result_);
+                        console.log(result.followers, result.following);
                         this.userInfo = {
                             name: result.username,
                             pfp: result.avatar_url,
@@ -236,8 +237,8 @@ export default {
                             followingArr: result_.following
                                 ? result_.following
                                 : [],
-                            followers: JSON.parse(result.followers),
-                            following: JSON.parse(result.following),
+                            followers: result.followers,
+                            following: result.following,
                             reviews: 10
                         };
                     })
@@ -246,7 +247,7 @@ export default {
                     });
             })
             .catch(error => {
-                console.error(error);
+                console.error("main" ,error);
             });
         // ---------------------------------------------------------
 

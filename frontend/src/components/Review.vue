@@ -1,12 +1,21 @@
 <template>
     <div class="review">
         <div class="reviewHead">
-            <img :src="review.imageUrl" v-if="coverType === `book`" class="pfp" />
-            <Cover :imgUrl="review.imageUrl" height="115px" width="75px" v-else />
+            <img
+                :src="review.imageUrl"
+                v-if="coverType === `book`"
+                class="pfp"
+            />
+            <Cover
+                :imgUrl="review.imageUrl"
+                height="115px"
+                width="75px"
+                v-else
+            />
             <div>
                 <div class="userDate">
                     <a :href="review.link">
-                    {{ review.user }}
+                        {{ review.user }}
                     </a>
                     <p>
                         Posted on
@@ -24,27 +33,40 @@
             </div>
         </div>
         <div class="reviewDesc">
-            {{ descLength? review.reviewDesc.slice(0, descLength) + `....` : review.reviewDesc }}
+            {{
+                descLength
+                    ? review.reviewDesc.slice(0, descLength) + `....`
+                    : review.reviewDesc
+            }}
         </div>
     </div>
 </template>
 <script>
-import Cover from "./Cover.vue"
+import Cover from "./Cover.vue";
+
+class BReview {
+    constructor(user, postDate, stars, imageUrl, reviewDesc, link) {
+        this.user = user;
+        this.link = link;
+        this.postDate = postDate;
+        this.stars = stars;
+        this.imageUrl = imageUrl;
+        this.reviewDesc = reviewDesc;
+    }
+}
 
 export default {
     name: "Review",
-    // props: ["review","type"],
     props: {
         review: Object,
         coverType: {
             type: String,
             default: "book"
         },
-        descLength: Number,
+        descLength: Number
     },
     components: {
         Cover
-
     },
     methods: {
         renderStars: starsAmount => {
@@ -64,11 +86,33 @@ export default {
                 arr.push(grayStar);
             }
             return arr;
+        },
+        formatReviews: (type, response) => {
+            if (type === "book") {
+                return new BReview(
+                    response.user.username,
+                    new Date(response.timestamp),
+                    response.rating,
+                    response.user.avatar_url,
+                    response.content,
+                    `/user/${response.user.id}`
+                );
+            }
+            return new BReview(
+                response.title,
+                new Date(response.timestamp),
+                response.rating,
+                response.avatar_url,
+                response.content,
+                `/book-info/${response.book_id}`
+            );
         }
+    },
+    created() {
+        this.review = this.formatReviews(this.type, this.review);
     }
-}
+};
 </script>
-
 
 <style scoped>
 .review {
@@ -83,7 +127,6 @@ export default {
     font-family: Lato;
     color: white;
 }
-
 
 .reviewHead {
     display: flex;
@@ -116,7 +159,7 @@ export default {
     font-size: 28px;
     color: #9ac2ff;
 }
-.reviewHead .userDate a{
+.reviewHead .userDate a {
     cursor: pointer;
     text-decoration: none;
     word-wrap: break-word;
@@ -134,7 +177,7 @@ export default {
 a:link {
     text-decoration: none;
 }
-a:visited{
+a:visited {
     color: inherit;
 }
 </style>

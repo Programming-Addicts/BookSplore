@@ -44,16 +44,6 @@
 <script>
 import Review from "./Review.vue";
 
-class BReview {
-    constructor(user, postDate, stars, imageUrl, reviewDesc, link) {
-        this.user = user;
-        this.link = link;
-        this.postDate = postDate;
-        this.stars = stars;
-        this.imageUrl = imageUrl;
-        this.reviewDesc = reviewDesc;
-    }
-}
 
 export default {
     name: "BookReviews",
@@ -89,29 +79,13 @@ export default {
                     console.error(error);
                 });
         },
-        createReviews: response => {
-            let modified = [];
-            response.forEach(element => {
-                modified.push(
-                    new BReview(
-                        element.user.username,
-                        new Date(element.timestamp),
-                        element.rating,
-                        element.user.avatar_url,
-                        element.content,
-                        `/user/${element.user.id}`
-                    )
-                );
-            });
-            return modified;
-        }
     },
     created() {
         fetch(this.$backend_url + `/books/reviews?book_id=${this.bookData.id}`)
             .then(response => response.json())
             .then(result => {
                 console.log(result);
-                this.reviews = this.createReviews(result);
+                this.reviews = result;
                 this.fetched = true;
             })
             .catch(error => {
