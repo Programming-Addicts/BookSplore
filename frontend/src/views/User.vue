@@ -18,12 +18,53 @@
                             <a :href="userInfo.followEndpoint">Follow</a>
                         </p>
                         <p class="followersEtc">
-                            {{ userInfo.reviews }} Reviews | {{ userInfo.followers }} Followers |
-                            Following {{ userInfo.following }}
+                            {{ userInfo.reviews }} Reviews |
+                            <a
+                                @click="
+                                    showList1 = !showList1;
+                                    showList2 = false;
+                                "
+                                >{{ userInfo.followers }} Followers
+                                <transition name="slide-fade">
+                                <div
+                                    class="hoverList"
+                                    @click="showList1 = true"
+                                    v-if="showList1"
+                                    style="margin-left:10vw;"
+                                >
+                                    <floating-list title="Followers" />
+                                </div>
+                                </transition>
+                            </a>
+                            |
+                            <a
+                                @click="
+                                    showList2 = !showList2;
+                                    showList1 = false;
+                                "
+                            >
+                                Following {{ userInfo.following }}
+                                <transition name="slide-fade">
+                                <div
+                                    class="hoverList"
+                                    @click="showList2 = true"
+                                    v-if="showList2"
+                                    style="margin-left:22vw;"
+                                >
+                                    <floating-list title="Following" />
+                                </div>
+                                </transition>
+                            </a>
                         </p>
                     </div>
                 </div>
-                <div class="reviewsDiv">
+                <div
+                    class="reviewsDiv"
+                    @click="
+                        showList2 = false;
+                        showList1 = false;
+                    "
+                >
                     Recent Reviews
                     <div class="reviews">
                         <Review
@@ -37,7 +78,13 @@
                     </div>
                 </div>
             </div>
-            <div class="recentBooksDiv">
+            <div
+                class="recentBooksDiv"
+                @click="
+                    showList2 = false;
+                    showList1 = false;
+                "
+            >
                 <p class="recentTitle">Recent Books</p>
                 <div class="recentBooks">
                     <a
@@ -57,7 +104,7 @@
                 </div>
             </div>
         </main>
-        <Footer></Footer>
+        <Footer />
     </div>
 </template>
 
@@ -66,8 +113,8 @@ import NavBar from "../components/NavBar.vue";
 import Footer from "../components/Footer.vue";
 import Cover from "../components/Cover.vue";
 import Review from "../components/Review.vue";
+import FloatingList from "../components/FloatingList.vue";
 import AuthComponent from "../components/AuthComponent.vue"
-
 
 class UReview {
     constructor(user, postDate, stars, imageUrl, reviewDesc, link) {
@@ -87,7 +134,8 @@ export default {
         Footer,
         Review,
         Cover,
-		AuthComponent		
+        FloatingList,
+        AuthComponent		
     },
     data() {
         return {
@@ -135,18 +183,39 @@ export default {
                 followers: 123,
                 following: 56,
                 followEndpoint: ``
-            }
+            },
+            showList1: false,
+            showList2: false
         };
     },
     methods: {
         href: ($router, path) => {
             $router.push(path);
-        }
+        },
     }
 };
 </script>
 
 <style scoped>
+.hoverList {
+    height: 300px;
+    width: 300px;
+    margin: 30px;
+    position: fixed;
+}
+
+.slide-fade-enter-active {
+    transition: all 200ms ease;
+}
+.slide-fade-leave-active {
+  transition: all 200ms cubic-bezier(1.0, 0.5, 0.8, 1.0);
+}
+.slide-fade-enter, .slide-fade-leave-to{
+  transform: translateY(10px);
+  opacity: 0;
+}
+
+
 main {
     display: flex;
     flex-direction: row;
@@ -160,6 +229,7 @@ main {
 .left {
     margin-left: 5vw;
     margin-right: 5vw;
+    display: grid;
 }
 .userInfo {
     display: flex;
@@ -183,18 +253,32 @@ main {
 .userInfo .username a {
     font-size: 30px;
     font-weight: 400;
-    color: #89C1F5;
+    color: #89c1f5;
     text-decoration: none;
 }
 .userInfo .username a:hover {
     text-decoration: underline;
 }
 .userInfoText .followersEtc {
-    color: #AAAAAA;
+    color: #aaaaaa;
     font-size: 25px;
     font-weight: 400;
 }
-
+.userInfoText .followersEtc a {
+    text-decoration: none;
+    cursor: pointer;
+    user-select: none;
+    transition: 300ms;
+}
+.userInfoText .followersEtc a:hover {
+    border: 3px solid rgb(199, 199, 199);
+    border-radius: 10px;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+.userInfoText .followersEtc a:active {
+    transform: scale(0.9);
+}
 .reviewsDiv {
     font-size: 35px;
     font-weight: 500;
@@ -228,5 +312,12 @@ main {
     padding: 20px;
     gap: 20px;
     height: max-content;
+}
+
+.recentBooksDiv .recentBooks a {
+    transition: 300ms;
+}
+.recentBooksDiv .recentBooks a:hover {
+    transform: scale(1.1);
 }
 </style>
