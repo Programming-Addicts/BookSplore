@@ -193,8 +193,8 @@ export default {
                 `/users/search?username=${usr.replace("#", "%23")}`
         )
             .then(response => response.json())
-            .then(result => {
-                console.log(result);
+            .then(data => {
+				let result = data[0]
                 fetch(this.$backend_url + `/follow/get?id=${result.id}`, {
                     headers: {
                         Authorization: window.localStorage.getItem("token")
@@ -208,8 +208,8 @@ export default {
                             id: result.id,
                             followEndpoint:
                                 this.$backend_url + `/follow?id=${result.id}`,
-                            followersArr: result_.followers,
-                            followingArr: result_.following,
+                            followersArr: result_.followers ? result_.followers : [],
+                            followingArr: result_.following ? result_.following : [],
                             followers: JSON.parse(result.followers),
                             following: JSON.parse(result.following),
                             reviews: 10
