@@ -69,7 +69,8 @@ async def search(request: Request, query: str, limit: int = 20, offset: int = 0,
             book_data = {'id': id,
                          'title': title,
                          'authors': authors,
-                         'description': description
+                         'description': description,
+                         'image_links': image_links,
                          }
             books.append(book_data)
             extras = {'publisher': book_info.get('publisher'),
@@ -79,7 +80,6 @@ async def search(request: Request, query: str, limit: int = 20, offset: int = 0,
                          'total_ratings': book_info.get('ratingsCount'),
                          'isbns': book_info.get('industryIdentifiers'),
                          'page_count': book_info.get('pageCount'),
-                         'image_links': image_links,
                          'preview_link': book_info.get('previewLink'),
                          'pdf': has_pdf,
                          'epub': has_epub
@@ -134,7 +134,7 @@ async def get_books_data(request: Request, book_id: str, authorization: Optional
             recent_books = json.loads(user.recent_books)
             recent_books = [cache['id']] + recent_books
             user.recent_books = json.dumps(list(set(recent_books)))
-            await db.execute("UPDATE users SET recent_books = $1", user.recent_books)
+            await db.execute("UPDATE users SET recent_books = $1", user.recent_books) 
             book_data = {'id': id,
                         'title': title,
                         'authors': authors,
