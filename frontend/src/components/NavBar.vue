@@ -19,8 +19,15 @@
 
         <!---- Navbar items for pages other than landing page ---->
         <div v-if="navbar_type != 'landingpage'" class="link-container">
-          <a href="/dashboard">Dashboard</a>
-          <a href="/explore">Explore Books</a>
+			<a 
+				v-if="navbar_type == 'dashboard'"
+				class="logout-link"
+				@click="logout"
+			>
+				Logout
+			</a>
+			<a href="/dashboard">Dashboard</a>
+			<a href="/explore">Explore Books</a>
         </div>
       </td>
     </tr></table>
@@ -53,6 +60,10 @@ export default {
         redirectToHome() {
             this.$router.push("/")
         },
+		logout() {
+			window.localStorage.removeItem("token")
+			this.$router.push("/?msg=You have successfully logged out")
+		}
     }
   }
 </script>
@@ -68,12 +79,15 @@ a {
   float: right;
   margin: 15px;
   transition: 0.2s all;
-
 }
 
 a:hover {
     color: #79A9D1;
     transition: 0.2s all;
+}
+
+.logout-link {
+	cursor: pointer;
 }
 
 table {
@@ -121,20 +135,16 @@ table {
   justify-content: center;
   align-items: center;
 }
-
 .signup-link img {
   padding-left: 7px;
   margin-top: -3px;
 }
-
 .signup-link:active {
   transform: scale(0.9);
 }
-
 .signup-link:hover {
     color: black;
 }
-
 .logo-container {
   overflow: hidden;
   white-space: nowrap;
@@ -144,20 +154,16 @@ table {
   align-items: center;
   cursor: pointer;
 }
-
 .logo-container img {
   height: 66px;
 }
-
 .logo-container p {
   margin: 0%;
 }
-
 .title-div {
   display: flex;
   justify-content: center;
 }
-
 #nav {
     width: 100%;
 	height: 80px;
@@ -165,18 +171,15 @@ table {
     position: var(--position);
     z-index: 2;
 }
-
 .title {
 	font-family: "Cabin";
 	font-size: 37px;
 	text-align: center;
     color: white;
 }
-
 .bold {
 	font-weight: bold;
 }
-
 .italic {
 	font-style: italic;
 }

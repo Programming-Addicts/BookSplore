@@ -1,7 +1,7 @@
 <template>
   <div class="dashboard">
     <auth-component />
-    <nav-bar :fixed="true" navbar_type="authenticated" />
+    <nav-bar :fixed="true" navbar_type="dashboard" />
     <recent-books :books="UserBooks"/>
     <table style="width: 100%;"><tr>
       <td class="recent-books" style="width: 30%;">
