@@ -5,6 +5,7 @@ import dotenv
 from fastapi import APIRouter, Request, Header
 from fastapi.responses import JSONResponse
 from database.utils.user import get_user
+from models.users import User
 
 router = APIRouter(tags=["Users"])
 
@@ -27,10 +28,24 @@ async def get_current_user(request: Request, authorization: Optional[str] = Head
 
 @router.get('/search')
 async def search_user(request: Request, username: str):
-    user = await get_user(request.app.state.db, username=username)
-    if user is not None:
-        user_data = dict(user)
-        del user_data['email']
-        return user_data
+    users = []
+    records = await request.app.state.db.fetch("SELECT * FROM users WHERE username LIKE $1 LIMIT 10", "%"+username+"%")
+    print(records)
+    if records:
+        for user in records:
+            data = {'id': user['id'],
+                    'first_name': user['first_name'],
+                    'last_name': user['last_name'],
+                    'discriminator' : user['discriminator'],
+                    'username': user['username'], 
+                    'email': user['email'],
+                    'avatar_url': user['avatar_url'],
+                    'followers' : user['followers'],
+                    'following' : user['following']}
+            user = User(**data)
+            user_data = dict(user)
+            del user_data['email']
+            users.append(user_data)
+        return users
     else:
         return JSONResponse({'None': 'No such user with the given username found.'}, status_code=404)
