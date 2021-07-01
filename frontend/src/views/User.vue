@@ -253,6 +253,7 @@ export default {
                         )
                             .then(response => response.json())
                             .then(books => {
+                                console.log("recent books: ", books);
                                 let modified = [];
                                 books.forEach(element => {
                                     modified.push({
