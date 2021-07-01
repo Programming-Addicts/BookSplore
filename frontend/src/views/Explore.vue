@@ -14,13 +14,11 @@
             </p>
             <img :src="require(`../assets/searching.svg`)" />
         </div>
-        <Footer />
     </div>
 </template>
 
 <script>
 import NavBar from "../components/NavBar.vue";
-import Footer from "../components/Footer.vue";
 import SearchBox from "../components/SearchBox.vue";
 import AuthComponent from "../components/AuthComponent.vue"
 
@@ -29,7 +27,6 @@ export default {
     name: "Explore",
     components: {
         NavBar,
-        Footer,
         SearchBox,
 		AuthComponent
     },

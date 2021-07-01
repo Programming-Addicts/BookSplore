@@ -22,12 +22,13 @@ export default {
 		).then(
 			response => {
 				if (response.status != 200) {
+					window.localStorage.removeItem("token")
 					this.$router.push("/?msg=You are not logged in. Please authenticate yourself to continue")
 				}
 			}
 		).catch(
 			_ => {
-				console.log(_)
+				window.localStorage.removeItem("token")
 				this.$router.push("/?msg=You are not logged in. Please authenticate yourself to continue")
 			}
 		)

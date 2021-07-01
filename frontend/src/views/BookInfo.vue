@@ -22,13 +22,11 @@
                 <more-by-author :mainBook="bookData" />
             </div>
         </div>
-        <Footer />
     </div>
 </template>
 
 <script>
 import NavBar from "../components/NavBar.vue";
-import Footer from "../components/Footer.vue";
 import BookInfoDisplay from "../components/BookInfoDisplay.vue";
 import BookReviews from "../components/BookReviews.vue";
 import MoreByAuthor from "../components/MoreByAuthor.vue";
@@ -37,7 +35,6 @@ export default {
     name: "BookInfo",
     components: {
         NavBar,
-        Footer,
         BookInfoDisplay,
         BookReviews,
         MoreByAuthor

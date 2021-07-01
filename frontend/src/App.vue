@@ -1,15 +1,19 @@
 <template>
-    <transition
-        name="fade"
-        mode="out-in"
-    >
-        <router-view/>
-    </transition>
+	<div style="width: 100%; height: 100%;">
+	    <router-view/>
+		<Footer v-if="$route.path != '/dashboard'" />
+	</div>
 </template>
 
 <script>
+
+import Footer from "@/components/Footer.vue"
+
 export default {
 	name: "App",
+	components: {
+		Footer
+	}
 };
 </script>
 
