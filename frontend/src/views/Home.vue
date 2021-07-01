@@ -22,7 +22,7 @@ export default {
             }
         },
 		sleep(ms) {
-		  return new Promise(resolve => setTimeout(resolve, ms));
+			return new Promise(resolve => setTimeout(resolve, ms));
 		}	
     },
     async mounted() {
@@ -43,10 +43,8 @@ export default {
 				}
 			}
 			).then(
-				response => {
-					if (response.status == 200) {
-						this.$router.push("/dashboard")
-					}
+				() => {
+					this.$router.push("/dashboard")
 				}
 			)
         }

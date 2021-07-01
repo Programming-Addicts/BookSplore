@@ -21,7 +21,7 @@
         
     </div>
 
-    <div v-if="resultFound" style="width: 100%; margin-top: 30px;">
+    <div v-if="resultFoundGlobally" style="width: 100%; margin-top: 30px;">
         <div v-if="'Books Genres ISBN'.includes(activeTab)">
             <div v-for="book of books" :key="book.id" class="result-box">
                 <search-result :book="book" />
@@ -29,7 +29,7 @@
         </div>
     </div>
 
-    <div v-if="!resultFound" class="no-result-box">
+    <div v-if="!resultFoundGlobally" class="no-result-box">
         <div style="width: 100%; display: flex; justify-content: center; margin-bottom: 30px;">
             <img src="../assets/NoData.svg" width="400px" />
         </div>
