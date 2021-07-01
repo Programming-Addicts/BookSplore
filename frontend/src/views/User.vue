@@ -15,7 +15,12 @@
                     <div class="userInfoText">
                         <p class="username">
                             {{ userInfo.name }}
-                            <a @click="follow($backend_url)">
+                            <a
+                                @click="
+                                    follow($router, $backend_url, userInfo, currentUser)
+                                "
+                                v-if="userInfo.id !== currentUser.id"
+                            >
                                 {{
                                     userInfo.followers.includes(currentUser.id)
                                         ? `Unfollow`
@@ -185,6 +190,24 @@ export default {
             infoLoaded: false
         };
     },
+    methods: {
+        follow: ($router, $backend_url, userInfo, currentUser) => {
+            let action = userInfo.followers.includes(currentUser.id)
+                ? `unfollow`
+                : `follow`;
+            fetch($backend_url + `/${action}?id=${userInfo.id}`, {
+                headers: {
+                    Authorization: window.localStorage.getItem("token")
+                },
+                method: "POST"
+            })
+                .then(response => response.json())
+                .then(result => {
+                    console.log(result);
+                    $router.go(0);
+                });
+        }
+    },
     created() {
         // for fetching the user who's page is being viewed -----------
         let id = this.$route.params.id;
@@ -313,9 +336,14 @@ main {
     color: #89c1f5;
     text-decoration: none;
     cursor: pointer;
+    transition: 300ms;
 }
 .userInfo .username a:hover {
     text-decoration: underline;
+}
+.userInfo .username a:active {
+    transform: scale(0.9);
+
 }
 .userInfoText .followersEtc {
     color: #aaaaaa;
