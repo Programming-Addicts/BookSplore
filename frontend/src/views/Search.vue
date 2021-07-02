@@ -37,7 +37,7 @@
             </div>
 		</div>
 
-        <p class="goBackTop">You've reached the bottom, go <a @click="goTop()"> back to the top </a></p>
+        <div class="goBackTop">You've reached the bottom, go <a @click="goTop()"> back to the top </a></div>
 
     </div>
 
@@ -242,6 +242,9 @@ h1 {
     font-size: 25px;
     text-align: center;
     font-style: italic;
+
+    position: relative;
+    margin: 80px;
 }
 .goBackTop a{
     color: #77BAF9;
