@@ -88,6 +88,7 @@
                             coverType="user"
                             :descLength="280"
                         />
+                        <p style="height:100vh;"></p>
                     </div>
                     <div class="noReviews" v-else>
                         This user has not reviewed any books yet
