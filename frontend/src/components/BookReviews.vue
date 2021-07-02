@@ -46,6 +46,7 @@
             v-for="(review, index) of reviews"
             :key="index"
             :raw_review="review"
+            :currentUser="currentUser"
         />
     </div>
 </template>
@@ -64,7 +65,8 @@ export default {
             reviews: [],
             newReview: "",
             fetched: false,
-            newReviewStars: [0, 0, 0, 0, 0]
+            newReviewStars: [0, 0, 0, 0, 0],
+            currentUser: {},
         };
     },
     methods: {
@@ -113,6 +115,22 @@ export default {
             .catch(error => {
                 console.error(error);
             });
+
+        // for checking info about the user viewing the page -------
+        fetch(this.$backend_url + `/users/get`, {
+            headers: {
+                Authorization: window.localStorage.getItem("token")
+            }
+        })
+            .then(response => response.json())
+            .then(result => {
+                this.currentUser = result;
+                console.log(result);
+            })
+            .catch(error => {
+                console.error("current user: ", error);
+            });
+        // ---------------------------------------------------------
     }
 };
 </script>

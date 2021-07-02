@@ -10,4 +10,4 @@ LANGUAGES = {'am': 'Amharic', 'ar': 'Arabic', 'eu': 'Basque', 'bn': 'Bengali', '
        'ur': 'Urdu', 'uk': 'Ukrainian', 'vi': 'Vietnamese', 'cy': 'Welsh'}
 
 def get_language(code):
-    language = LANGUAGES.get(code)
+    return LANGUAGES.get(code)

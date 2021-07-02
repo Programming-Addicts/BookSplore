@@ -33,7 +33,16 @@
                     </p>
                 </div>
             </div>
-            <img :src="require(`@/assets/delete.png`)" class="deleteIcon">
+            <img
+                v-if="
+                    coverType === `book`
+                        ? raw_review.user.id === currentUser.id
+                        : false
+                "
+                :src="require(`@/assets/delete.png`)"
+                class="deleteIcon"
+                @click="deleteReview($router, $backend_url, raw_review)"
+            />
         </div>
         <div class="reviewDesc">
             {{
@@ -66,7 +75,8 @@ export default {
             type: String,
             default: "book"
         },
-        descLength: Number
+        descLength: Number,
+        currentUser: Object
     },
     components: {
         Cover
@@ -77,6 +87,22 @@ export default {
         };
     },
     methods: {
+        deleteReview: ($router, $backend_url, raw_review) => {
+            fetch($backend_url + `/books/review?review_id=${raw_review.id}`, {
+                headers: {
+                    Authorization: window.localStorage.getItem("token")
+                },
+                method: "DELETE"
+            })
+                .then(response => response.json())
+                .then(result => {
+                    console.log(result);
+                    $router.go(0);
+                })
+                .catch(error => {
+                    console.error(error);
+                });
+        },
         renderStars: starsAmount => {
             // let goldenStar = "⭐";
             // let greyStar = "★";
@@ -141,7 +167,7 @@ export default {
     justify-content: space-between;
     height: max-content;
 }
-.reviewHead .deleteIcon{
+.reviewHead .deleteIcon {
     height: 50px;
     transition: 300ms;
     cursor: pointer;

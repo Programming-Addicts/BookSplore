@@ -87,12 +87,13 @@
                             :raw_review="review"
                             coverType="user"
                             :descLength="280"
+                            :currentUser="currentUser"
                         />
                         <p style="height:10vh;"></p>
                     </div>
                     <div class="noReviews" v-else>
                         This user has not reviewed any books yet
-                        <p style="height:140vh;"></p>
+                        <p style="height:100vh;"></p>
                     </div>
                 </div>
             </div>
@@ -121,7 +122,9 @@
                         />
                     </a>
                 </div>
-                <div class="noRecentBooks" v-else>User has not viewed any books recently</div>
+                <div class="noRecentBooks" v-else>
+                    User has not viewed any books recently
+                </div>
             </div>
         </main>
     </div>
@@ -209,7 +212,7 @@ export default {
                                 : [],
                             followers: result.followers,
                             following: result.following,
-                            total_reviews: result.total_reviews,
+                            total_reviews: result.total_reviews
                         };
                         // for fetching user's recent reviews ----------------------(3)
 
@@ -219,9 +222,10 @@ export default {
                         )
                             .then(response => response.json())
                             .then(reviews => {
-                                // console.log(reviews);
+                                console.log("reviews :", reviews);
                                 this.reviews = reviews.reverse();
                                 this.reviewsFetched = true;
+                                this.infoLoaded = true;
                             })
                             .catch(error => {
                                 console.error("reviews :", error);
@@ -241,9 +245,11 @@ export default {
                                 let modified = [];
                                 books.forEach(element => {
                                     modified.push({
-                                        cover: element.image_links? element.image_links.thumbnail: null,
-                                        link: `/book-info/${element.book_id}`,
-                                    })
+                                        cover: element.image_links
+                                            ? element.image_links.thumbnail
+                                            : null,
+                                        link: `/book-info/${element.book_id}`
+                                    });
                                 });
                                 this.recentBooks = modified;
                             });
@@ -271,7 +277,6 @@ export default {
             .then(result => {
                 this.currentUser = result;
                 console.log(result);
-                this.infoLoaded = true;
             })
             .catch(error => {
                 console.error("current user: ", error);
@@ -396,7 +401,8 @@ main {
     flex-direction: column;
     row-gap: 2vw;
 }
-.reviewsDiv .noReviews, .recentBooksDiv .noRecentBooks {
+.reviewsDiv .noReviews,
+.recentBooksDiv .noRecentBooks {
     color: gray;
     font-size: 25px;
 }
