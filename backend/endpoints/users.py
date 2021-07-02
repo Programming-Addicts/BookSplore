@@ -26,6 +26,8 @@ async def fetch_user(request: Request, id: int = None, authorization: Optional[s
         user.followers  = json.loads(user.followers)
         user.following = json.loads(user.following)
         user_data = dict(user)
+        review_count = await request.app.state.db.fetchrow("SELECT COUNT(*) FROM reviews WHERE user_id = $1", user.id)
+        user_data['total_reviews'] = int(review_count['count'])
         del user_data['recent_books']
         del user_data['email']
         return user_data
@@ -50,6 +52,8 @@ async def search_user(request: Request, username: str):
                     'following' : user['following']}
             user = User(**data)
             user_data = dict(user)
+            review_count = await request.app.state.db.fetchrow("SELECT COUNT(*) FROM reviews WHERE user_id = $1", user.id)
+            user_data['total_reviews'] = int(review_count['count'])
             del user_data['email']
             users.append(user_data)
         return users
