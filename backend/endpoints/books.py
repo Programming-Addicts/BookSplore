@@ -205,7 +205,7 @@ async def delete_review(request: Request, review_id: int, authorization: Optiona
 
 
 @router.get('/reviews')
-async def get_reviews(request: Request, book_id: str = None, user_id: int = None, offset: int = 0):
+async def search_reviews(request: Request, book_id: str = None, user_id: int = None, offset: int = 0):
     if book_id and user_id:
         return JSONResponse({'Invalid Query' : 'Search either by book id OR user id'}, status_code=400)
 
