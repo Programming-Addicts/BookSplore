@@ -90,7 +90,7 @@ async def get_events(request: Request, offset: int = 0, authorization: Optional[
     if user is not None:
         events = []
         
-        records = await request.app.state.db.fetch("SELECT * FROM events WHERE user_id = $1 OFFSET $2 LIMIT 10", int(user.id), offset)
+        records = await request.app.state.db.fetch("SELECT * FROM events WHERE user_id = $1 ORDER BY timestamp DESC OFFSET $2 LIMIT 10", int(user.id), offset)
         for record in records:
             event = dict()
             event['type'] = record['type']
@@ -106,6 +106,8 @@ async def get_events(request: Request, offset: int = 0, authorization: Optional[
 
             elif event['type'] == 'post-review':
                 review = await db.fetchrow("SELECT book_id, rating FROM reviews WHERE id = $1" , int(record['target']))
+                if review is None:
+                    continue
                 target = await db.fetchrow('SELECT * FROM cached_books WHERE book_id = $1', review['book_id'])
                 event['target_book'] = dict(target)
                 event['rating_given'] = review['rating']
