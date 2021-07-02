@@ -45,7 +45,7 @@
         <Review
             v-for="(review, index) of reviews"
             :key="index"
-            :review="review"
+            :raw_review="review"
         />
     </div>
 </template>

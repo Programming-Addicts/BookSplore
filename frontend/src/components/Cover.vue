@@ -1,5 +1,5 @@
 <template>
-    <img :src="imgUrl ? imgUrl: require(`../assets/ProfilePicture.svg`)" class="cover" :style="cssVars(width, height)" />
+    <img :src="imgUrl ? imgUrl: require(`../assets/BookSploreIcon.svg`)" class="cover" :style="cssVars(width, height)" />
 </template>
 
 <script>
@@ -7,7 +7,7 @@ export default {
     name: "Cover",
     props: {
         imgUrl: {
-            default: require("../assets/ProfilePicture.svg")
+            default: require("../assets/BookSploreIcon.svg")
         },
         width: {
             type: String,

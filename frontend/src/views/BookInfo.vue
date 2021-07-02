@@ -1,8 +1,8 @@
 <template>
-    <div class="bookInfo" :style="cssVars(bookData)">
+    <div class="bookInfo" v-if="fetched" :style="cssVars(bookData)">
 		<auth-component />
         <nav-bar :fixed="true" navbar_type="authenticated" />
-        <div class="bookInfoMain" v-if="fetched">
+        <div class="bookInfoMain" >
             <book-info-display :Book="bookData" />
             <div class="downloadButtons">
                 <button id="pdf" v-on:click="getPdf(bookData.pdf)">

@@ -84,7 +84,7 @@
                             type="user"
                             v-for="(review, index) of reviews"
                             :key="index"
-                            :review="review"
+                            :raw_review="review"
                             coverType="user"
                             :descLength="280"
                         />
@@ -241,7 +241,7 @@ export default {
                                 let modified = [];
                                 books.forEach(element => {
                                     modified.push({
-                                        cover: element.image_links.thumbnail,
+                                        cover: element.image_links? element.image_links.thumbnail: null,
                                         link: `/book-info/${element.book_id}`,
                                     })
                                 });

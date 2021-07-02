@@ -40,7 +40,7 @@ export default {
     mounted() {
         console.log(this.mainBook);
         fetch(
-            this.$backend_url + `/books/search?query=inauthor:${this.mainBook.authors[0]}&limit=10&download=false&sorting=relevance`,
+            this.$backend_url + `/books/search?query=inauthor:${this.mainBook.authors[0]}&limit=15&download=false&sorting=relevance`,
 			{
 				headers: {
 					Authorization: window.localStorage.getItem("token")
@@ -54,8 +54,7 @@ export default {
                 this.fetched = true;
             })
             .catch(error => {
-                this.fetched = true;
-                console.error(error);
+                console.error("more book search : ", error);
             });
     }
 };

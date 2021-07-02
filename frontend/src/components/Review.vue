@@ -58,7 +58,7 @@ class BReview {
 export default {
     name: "Review",
     props: {
-        review: Object,
+        raw_review: Object,
         coverType: {
             type: String,
             default: "book"
@@ -67,6 +67,11 @@ export default {
     },
     components: {
         Cover
+    },
+    data() {
+        return {
+            review: {},
+        }
     },
     methods: {
         renderStars: starsAmount => {
@@ -102,7 +107,6 @@ export default {
                 response.book_data.title,
                 new Date(response.timestamp),
                 response.rating,
-                // JSON.parse(response.book_data.image_links).thumbnail,
                 response.book_data.image_links.thumbnail,
                 response.content,
                 `/book-info/${response.book_id}`
@@ -110,7 +114,7 @@ export default {
         }
     },
     created() {
-        this.review = this.formatReviews(this.coverType, this.review);
+        this.review = this.formatReviews(this.coverType, this.raw_review);
     }
 };
 </script>
