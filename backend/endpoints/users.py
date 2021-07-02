@@ -1,3 +1,5 @@
+import re
+from database.utils.review import get_reviews
 import json
 from typing import Optional
 import os
@@ -64,7 +66,7 @@ async def search_user(request: Request, username: str):
 async def get_recent_books(request: Request, user_id: int):
     db = request.app.state.db
     user = await get_user(db, id=user_id)
-    recent_book_ids = json.loads(user.recent_books)[10::-1]
+    recent_book_ids = json.loads(user.recent_books)[8::-1]
     recent_books = []
     for id in recent_book_ids:
         book = await db.fetchrow("SELECT * FROM cached_books WHERE id = $1", id)
@@ -75,4 +77,45 @@ async def get_recent_books(request: Request, user_id: int):
                      'image_links': json.loads(book['image_links'])}
         recent_books.append(book_data)
 
-    return recent_books 
+    return recent_books
+
+@router.get('/events')
+async def get_events(request: Request, offset: int = 0, authorization: Optional[str] = Header(None)):
+    db = request.app.state.db
+    try:
+        user_id = jwt.decode(authorization, secret_key, algorithms="HS256").get("id")
+    except:
+        return JSONResponse({'Error': 'Incorrect Authorization Token'}, status_code=401)
+    user = await get_user(db, id=user_id)
+    if user is not None:
+        events = []
+        
+        records = await request.app.state.db.fetch("SELECT * FROM events WHERE user_id = $1 OFFSET $2 LIMIT 10", int(user.id), offset)
+        for record in records:
+            event = dict()
+            event['type'] = record['type']
+            if event['type'] in ['follow-you', 'follow-user']:
+                target =  await get_user(db, id=int(record['target']))
+                event['target_user'] = {'id' : target.id,
+                                    'username' : target.username,
+                                    'followers': len(json.loads(target.followers)),
+                                    'following' : len(json.loads(target.following)),
+                                    'avatar_url' : target.avatar_url}
+                target_review_count = await db.fetchrow("SELECT COUNT(*) FROM reviews WHERE user_id = $1", int(target.id))
+                event['target_user']['total_reviews'] = int(target_review_count['count'])
+
+            elif event['type'] == 'post-review':
+                review = await db.fetchrow("SELECT book_id, rating FROM reviews WHERE id = $1" , int(record['target']))
+                target = await db.fetchrow('SELECT * FROM cached_books WHERE book_id = $1', review['book_id'])
+                event['target_book'] = dict(target)
+                event['rating_given'] = review['rating']
+            performer = await get_user(db, id=int(record['performer']))
+            event['performer'] = {'id' : performer.id,
+                                'username': performer.username,
+                                'avatar_url' : performer.avatar_url}
+            event['timestamp'] = record['timestamp']
+
+            events.append(event)
+        return events
+    else:
+        return JSONResponse({'None': 'No user is authenticated'}, status_code=401)

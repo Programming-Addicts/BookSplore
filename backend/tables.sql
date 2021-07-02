@@ -12,7 +12,7 @@ recent_books json DEFAULT '[]'
 );
 
 ALTER TABLE users
-    ADD CONSTRAINT username UNIQUE(first_name, last_name, discriminator, username);
+    ADD CONSTRAINT unique_username UNIQUE(first_name, last_name, discriminator, username);
 
 CREATE TABLE reviews(
     id BIGSERIAL PRIMARY KEY,
@@ -43,8 +43,9 @@ CREATE TABLE events(
     user_id INTEGER NOT NULL,
     performer INTEGER NOT NULL,
     target VARCHAR(150) NOT NULL,
-    type VARCHAR(7) NOT NULL,
-    description TEXT NOT NULL,
-    "timestamp" TIMESTAMP WITHOUT TIME ZONE DEFAULT (NOW())::TIMESTAMP WITHOUT TIME ZONE,
-    image TEXT NOT NULL
+    type VARCHAR(30) NOT NULL,
+    "timestamp" TIMESTAMP WITHOUT TIME ZONE DEFAULT (NOW())::TIMESTAMP WITHOUT TIME ZONE
 );
+
+ALTER TABLE events
+    ADD CONSTRAINT unique_event UNIQUE(user_id, performer, target, type);
