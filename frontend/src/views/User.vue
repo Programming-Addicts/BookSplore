@@ -339,6 +339,7 @@ main {
     flex-direction: row;
     margin-bottom: 4vh;
     column-gap: 1vw;
+    width: 100%;
 }
 .userInfo img {
     height: 13vh;
@@ -353,7 +354,9 @@ main {
     display: flex;
     align-items: center;
     column-gap: 1vw;
-    width: 3vw;
+
+    word-wrap: break-word;
+    word-break: break-all;
 }
 .userInfo .username a {
     font-size: 30px;
@@ -376,6 +379,9 @@ main {
     display: flex;
     flex-direction: row;
     column-gap: 5px;
+
+    word-wrap: break-word;
+    word-break: break-all;
 }
 .userInfoText .followersEtc a {
     text-decoration: none;
