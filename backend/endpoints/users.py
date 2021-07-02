@@ -90,7 +90,7 @@ async def get_events(request: Request, offset: int = 0, authorization: Optional[
     if user is not None:
         events = []
         
-        records = await request.app.state.db.fetch("SELECT * FROM events WHERE user_id = $1 OFFSET $2 LIMIT 10", int(user.id), offset)
+        records = await request.app.state.db.fetch("SELECT * FROM events WHERE user_id = $1 ORDER BY timestamp DESC OFFSET $2 LIMIT 10", int(user.id), offset)
         for record in records:
             event = dict()
             event['type'] = record['type']

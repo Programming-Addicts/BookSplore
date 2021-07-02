@@ -7,6 +7,8 @@ async def follow_event(db, performer, target):
     target_user = await get_user(db, id=target)
     followers = json.loads(performer.followers)
     for follower_id in followers:
+        if follower_id == target.id:
+            continue
         await db.execute(query, follower_id, performer.id, str(target_user.id), "follow-user")
     await db.execute(query, target_user.id, performer.id, str(target_user.id), "follow-you")
 
