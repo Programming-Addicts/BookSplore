@@ -428,4 +428,7 @@ main {
 .recentBooksDiv .recentBooks a:hover {
     transform: scale(1.1);
 }
+.recentBooksDiv .recentBooks a:active {
+    transform: scale(0.9);
+}
 </style>
