@@ -6,7 +6,7 @@
             <div class="addReviewTop">
                 <div class="left">
                     <div class="top">
-                        Review
+                        Reviewing
                         <a class="bookName">{{ bookData.title }}</a>
                     </div>
                     <div class="belowTop">
@@ -154,7 +154,7 @@ export default {
     background-color: inherit;
     color: inherit;
     font-family: inherit;
-    font-size: 20px;
+    font-size: 22px;
     padding: 15px;
     height: 30vh;
 

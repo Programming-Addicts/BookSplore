@@ -1,7 +1,7 @@
 <template>
     <div class="bookInfo" v-if="fetched" :style="cssVars(bookData)">
 		<auth-component />
-        <nav-bar :fixed="true" navbar_type="authenticated" />
+        <nav-bar :fixed="false" navbar_type="authenticated" />
         <div class="bookInfoMain" >
             <book-info-display :Book="bookData" />
             <div class="downloadButtons">

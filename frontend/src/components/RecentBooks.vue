@@ -1,50 +1,75 @@
 <template>
   <div class="recent">
     <p class="readsTitle">Your Reads</p>
-    <!-- temporart search field -->
-    <input type="text" class="search" placeholder="Find a book...."/>
-    <!-- going to be replaced by the search component -->
-    <div class="bookList">
+    <div class="bookList" v-if="books.length > 0">
         <div v-for="(book, index) in books" :key="index" class="book">
-            <img src="../assets/BookIcon.svg" :height="scaleHeight(45)">
-            <a :href="book.link" :style="scaleFont(23)">
-              {{ book.name.length > 29 ? book.name.slice(0, 23) + " . . ." : book.name}}
+            <img :src="book.image_links.smallThumbnail" :height="scaleHeight(45)">
+            <a :href="`/book-info/${book.book_id}`" :style="scaleFont(23)">
+              {{ book.title.length > 29 ? book.title.slice(0, 23) + " . . ." : book.title}}
             </a>
         </div>
     </div>
+	<div v-if="books.length == 0" style="color: white;">
+		No books read recently
+	</div>
   </div>
 </template>
 
 <script>
+
+
+
 export default {
-  name: "RecentBooks",
-  props: ["books"],
-  methods: {
-    scaleFont(num) {
-      return {
-        "font-size": `${num * window.innerHeight / 796}px`
-      }
-    },
-    scaleHeight(num) {
-      return num * window.innerHeight / 796
-    }
-  }
+	name: "RecentBooks",
+	data() {
+		return {
+			books: null
+		}
+	},
+	methods: {
+		scaleFont(num) {
+		return {
+			"font-size": `${num * window.innerHeight / 796}px`
+			}
+		},
+		scaleHeight(num) {
+			return num * window.innerHeight / 796
+		}
+	},
+	created() {
+		fetch(
+			this.$backend_url + "/users/get",
+			{
+				headers: {
+					Authorization: window.localStorage.getItem("token")
+				}
+			}
+			).then(
+				response => response.json()
+			).then(
+				data => {
+					fetch(
+						this.$backend_url + `/users/recent-books?user_id=${data.id}`,
+						{
+							headers: {
+								Authorization: window.localStorage.getItem("token")
+							}
+						}
+						).then(
+							response => response.json()
+						).then(
+							data => {
+								this.books = data
+							}
+						)
+				}
+			)
+	},
 };
 </script>
 
 <style scoped>
-/* temporart code vvvvvv */
-.recent input {
-    background: #161C27;
-    border: 1px solid white;
-    border-radius: 5px;
-    width: 80%;
-    color: #BBBBBB;
-    font-family: inherit;
-    font-size: 20px;
-    padding: 10px;
-}
-/* temporart code ^^^^^^ */
+
 .recent {
   display: flex;
   flex-direction: column;
@@ -67,7 +92,7 @@ export default {
 .bookList {
   display: flex;
   flex-direction: column;
-  margin-top: 20px;
+  margin-top: 0px;
   width: 100%;
   row-gap: 10px;
   height: 100%;

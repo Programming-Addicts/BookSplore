@@ -16,8 +16,7 @@
                         "
                     />
                     {{ item.username }}
-                </div></a
-            >
+                </div></a>
         </div>
     </div>
 </template>
@@ -31,47 +30,6 @@ export default {
             $router.push(link);
         }
     },
-    data() {
-        return {
-            test_items: [
-                {
-                    pfp: null,
-                    display_name: "class pythonaddict",
-                    link: ``
-                },
-                {
-                    pfp: null,
-                    display_name: "class pythonaddict",
-                    link: ``
-                },
-                {
-                    pfp: null,
-                    display_name: "class pythonaddict",
-                    link: ``
-                },
-                {
-                    pfp: null,
-                    display_name: "class pythonaddict",
-                    link: ``
-                },
-                {
-                    pfp: null,
-                    display_name: "class pythonaddict",
-                    link: ``
-                },
-                {
-                    pfp: null,
-                    display_name: "class pythonaddict",
-                    link: ``
-                },
-                {
-                    pfp: null,
-                    display_name: "class pythonaddict",
-                    link: ``
-                }
-            ]
-        };
-    }
 };
 </script>
 

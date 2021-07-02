@@ -1,10 +1,9 @@
 <template>
     <div class="event">
         <div class="eventMsg">
-            <img :src="imageUrl" /> <!-- Change to user pfp later -->
-            <a name="userName" href="#" class="userLink">{{ user }}</a>
-            <p name="action">{{ eventType == 'follow' ? 'started following' : 'reviewed' }}</p>
-            <a name="target" href="#" class="targetLink">{{ eventType == 'follow' ? '@' : '' }}{{ eventTarget }}</a>
+            <img :src="myProfileUrl" style="border-radius: 50%; width: 40px; height: 40px; margin-right: 5px; border: 2px white solid;" />
+			<p name="action">{{ user.slice(0, -5) }}  {{ eventType == 'follow' ? 'started following' : 'reviewed' }}</p>
+            <a name="target" :href="url" class="targetLink">{{ eventType == 'follow' ? '@' : '' }}{{ eventType == 'follow' ? eventTarget.slice(0, -5) : eventTarget }}</a>
         </div>
         <div class="eventBox">
             <div class="userInfo">
@@ -15,7 +14,7 @@
                 </div>
             </div>
             <a href="/">
-                <button class="action">{{ eventType == 'follow' ? 'Follow' : 'Read' }}</button>
+                <router-link class="action" :to="url" >View</router-link>
             </a>
         </div>
     </div>
@@ -30,6 +29,8 @@ export default {
         eventDescription: String,
         eventTarget: String, // User that was followed / Book that was reviewed
         imageUrl: String,
+		url: String,
+		myProfileUrl: String
     },
 };
 </script>
@@ -59,7 +60,7 @@ export default {
     display: flex;
     flex-direction: column;
     width: 90%;
-    margin: 30px;
+    margin: 25px;
     margin-bottom: 0%;
     position: relative;
 
@@ -104,6 +105,7 @@ export default {
   color: #92BDFD;
   text-decoration: none;
   padding: 3px;
+  padding-left: 5px;
 }
 
 .userLink {
@@ -129,6 +131,7 @@ export default {
   font-style: normal;
   font-weight: normal;
   font-size: 18px;
+  text-decoration: none !important;
 }
 
 </style>

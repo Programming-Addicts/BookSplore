@@ -63,6 +63,11 @@ export default {
 	},
 	methods: {
 		follow() {
+			
+			if (this.user.id == this.currentUser.id) {
+				return
+			}
+
             let action = this.user.followers.includes(this.currentUser.id)
                 ? `unfollow`
                 : `follow`;
