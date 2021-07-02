@@ -1,5 +1,6 @@
 <template>
     <div class="bookInfo" :style="cssVars(bookData)">
+		<auth-component />
         <nav-bar :fixed="true" navbar_type="authenticated" />
         <div class="bookInfoMain" v-if="fetched">
             <book-info-display :Book="bookData" />
@@ -30,6 +31,7 @@ import NavBar from "../components/NavBar.vue";
 import BookInfoDisplay from "../components/BookInfoDisplay.vue";
 import BookReviews from "../components/BookReviews.vue";
 import MoreByAuthor from "../components/MoreByAuthor.vue";
+import AuthComponent from "../components/AuthComponent.vue";
 
 export default {
     name: "BookInfo",
@@ -37,7 +39,8 @@ export default {
         NavBar,
         BookInfoDisplay,
         BookReviews,
-        MoreByAuthor
+        MoreByAuthor,
+		AuthComponent
     },
     data() {
         return {

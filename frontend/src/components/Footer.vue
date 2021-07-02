@@ -30,6 +30,8 @@ export default {
   height: 100px;
 
   display: relative;
+  position: absolute;
+  bottom: 0;
 }
 
 .logo-container {
