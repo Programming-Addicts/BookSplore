@@ -17,7 +17,12 @@
                             {{ userInfo.name }}
                             <a
                                 @click="
-                                    follow($router, $backend_url, userInfo, currentUser)
+                                    follow(
+                                        $router,
+                                        $backend_url,
+                                        userInfo,
+                                        currentUser
+                                    )
                                 "
                                 v-if="userInfo.id !== currentUser.id"
                             >
@@ -71,9 +76,10 @@
                         showList2 = false;
                         showList1 = false;
                     "
+                    v-if="reviewsFetched"
                 >
                     Recent Reviews
-                    <div class="reviews">
+                    <div class="reviews" v-if="reviews.length">
                         <Review
                             type="user"
                             v-for="(review, index) of reviews"
@@ -83,6 +89,10 @@
                             :descLength="280"
                         />
                     </div>
+                    <div class="noReviews" v-else>
+                        This user has not reviewed any books yet
+                        <p style="height:140vh;"></p>
+                    </div>
                 </div>
             </div>
             <div
@@ -91,6 +101,7 @@
                     showList2 = false;
                     showList1 = false;
                 "
+                v-if="booksFetched"
             >
                 <p class="recentTitle">Recent Books</p>
                 <div class="recentBooks">
@@ -121,17 +132,6 @@ import Review from "../components/Review.vue";
 import FloatingList from "../components/FloatingList.vue";
 import AuthComponent from "../components/AuthComponent.vue";
 
-class UReview {
-    constructor(user, postDate, stars, imageUrl, reviewDesc, link) {
-        this.user = user;
-        this.postDate = postDate;
-        this.stars = stars;
-        this.imageUrl = imageUrl;
-        this.reviewDesc = reviewDesc;
-        this.link = link;
-    }
-}
-
 export default {
     name: "User",
     components: {
@@ -143,24 +143,7 @@ export default {
     },
     data() {
         return {
-            reviews: [
-                new UReview(
-                    "The Hunger Games",
-                    new Date(2021, 8, 12),
-                    3,
-                    require("../assets/ProfilePicture.svg"),
-                    "I really want to dislike the Hunger Games series, but I can't put them down. I love a good, dystopian tale full of twists and turns. It had been many years since I read the original series so it took me a while to remember who Coriolanus would be later on. The tale covers the early Hunger Games and the changes that were employed to generate interest in them out in the districts. Coriolanus is a high school senior. HIs family has fallen on hard times during the war and he is raised by an older cousin and his grandmother. They live on their good name, but often go hungry. Coriolanus falls in love with the tribute he is assigned to, who is much like our later heroine Katniss. Coriolanus is set up numerous times by the Gamemaster and discovers how easily he can kill and betray others to defend himself. ",
-                    ""
-                ),
-                new UReview(
-                    "Catching Fire",
-                    new Date(2021, 8, 12),
-                    5,
-                    require("../assets/ProfilePicture.svg"),
-                    "I really want to dislike the Hunger Games series, but I can't put them down. I love a good, dystopian tale full of twists and turns. It had been many years since I read the original series so it took me a while to remember who Coriolanus would be later on. The tale covers the early Hunger Games and the changes that were employed to generate interest in them out in the districts. Coriolanus is a high school senior. HIs family has fallen on hard times during the war and he is raised by an older cousin and his grandmother. They live on their good name, but often go hungry. Coriolanus falls in love with the tribute he is assigned to, who is much like our later heroine Katniss. Coriolanus is set up numerous times by the Gamemaster and discovers how easily he can kill and betray others to defend himself. ",
-                    ""
-                )
-            ],
+            reviews: [],
             recentBooks: [
                 {
                     cover: null,
@@ -184,7 +167,9 @@ export default {
             currentUser: {},
             showList1: false,
             showList2: false,
-            infoLoaded: false
+            infoLoaded: false,
+            booksFetched: true,
+            reviewsFetched: false
         };
     },
     methods: {
@@ -206,7 +191,7 @@ export default {
         }
     },
     created() {
-        // for fetching the user who's page is being viewed -----------
+        // for fetching the user who's page is being viewed -----------(1)
         let id = this.$route.params.id;
         fetch(this.$backend_url + `/users/get?id=${id}`, {
             headers: {
@@ -216,6 +201,7 @@ export default {
             .then(response => response.json())
             .then(result => {
                 console.log("Users", result);
+                // fetching information about followers ----------------------(2)
                 fetch(this.$backend_url + `/follow/get?id=${result.id}`, {
                     headers: {
                         Authorization: window.localStorage.getItem("token")
@@ -224,6 +210,7 @@ export default {
                     .then(response => response.json())
                     .then(result_ => {
                         console.log("followers:", result_);
+                        console.log(result.followers, result.following);
                         this.userInfo = {
                             name: result.username,
                             pfp: result.avatar_url,
@@ -236,19 +223,58 @@ export default {
                             followingArr: result_.following
                                 ? result_.following
                                 : [],
-                            followers: JSON.parse(result.followers),
-                            following: JSON.parse(result.following),
-                            reviews: 10
+                            followers: result.followers,
+                            following: result.following
                         };
+                        // for fetching user's recent reviews ----------------------(3)
+
+                        fetch(
+                            this.$backend_url +
+                                `/books/reviews?user_id=${this.userInfo.id}`
+                        )
+                            .then(response => response.json())
+                            .then(reviews => {
+                                console.log(reviews);
+                                this.reviews = reviews.reverse();
+                                this.reviewsFetched = true;
+                            })
+                            .catch(error => {
+                                console.error("reviews :", error);
+                            });
+
+                        // ---------------------------------------------------------(3)
+
+                        // for fetching recent books -------------------------------(3)
+
+    // TODO: fix recent books rendering for different users :bonk:
+                        fetch(
+                            this.$backend_url +
+                                `/users/recent-books?user_id=${this.userInfo.id}`
+                        )
+                            .then(response => response.json())
+                            .then(books => {
+                                console.log("recent books: ", books);
+                                let modified = [];
+                                books.forEach(element => {
+                                    modified.push({
+                                        cover: element.image_links.thumbnail,
+                                        link: `/book-info/${element.book_id}`,
+                                    })
+                                });
+                                this.recentBooks = modified;
+                            });
+
+                        // ---------------------------------------------------------(3)
                     })
                     .catch(error => {
                         console.error("followers: ", error);
                     });
+                // ----------------------------------------------------(2)
             })
             .catch(error => {
-                console.error(error);
+                console.error("main", error);
             });
-        // ---------------------------------------------------------
+        // ---------------------------------------------------------(1)
 
         // for checking info about the user viewing the page -------
 
@@ -261,12 +287,12 @@ export default {
             .then(result => {
                 this.currentUser = result;
                 console.log(result);
+                this.infoLoaded = true;
             })
             .catch(error => {
                 console.error("current user: ", error);
             });
         // ---------------------------------------------------------
-        this.infoLoaded = true;
     }
 };
 </script>
@@ -296,6 +322,7 @@ main {
     flex-direction: row;
     margin-top: 4vh;
     margin-bottom: 5vh;
+    justify-content: space-evenly;
 
     font-family: Lato;
     color: white;
@@ -305,6 +332,7 @@ main {
     margin-left: 5vw;
     margin-right: 5vw;
     display: grid;
+    width: 100%;
 }
 .userInfo {
     display: flex;
@@ -340,7 +368,6 @@ main {
 }
 .userInfo .username a:active {
     transform: scale(0.9);
-
 }
 .userInfoText .followersEtc {
     color: #aaaaaa;
@@ -372,13 +399,17 @@ main {
     display: flex;
     flex-direction: column;
     row-gap: 1vw;
+    width: 100%;
 }
 .reviewsDiv .reviews {
     display: flex;
     flex-direction: column;
     row-gap: 2vw;
 }
-
+.reviewsDiv .noReviews {
+    color: gray;
+    font-size: 25px;
+}
 .recentBooksDiv {
     border: 2px solid white;
     border-radius: 10px;

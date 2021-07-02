@@ -8,7 +8,7 @@ import os
 import jwt
 from aiohttp import request as aiorequest
 import dotenv
-from database.utils.user import get_user, update_user
+from database.utils.user import get_user
 from database.utils.review import create_review, get_reviews
 from .utils.language import get_language
 
@@ -109,7 +109,7 @@ async def get_books_data(request: Request, book_id: str, authorization: Optional
         recent_books = json.loads(user.recent_books)
         recent_books = [cache['id']] + recent_books
         user.recent_books = json.dumps(list(set(recent_books))[:30])
-        await db.execute("UPDATE users SET recent_books = $1", user.recent_books)
+        await db.execute("UPDATE users SET recent_books = $1 WHERE id = $2", user.recent_books, user.id)
         return book_info
     else:
         url = f"https://www.googleapis.com/books/v1/volumes/{book_id}"
@@ -134,7 +134,7 @@ async def get_books_data(request: Request, book_id: str, authorization: Optional
             recent_books = json.loads(user.recent_books)
             recent_books = [cache['id']] + recent_books
             user.recent_books = json.dumps(list(set(recent_books)))
-            await db.execute("UPDATE users SET recent_books = $1", user.recent_books) 
+            await db.execute("UPDATE users SET recent_books = $1 WHERE id = $2", user.recent_books, user.id) 
             book_data = {'id': id,
                         'title': title,
                         'authors': authors,
@@ -191,15 +191,12 @@ async def get_review(request: Request, book_id: str = None, user_id: int = None,
     if book_id and user_id:
         return JSONResponse({'Invalid Query' : 'Search either by book id OR user id'}, status_code=400)
 
-    reviews = None
+    reviews = []
 
     if book_id is not None:
         reviews = await get_reviews(request.app.state.db, book_id=book_id, offset=offset)
 
     elif user_id is not None:
         reviews = await get_reviews(request.app.state.db, user_id=user_id, offset=offset) 
-    
-    if reviews:
-        return reviews
-    else:
-        return JSONResponse({'Error' : 'No reviews matching the given parameters were found.'},status_code=404)
+
+    return reviews

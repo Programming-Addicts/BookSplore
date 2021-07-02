@@ -31,6 +31,7 @@ export default {
 				console.log(_)
 				window.localStorage.removeItem("token")
 				this.$router.push("/?msg=You are not logged in. Please authenticate yourself to continue")
+				console.error(_);
 			}
 		)
     }

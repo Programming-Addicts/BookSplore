@@ -1,7 +1,7 @@
 <template>
-    <div class="bookReviewMain">
+    <div class="bookReviewMain" v-if="fetched">
         <div class="reviewTitle">Reviews</div>
-        
+
         <div class="addReview">
             <div class="addReviewTop">
                 <div class="left">
@@ -13,27 +13,37 @@
                         ⭐⭐⭐⭐⭐
                     </div>
                 </div>
-                <button>Publish</button>
+                <button
+                    @click="
+                        postReview($router, $backend_url, {
+                            content: newReview,
+                            book_id: bookData.id,
+                            stay_anonymous: false,
+                            rating: 4
+                        })
+                    "
+                >
+                    Publish
+                </button>
             </div>
-            <textarea cols="30" rows="10" v-model="newReview" placeholder="Publish a public review...." />
+            <textarea
+                cols="30"
+                rows="10"
+                v-model="newReview"
+                placeholder="Publish a public review...."
+            />
         </div>
-
-        <Review v-for="(review, index) of reviews" :key="index" :review="review" />
+        <Review
+            v-for="(review, index) of reviews"
+            :key="index"
+            :review="review"
+        />
     </div>
 </template>
 
 <script>
-import Review from "./Review.vue"
+import Review from "./Review.vue";
 
-class BReview {
-    constructor(user, postDate, stars, imageUrl, reviewDesc) {
-        this.user = user;
-        this.postDate = postDate;
-        this.stars = stars;
-        this.imageUrl = imageUrl;
-        this.reviewDesc = reviewDesc;
-    }
-}
 
 export default {
     name: "BookReviews",
@@ -43,25 +53,45 @@ export default {
     },
     data() {
         return {
-            reviews: [
-                new BReview(
-                    "class PythonAddict",
-                    new Date(2021, 8, 12),
-                    3,
-                    require("../assets/ProfilePicture.svg"),
-                    "I really want to dislike the Hunger Games series, but I can't put them down. I love a good, dystopian tale full of twists and turns. It had been many years since I read the original series so it took me a while to remember who Coriolanus would be later on. The tale covers the early Hunger Games and the changes that were employed to generate interest in them out in the districts. Coriolanus is a high school senior. HIs family has fallen on hard times during the war and he is raised by an older cousin and his grandmother. They live on their good name, but often go hungry. Coriolanus falls in love with the tribute he is assigned to, who is much like our later heroine Katniss. Coriolanus is set up numerous times by the Gamemaster and discovers how easily he can kill and betray others to defend himself. "
-                ),
-                new BReview(
-                    "devnull03",
-                    new Date(2021, 8, 12),
-                    5,
-                    require("../assets/ProfilePicture.svg"),
-                    "I really want to dislike the Hunger Games series, but I can't put them down. I love a good, dystopian tale full of twists and turns. It had been many years since I read the original series so it took me a while to remember who Coriolanus would be later on. The tale covers the early Hunger Games and the changes that were employed to generate interest in them out in the districts. Coriolanus is a high school senior. HIs family has fallen on hard times during the war and he is raised by an older cousin and his grandmother. They live on their good name, but often go hungry. Coriolanus falls in love with the tribute he is assigned to, who is much like our later heroine Katniss. Coriolanus is set up numerous times by the Gamemaster and discovers how easily he can kill and betray others to defend himself. "
-                )
-            ],
+            reviews: [],
             newReview: "",
+            fetched: false
         };
     },
+    methods: {
+        postReview: ($router, $backend_url, data) => {
+            if (!data.content || data.content.trim() === "") {
+                return;
+            }
+            fetch($backend_url + `/books/review`, {
+                headers: {
+                    Authorization: window.localStorage.getItem("token")
+                },
+                method: "POST",
+                body: new URLSearchParams(data)
+            })
+                .then(response => response.json())
+                .then(result => {
+                    console.log(result);
+                    $router.go(0);
+                })
+                .catch(error => {
+                    console.error(error);
+                });
+        },
+    },
+    created() {
+        fetch(this.$backend_url + `/books/reviews?book_id=${this.bookData.id}`)
+            .then(response => response.json())
+            .then(result => {
+                console.log(result);
+                this.reviews = result;
+                this.fetched = true;
+            })
+            .catch(error => {
+                console.error(error);
+            });
+    }
 };
 </script>
 
@@ -72,6 +102,7 @@ export default {
     row-gap: 50px;
     text-align: center;
     padding: 30px;
+    width: 100%;
 
     border: 1px solid #c4c4c4;
     border-radius: 10px;
@@ -123,7 +154,7 @@ export default {
 }
 .addReview .addReviewTop .left .top a {
     font-style: italic;
-    color: #84C4FF;
+    color: #84c4ff;
 }
 .addReview .addReviewTop button {
     background: #7fb6f8;
@@ -145,5 +176,8 @@ export default {
 }
 .addReview .addReviewTop button:hover {
     transform: scale(1.1);
+}
+.addReview .addReviewTop button:active {
+    transform: scale(0.9);
 }
 </style>

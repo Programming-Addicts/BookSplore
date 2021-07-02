@@ -1,6 +1,7 @@
 from    database.utils.user import get_user
 from database.database import Database
 from models.reviews import Review
+import json
 
 async def get_reviews(db:Database, book_id = None, user_id = None, offset = 0):
     query = """SELECT * FROM reviews WHERE """
@@ -17,6 +18,9 @@ async def get_reviews(db:Database, book_id = None, user_id = None, offset = 0):
         review = Review(**record)
         user_id = review.user_id
         user = await get_user(db , id=user_id)
+        book = await db.fetchrow("SELECT title, image_links FROM cached_books WHERE book_id = $1", review.book_id)
+        if book is None:
+            continue
         user_data = dict(user)
         review_data = dict(review)
         del review_data['user_id']
@@ -26,6 +30,7 @@ async def get_reviews(db:Database, book_id = None, user_id = None, offset = 0):
             for key in ['id', 'last_name', 'discriminator', 'username', 'avatar_url', 'followers', 'following']:
                 user_data[key] = None
         review_data['user'] = user_data
+        review_data['book_data'] = {'title' : book['title'], 'image_links' : json.loads(book['image_links'])}
         reviews.append(review_data)
 
     return reviews

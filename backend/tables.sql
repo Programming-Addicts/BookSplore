@@ -5,14 +5,14 @@ last_name VARCHAR(100),
 discriminator INTEGER CONSTRAINT integer_range CHECK (discriminator >= 1000 AND discriminator <= 9999),
 username VARCHAR(500),
 email VARCHAR(255) NOT NULL UNIQUE,
-avatar_url text,
+avatar_url TEXT,
 followers json DEFAULT '[]',
 following json DEFAULT '[]',
 recent_books json DEFAULT '[]'
 );
 
 ALTER TABLE users
-    ADD CONSTRAINT username UNIQUE(first_name, last_name, discriminator);
+    ADD CONSTRAINT username UNIQUE(first_name, last_name, discriminator, username);
 
 CREATE TABLE reviews(
     id BIGSERIAL PRIMARY KEY,
@@ -36,4 +36,15 @@ CREATE TABLE cached_searches(
     book_id VARCHAR(150) UNIQUE NOT NULL,
     "timestamp" TIMESTAMP WITHOUT TIME ZONE DEFAULT (NOW())::TIMESTAMP WITHOUT TIME ZONE,
     response JSON
+);
+
+CREATE TABLE events(
+    id BIGSERIAL PRIMARY KEY,
+    user_id INTEGER NOT NULL,
+    performer INTEGER NOT NULL,
+    target VARCHAR(150) NOT NULL,
+    type VARCHAR(7) NOT NULL,
+    description TEXT NOT NULL,
+    "timestamp" TIMESTAMP WITHOUT TIME ZONE DEFAULT (NOW())::TIMESTAMP WITHOUT TIME ZONE,
+    image TEXT NOT NULL
 );

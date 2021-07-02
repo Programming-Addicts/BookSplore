@@ -23,7 +23,10 @@ async def fetch_user(request: Request, id: int = None, authorization: Optional[s
         user_id = id
     user = await get_user(request.app.state.db, id=user_id)
     if user is not None:
+        user.followers  = json.loads(user.followers)
+        user.following = json.loads(user.following)
         user_data = dict(user)
+        del user_data['recent_books']
         del user_data['email']
         return user_data
     else:
@@ -57,7 +60,7 @@ async def search_user(request: Request, username: str):
 async def get_recent_books(request: Request, user_id: int):
     db = request.app.state.db
     user = await get_user(db, id=user_id)
-    recent_book_ids = json.loads(user.recent_books)
+    recent_book_ids = json.loads(user.recent_books)[10::-1]
     recent_books = []
     for id in recent_book_ids:
         book = await db.fetchrow("SELECT * FROM cached_books WHERE id = $1", id)
