@@ -27,6 +27,11 @@
                 <search-result :book="book" />
             </div>
         </div>
+		<div v-if="activeTab == 'Users'">
+            <div v-for="user of books" :key="user.id" class="result-box">
+                <user-search-result :user="user" />
+            </div>
+		</div>
     </div>
 
     <div v-if="!resultFoundGlobally" class="no-result-box">
@@ -46,6 +51,7 @@ import SearchResult from "@/components/SearchResult.vue"
 import SearchBox from "@/components/SearchBox.vue"
 import TabComponent from "@/components/TabComponent.vue"
 import AuthComponent from "../components/AuthComponent.vue"
+import UserSearchResult from "@/components/UserSearchResult.vue"
 
 
 export default {
@@ -55,7 +61,8 @@ export default {
         SearchResult,
         SearchBox,
         TabComponent,
-		AuthComponent
+		AuthComponent,
+		UserSearchResult
     },
     data() {
         return {
@@ -113,30 +120,44 @@ export default {
             }
             return response.json()
         },
+		async SearchUser(query) {
+            let response = await fetch(
+				`${this.$backend_url}/users/search?username=${query}`)
+
+            this.resultFoundGlobally = response.status == 200;
+			return response.json()
+        },
         updateTab(tab) {
             if (tab == "ISBN") {
-                this.SearchBook(0, 10, `isbn:${this.$route.params.query}`, false).then(
+                this.SearchBook(0, 10, `isbn:${this.$route.params.query}`, true).then(
                     data => {
                         this.books = data
                         this.activeTab = "ISBN"
                     }
                 )
             } else if (tab == "Books") {
-                this.SearchBook(0, 20, `${this.$route.params.query}`, false).then(
+                this.SearchBook(0, 20, `${this.$route.params.query}`, true).then(
                     data => {
                         this.books = data
                         this.activeTab = "Books"
                     }
                 )
             } else if (tab == "Genres") {
-                console.log(tab)
-                this.SearchBook(0, 20, `subject:${this.$route.params.query}`, false).then(
+                this.SearchBook(0, 20, `subject:${this.$route.params.query}`, true).then(
                     data => {
                         this.books = data
                         this.activeTab = "Genres"
                     }
                 )
-            }
+			} else if (tab == "Users") {
+				this.SearchUser(this.$route.params.query).then(
+					data => {
+						console.log(data)
+						this.books = data
+						this.activeTab = "Users"
+					}
+				)
+			}
         },
     }
 }
