@@ -88,7 +88,7 @@
                             coverType="user"
                             :descLength="280"
                         />
-                        <p style="height:100vh;"></p>
+                        <p style="height:50vh;"></p>
                     </div>
                     <div class="noReviews" v-else>
                         This user has not reviewed any books yet
@@ -105,7 +105,7 @@
                 v-if="booksFetched"
             >
                 <p class="recentTitle">Recent Books</p>
-                <div class="recentBooks">
+                <div class="recentBooks" v-if="recentBooks.length">
                     <a
                         v-for="(book, i) of recentBooks.slice(
                             0,
@@ -121,6 +121,7 @@
                         />
                     </a>
                 </div>
+                <div class="noRecentBooks" v-else>User has not viewed any books recently</div>
             </div>
         </main>
     </div>
@@ -397,7 +398,7 @@ main {
     flex-direction: column;
     row-gap: 2vw;
 }
-.reviewsDiv .noReviews {
+.reviewsDiv .noReviews, .recentBooksDiv .noRecentBooks {
     color: gray;
     font-size: 25px;
 }
