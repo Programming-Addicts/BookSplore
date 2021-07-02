@@ -27,7 +27,7 @@
 				Logout
 			</a>
 			<router-link to="/dashboard">Dashboard</router-link>
-			<router-link to="/explore">Explore Books</router-link>
+			<router-link to="/explore">Explore</router-link>
         </div>
       </td>
     </tr></table>

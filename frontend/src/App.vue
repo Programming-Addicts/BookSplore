@@ -1,8 +1,12 @@
 <template>
-	<div style="width: 100%; height: 100%;">
-	    <router-view/>
-		<Footer v-if="$route.path != '/dashboard'" />
-	</div>
+	<table style="width: 100%; height: 100%;">
+		<tr>
+			<router-view/>
+		</tr>
+		<tr>
+			<Footer v-if="$route.path != '/dashboard'" />
+		</tr>
+	</table>
 </template>
 
 <script>
@@ -13,6 +17,14 @@ export default {
 	name: "App",
 	components: {
 		Footer
+	},
+	methods: {
+		getHeight() {
+			return {
+				width: "100%",
+				height: `${window.innerHeight}px`,
+			}
+		}
 	}
 };
 </script>

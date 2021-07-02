@@ -110,7 +110,7 @@ export default {
         }
     },
     created() {
-        this.review = this.formatReviews(this.type, this.review);
+        this.review = this.formatReviews(this.coverType, this.review);
     }
 };
 </script>
