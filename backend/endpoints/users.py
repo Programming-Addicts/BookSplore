@@ -106,6 +106,8 @@ async def get_events(request: Request, offset: int = 0, authorization: Optional[
 
             elif event['type'] == 'post-review':
                 review = await db.fetchrow("SELECT book_id, rating FROM reviews WHERE id = $1" , int(record['target']))
+                if review is None:
+                    continue
                 target = await db.fetchrow('SELECT * FROM cached_books WHERE book_id = $1', review['book_id'])
                 event['target_book'] = dict(target)
                 event['rating_given'] = review['rating']
