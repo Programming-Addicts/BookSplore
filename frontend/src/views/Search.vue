@@ -4,7 +4,7 @@
     <nav-bar :fixed="false" navbar_type="authenticated" />
 
     <div style="width: 100%; display: flex; flex-direction: column; margin-top: 30px;">
-        <h1>{{ books && books.length > 0 ? books.length : 'No' }} results found for "{{ $route.params.query }}"</h1>
+        <h1>{{ books && books.length > 0 ? books.length : 'No' }} result{{ books.length == 1 ? '' : 's' }} found for "{{ $route.params.query }}"</h1>
         
         <div style="width: 100%; display: flex; justify-content: center; margin-bottom: 20px;">
             <search-box
@@ -24,7 +24,11 @@
     <div v-if="resultFoundGlobally" style="width: 100%; margin-top: 30px;">
         <div v-if="'Books Genres ISBN'.includes(activeTab)">
             <div v-for="book of books" :key="book.id" class="result-box">
-                <search-result :book="book" />
+
+				<router-link :to="'/book-info/' + book.id" class="container-link">
+					<search-result :book="book" />
+				</router-link>
+
             </div>
         </div>
 		<div v-if="activeTab == 'Users'">
@@ -166,7 +170,15 @@ export default {
 
 <style scoped>
 
+.container-link {
+    text-decoration: none;
+    color: white;
+}
 
+.container-link:hover {
+    transition: 0.4s;
+    color: #CFE9FF;
+}
 
 .result-box {
     border-radius: 5px;

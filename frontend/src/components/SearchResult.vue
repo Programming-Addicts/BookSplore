@@ -1,6 +1,6 @@
 <template>
-<router-link :to="'/book-info/' + book.id" class="container-link">
-    <table style="width: 100%;"><tr style="width: 100%;">
+
+	<table style="width: 100%;"><tr style="width: 100%;">
         <td>
             <img
                 :src="book.image_links ? (book.image_links.thumbnail ? book.image_links.thumbnail : require('../assets/BookSploreIcon.svg')) : require('../assets/BookSploreIcon.svg')"
@@ -35,9 +35,8 @@
             </tr>
         </table>
     </tr></table>
-</router-link>
-
 </template>
+
 <script>
 
 export default {
@@ -51,15 +50,7 @@ export default {
 
 <style scoped>
 
-.container-link {
-    text-decoration: none;
-    color: white;
-}
 
-.container-link:hover {
-    transition: 0.4s;
-    color: #CFE9FF;
-}
 
 img {
     filter: drop-shadow(0px 5px 10px rgba(0, 0, 0, 0.5));
