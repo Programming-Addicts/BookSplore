@@ -11,6 +11,7 @@ import dotenv
 from database.utils.user import get_user
 from database.utils.review import create_review, get_reviews
 from .utils.language import get_language
+from .utils.events import review_event
 
 dotenv.load_dotenv('.env')
 api_key = os.environ.get('GOOGLE_API_KEY')
@@ -117,7 +118,7 @@ async def get_books_data(request: Request, book_id: str, authorization: Optional
         async with aiorequest('GET', url, params=params) as response:
             book = await response.json()
             if book.get('totalItems') == 0:
-                return JSONResponse({'Invalid Query': 'No books were found.'}, status_code=404)
+                return JSONResponse({'Invalid Query ': 'No books were found.'}, status_code=404)
             book_info = book.get('volumeInfo')
             if book_info is None:
                 return JSONResponse({'Invalid Query' : 'No books were found.'}, status_code=404)
@@ -179,9 +180,11 @@ async def post_review(request: Request, authorization: Optional[str] = Header(No
     user = await get_user(request.app.state.db, id=user_id)
     if user is not None:
         try:
-            await create_review(request.app.state.db, review=review)
+            review = await create_review(request.app.state.db, review=review)
         except:
             return JSONResponse({'Error' : 'Invalid Request Body'} , status_code=400)
+        if not review.stay_anonymous:
+            await review_event(request.app.state.db, performer=user.id, target=review.id)
         return {'Success' : 'Review successfully posted'}
     else:
         return JSONResponse({'None': 'No user is authenticated'}, status_code=401)
