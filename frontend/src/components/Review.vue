@@ -178,10 +178,14 @@ export default {
     padding-top: 20px;
 }
 
-a:link {
+/* a:link {
     text-decoration: none;
+    color: inherit;
 }
 a:visited {
     color: inherit;
+} */
+a:any-link{
+    color: #9ac2ff;
 }
 </style>
