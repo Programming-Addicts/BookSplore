@@ -9,7 +9,7 @@ import jwt
 from aiohttp import request as aiorequest
 import dotenv
 from database.utils.user import get_user
-from database.utils.review import create_review, get_reviews
+from database.utils.review import create_review, get_reviews, get_review
 from .utils.language import get_language
 from .utils.events import review_event
 
@@ -189,8 +189,23 @@ async def post_review(request: Request, authorization: Optional[str] = Header(No
     else:
         return JSONResponse({'None': 'No user is authenticated'}, status_code=401)
 
+@router.delete('/review')
+async def delete_review(request: Request, review_id: int, authorization: Optional[str] = Header(None)):
+    db = request.app.state.db
+    try:
+        user_id = jwt.decode(authorization, secret_key, algorithms="HS256").get("id")
+    except:
+        return JSONResponse({'Error': 'Incorrect Authorization Token'}, status_code=401)
+    review = await get_review(db, id=review_id)
+    if user_id in [1,2,3,4] or user_id == review.user_id:
+        await db.execute("DELETE FROM reviews WHERE id = $1", review_id)
+        return JSONResponse({'Success' : 'Deleted the book review.'}, status_code=200)
+    else:
+        return JSONResponse({'Error' : 'You are not authorized to delete this review.'}, status_code=401)
+
+
 @router.get('/reviews')
-async def get_review(request: Request, book_id: str = None, user_id: int = None, offset: int = 0):
+async def search_reviews(request: Request, book_id: str = None, user_id: int = None, offset: int = 0):
     if book_id and user_id:
         return JSONResponse({'Invalid Query' : 'Search either by book id OR user id'}, status_code=400)
 

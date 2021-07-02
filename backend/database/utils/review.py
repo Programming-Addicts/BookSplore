@@ -41,3 +41,7 @@ async def create_review(db:Database, review: Review):
     await db.execute(query, review.book_id, review.user_id, review.stay_anonymous, review.content, review.rating)
     review = await db.fetchrow("SELECT * FROM reviews WHERE book_id= $1 AND user_id= $2 AND content= $3 AND rating=$4 ORDER BY timestamp DESC LIMIT 1", review.book_id, review.user_id, review.content, review.rating)
     return Review(**review)
+
+async def get_review(db, id):
+    review = await db.fetchrow("SELECT * FROM reviews WHERE id = $1", id)
+    return Review(**review)
