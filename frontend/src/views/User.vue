@@ -34,7 +34,7 @@
                             </a>
                         </p>
                         <p class="followersEtc">
-                            {{ userInfo.reviews }} Reviews |
+                            {{ userInfo.total_reviews }} Reviews |
                             <a
                                 @click="
                                     showList1 = !showList1;
@@ -144,24 +144,7 @@ export default {
     data() {
         return {
             reviews: [],
-            recentBooks: [
-                {
-                    cover: null,
-                    link: ""
-                },
-                {
-                    cover: null,
-                    link: ""
-                },
-                {
-                    cover: null,
-                    link: ""
-                },
-                {
-                    cover: null,
-                    link: ""
-                }
-            ],
+            recentBooks: [],
             maxRecentBooks: 8,
             userInfo: {},
             currentUser: {},
@@ -224,7 +207,8 @@ export default {
                                 ? result_.following
                                 : [],
                             followers: result.followers,
-                            following: result.following
+                            following: result.following,
+                            total_reviews: result.total_reviews,
                         };
                         // for fetching user's recent reviews ----------------------(3)
 
