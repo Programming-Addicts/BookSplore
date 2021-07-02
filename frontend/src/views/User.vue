@@ -88,7 +88,7 @@
                             coverType="user"
                             :descLength="280"
                         />
-                        <p style="height:50vh;"></p>
+                        <p style="height:10vh;"></p>
                     </div>
                     <div class="noReviews" v-else>
                         This user has not reviewed any books yet
@@ -195,7 +195,6 @@ export default {
                     .then(response => response.json())
                     .then(result_ => {
                         console.log("followers:", result_);
-                        console.log(result.followers, result.following);
                         this.userInfo = {
                             name: result.username,
                             pfp: result.avatar_url,
@@ -220,7 +219,7 @@ export default {
                         )
                             .then(response => response.json())
                             .then(reviews => {
-                                console.log(reviews);
+                                // console.log(reviews);
                                 this.reviews = reviews.reverse();
                                 this.reviewsFetched = true;
                             })
@@ -232,7 +231,6 @@ export default {
 
                         // for fetching recent books -------------------------------(3)
 
-    // TODO: fix recent books rendering for different users :bonk:
                         fetch(
                             this.$backend_url +
                                 `/users/recent-books?user_id=${this.userInfo.id}`
