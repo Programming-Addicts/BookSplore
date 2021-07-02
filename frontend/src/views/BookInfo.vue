@@ -44,19 +44,6 @@ export default {
     },
     data() {
         return {
-            dummyData: {
-                cover: null,
-                title: "The ballad of songbirds and snakes",
-                author: "suzanne collins",
-                pageCount: 2000,
-                language: "english",
-                published: new Date(2020, 1, 1),
-                desc:
-                    "Ambition will fuel him. Competition will drive him. But power has its price. It is the morning of the reaping that will kick off the tenth annual Hunger Games. In the Capitol, eighteen-year-old Coriolanus Snow is preparing for his one shot at glory as a mentor in the Games Ambition will fuel him. Competition will drive him. But power has its price. It is the morning of the reaping that will kick off the tenth annual Hunger Games. In the Capitol, eighteen-year-old Coriolanus Snow is preparing for his one shot at glory as a mentor in the Games",
-                pdf: " ",
-                Epub: null,
-                WebReader: " "
-            },
             bookData: {},
             fetched: false,
         };

@@ -34,7 +34,7 @@
                             </a>
                         </p>
                         <p class="followersEtc">
-                            {{ userInfo.reviews }} Reviews |
+                            {{ userInfo.total_reviews }} Reviews |
                             <a
                                 @click="
                                     showList1 = !showList1;
@@ -144,24 +144,7 @@ export default {
     data() {
         return {
             reviews: [],
-            recentBooks: [
-                {
-                    cover: null,
-                    link: ""
-                },
-                {
-                    cover: null,
-                    link: ""
-                },
-                {
-                    cover: null,
-                    link: ""
-                },
-                {
-                    cover: null,
-                    link: ""
-                }
-            ],
+            recentBooks: [],
             maxRecentBooks: 8,
             userInfo: {},
             currentUser: {},
@@ -224,7 +207,8 @@ export default {
                                 ? result_.following
                                 : [],
                             followers: result.followers,
-                            following: result.following
+                            following: result.following,
+                            total_reviews: result.total_reviews,
                         };
                         // for fetching user's recent reviews ----------------------(3)
 
@@ -339,6 +323,7 @@ main {
     flex-direction: row;
     margin-bottom: 4vh;
     column-gap: 1vw;
+    width: 100%;
 }
 .userInfo img {
     height: 13vh;
@@ -353,7 +338,9 @@ main {
     display: flex;
     align-items: center;
     column-gap: 1vw;
-    width: 3vw;
+
+    word-wrap: break-word;
+    word-break: break-all;
 }
 .userInfo .username a {
     font-size: 30px;
@@ -376,6 +363,9 @@ main {
     display: flex;
     flex-direction: row;
     column-gap: 5px;
+
+    word-wrap: break-word;
+    word-break: break-all;
 }
 .userInfoText .followersEtc a {
     text-decoration: none;
@@ -437,5 +427,8 @@ main {
 }
 .recentBooksDiv .recentBooks a:hover {
     transform: scale(1.1);
+}
+.recentBooksDiv .recentBooks a:active {
+    transform: scale(0.9);
 }
 </style>

@@ -29,9 +29,6 @@ export default {
   min-width: 100%;
   height: 100px;
 
-  display: relative;
-  position: absolute;
-  bottom: 0;
 }
 
 .logo-container {

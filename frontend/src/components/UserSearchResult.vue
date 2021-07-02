@@ -1,6 +1,6 @@
 <template>
 
-<router-link :to="'/dev/user/' + user.username.replace('#', '%23')" class="container-link">
+<router-link :to="'/user/' + user.id" class="container-link">
     <table style="width: 100%;"><tr style="width: 100%;">
         <td style="width: 100px;">
             <img

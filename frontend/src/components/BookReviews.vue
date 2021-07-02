@@ -10,7 +10,16 @@
                         <a class="bookName">{{ bookData.title }}</a>
                     </div>
                     <div class="belowTop">
-                        ⭐⭐⭐⭐⭐
+                        <img
+                            v-for="(star, s) of newReviewStars"
+                            :key="s"
+                            :src="
+                                star
+                                    ? require(`../assets/goldenStar.svg`)
+                                    : require(`../assets/grayStar.svg`)
+                            "
+                            @click="newReviewStars = changeStars(s)"
+                        />
                     </div>
                 </div>
                 <button
@@ -19,7 +28,7 @@
                             content: newReview,
                             book_id: bookData.id,
                             stay_anonymous: false,
-                            rating: 4
+                            rating: newReviewStars.reduce((a, b) => a + b, 0)
                         })
                     "
                 >
@@ -44,7 +53,6 @@
 <script>
 import Review from "./Review.vue";
 
-
 export default {
     name: "BookReviews",
     props: ["bookData"],
@@ -55,7 +63,8 @@ export default {
         return {
             reviews: [],
             newReview: "",
-            fetched: false
+            fetched: false,
+            newReviewStars: [0, 0, 0, 0, 0]
         };
     },
     methods: {
@@ -79,6 +88,19 @@ export default {
                     console.error(error);
                 });
         },
+        changeStars: starClicked => {
+            console.log(starClicked);
+            if (starClicked > 4) {
+                console.error(`Invalid Amount of stars: ${starClicked}`);
+                return;
+            }
+            let arr = [];
+            for (let i = 0; i < 5; i++) {
+                arr.push(starClicked - i >= 0);
+            }
+            console.log(arr);
+            return arr;
+        }
     },
     created() {
         fetch(this.$backend_url + `/books/reviews?book_id=${this.bookData.id}`)
@@ -121,7 +143,7 @@ export default {
     display: flex;
     flex-direction: column;
     text-align: left;
-    row-gap: 30px;
+    row-gap: 25px;
     padding: 30px;
 
     border: 1px solid white;
@@ -156,6 +178,28 @@ export default {
     font-style: italic;
     color: #84c4ff;
 }
+
+.addReview .addReviewTop .left .belowTop {
+    display: flex;
+    flex-direction: row;
+    column-gap: 5px;
+    width: min-content;
+    padding: 5px;
+    margin: 0%;
+    margin-top: 5px;
+    user-select: none;
+}
+.addReview .addReviewTop .left .belowTop img {
+    cursor: pointer;
+    transition: 300ms;
+}
+.addReview .addReviewTop .left .belowTop img:hover {
+    transform: scale(1.1);
+}
+.addReview .addReviewTop .left .belowTop img:active {
+    transform: scale(0.9);
+}
+
 .addReview .addReviewTop button {
     background: #7fb6f8;
     border: none;

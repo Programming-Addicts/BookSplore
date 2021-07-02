@@ -36,6 +36,9 @@
                 <user-search-result :user="user" />
             </div>
 		</div>
+
+        <p class="goBackTop">You've reached the bottom, go <a @click="goTop()"> back to the top </a></p>
+
     </div>
 
     <div v-if="!resultFoundGlobally" class="no-result-box">
@@ -107,6 +110,9 @@ export default {
         )
     },
     methods: {
+        goTop: () => {
+            window.scrollTo(0,0);
+        },
         async SearchBook(offset, num, query, globallyUpdateResults) {
             let response = await fetch(
 				`${this.$backend_url}/books/search?query=${query}&download=${this.$route.params.download_only}&limit=${num}&offset=${offset}`,
@@ -228,6 +234,23 @@ h1 {
     font-style: normal;
     font-weight: normal;
     font-size: 45px;
+}
+
+.goBackTop {
+    color: gray;
+    font-family: Lato;
+    font-size: 25px;
+    text-align: center;
+    font-style: italic;
+}
+.goBackTop a{
+    color: #77BAF9;
+    font-weight: 500;
+    cursor: pointer;
+    transition: 300ms;
+}
+.goBackTop a:hover {
+    font-size: 30px;
 }
 
 </style>
