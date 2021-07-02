@@ -120,7 +120,6 @@ export default {
 
 <style scoped>
 .bookInfoMain {
-    padding-top: 80px;
     display: flex;
     flex-direction: column;
     width: 100%;
