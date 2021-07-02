@@ -106,12 +106,12 @@
                 <p class="recentTitle">Recent Books</p>
                 <div class="recentBooks">
                     <a
-                        href=""
                         v-for="(book, i) of recentBooks.slice(
                             0,
                             maxRecentBooks
                         )"
                         :key="i"
+                        :href="book.link"
                     >
                         <Cover
                             width="10vw"
