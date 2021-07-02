@@ -320,7 +320,8 @@ main {
 .left {
     margin-left: 5vw;
     margin-right: 5vw;
-    display: grid;
+    display: flex;
+    flex-direction: column;
     width: 100%;
 }
 .userInfo {
