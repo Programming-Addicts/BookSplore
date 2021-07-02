@@ -1,36 +1,39 @@
 <template>
     <div class="review">
         <div class="reviewHead">
-            <img
-                :src="review.imageUrl"
-                v-if="coverType === `book`"
-                class="pfp"
-            />
-            <Cover
-                :imgUrl="review.imageUrl"
-                height="115px"
-                width="75px"
-                v-else
-            />
-            <div>
-                <div class="userDate">
-                    <a :href="review.link">
-                        {{ review.user }}
-                    </a>
+            <div class="headLeft">
+                <img
+                    :src="review.imageUrl"
+                    v-if="coverType === `book`"
+                    class="pfp"
+                />
+                <Cover
+                    :imgUrl="review.imageUrl"
+                    height="115px"
+                    width="75px"
+                    v-else
+                />
+                <div>
+                    <div class="userDate">
+                        <a :href="review.link">
+                            {{ review.user }}
+                        </a>
+                        <p>
+                            Posted on
+                            {{ review.postDate.toDateString().slice(4) }}
+                        </p>
+                    </div>
                     <p>
-                        Posted on
-                        {{ review.postDate.toDateString().slice(4) }}
+                        <img
+                            :src="star"
+                            v-for="(star, i) of renderStars(review.stars)"
+                            :key="i"
+                            style="height: 20px;"
+                        />
                     </p>
                 </div>
-                <p>
-                    <img
-                        :src="star"
-                        v-for="(star, i) of renderStars(review.stars)"
-                        :key="i"
-                        style="height: 20px;"
-                    />
-                </p>
             </div>
+            <img :src="require(`@/assets/delete.png`)" class="deleteIcon">
         </div>
         <div class="reviewDesc">
             {{
@@ -70,8 +73,8 @@ export default {
     },
     data() {
         return {
-            review: {},
-        }
+            review: {}
+        };
     },
     methods: {
         renderStars: starsAmount => {
@@ -135,25 +138,43 @@ export default {
 .reviewHead {
     display: flex;
     flex-direction: row;
+    justify-content: space-between;
+    height: max-content;
 }
-.reviewHead div {
+.reviewHead .deleteIcon{
+    height: 50px;
+    transition: 300ms;
+    cursor: pointer;
+}
+.reviewHead .deleteIcon:hover {
+    transform: scale(1.1);
+}
+.reviewHead .deleteIcon:active {
+    transform: scale(0.9);
+}
+.reviewHead .headLeft {
+    display: flex;
+    flex-direction: row;
+    height: max-content;
+}
+.reviewHead .headLeft div {
     display: flex;
     flex-direction: column;
 }
-.reviewHead img {
+.reviewHead .headLeft img {
     margin-right: 20px;
 }
-.reviewHead .pfp {
+.reviewHead .headLeft .pfp {
     height: 80px;
     border-radius: 50%;
 }
-.reviewHead p {
+.reviewHead .headLeft p {
     margin: 0%;
     font-size: 20px;
     color: #aaaaaa;
     padding-top: 5px;
 }
-.reviewHead .userDate {
+.reviewHead .headLeft .userDate {
     display: flex;
     flex-direction: row;
     align-items: baseline;
@@ -163,13 +184,13 @@ export default {
     font-size: 28px;
     color: #9ac2ff;
 }
-.reviewHead .userDate a {
+.reviewHead .headLeft .userDate a {
     cursor: pointer;
     text-decoration: none;
     word-wrap: break-word;
     word-break: break-all;
 }
-.reviewHead .userDate a:hover {
+.reviewHead .headLeft .userDate a:hover {
     text-decoration: underline;
 }
 
@@ -185,7 +206,7 @@ export default {
 a:visited {
     color: inherit;
 } */
-a:any-link{
+a:any-link {
     color: #9ac2ff;
 }
 </style>
