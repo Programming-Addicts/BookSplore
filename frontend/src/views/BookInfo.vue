@@ -1,8 +1,8 @@
 <template>
     <div class="bookInfo" v-if="fetched" :style="cssVars(bookData)">
-		<auth-component />
-        <nav-bar :fixed="false" navbar_type="authenticated" />
-        <div class="bookInfoMain" >
+        <auth-component />
+        <nav-bar :fixed="false" navbar_type="authenticated" :currentUser="currentUser" />
+        <div class="bookInfoMain">
             <book-info-display :Book="bookData" />
             <div class="downloadButtons">
                 <button id="pdf" v-on:click="getPdf(bookData.pdf)">
@@ -19,7 +19,7 @@
                 </button>
             </div>
             <div class="bottomSection">
-                <book-reviews :bookData="bookData" />
+                <book-reviews :bookData="bookData" :currentUser="currentUser" />
                 <more-by-author :mainBook="bookData" />
             </div>
         </div>
@@ -40,12 +40,13 @@ export default {
         BookInfoDisplay,
         BookReviews,
         MoreByAuthor,
-		AuthComponent
+        AuthComponent
     },
     data() {
         return {
             bookData: {},
             fetched: false,
+            currentUser: {},
         };
     },
     methods: {
@@ -64,7 +65,7 @@ export default {
                 window.location.href = preview_link;
             }
         },
-       cssVars: book => {
+        cssVars: book => {
             let color = {
                 background: "#7fb6f8",
                 font: "black"
@@ -99,25 +100,42 @@ export default {
     created() {
         fetch(
             this.$backend_url + `/books/get?book_id=${this.$route.params.id}`,
-			{
-				headers: {
-					Authorization: window.localStorage.getItem("token"),
-				},
-			}
+            {
+                headers: {
+                    Authorization: window.localStorage.getItem("token")
+                }
+            }
         )
             .then(response => {
-				if (!response.ok) {
-					this.$router.push("/404")
-				}
-				return response.json()
-			})
+                if (!response.ok) {
+                    this.$router.push("/404");
+                }
+                return response.json();
+            })
             .then(result => {
                 console.log(result);
                 this.bookData = result;
-                this.fetched = true;
+
+                // for checking info about the user viewing the page -------
+                fetch(this.$backend_url + `/users/get`, {
+                    headers: {
+                        Authorization: window.localStorage.getItem("token")
+                    }
+                })
+                    .then(response => response.json())
+                    .then(result_ => {
+                        this.currentUser = result_;
+                        console.log("current user :" , this.currentUser);
+                        this.fetched = true;
+                    })
+                    .catch(error => {
+                        console.error("current user: ", error);
+                    });
+                // ---------------------------------------------------------
+
             })
             .catch(error => {
-				this.$router.push("/404")
+                this.$router.push("/404");
                 console.error(error);
             });
     }

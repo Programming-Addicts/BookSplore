@@ -56,7 +56,7 @@ import Review from "./Review.vue";
 
 export default {
     name: "BookReviews",
-    props: ["bookData"],
+    props: ["bookData", "currentUser"],
     components: {
         Review
     },
@@ -66,7 +66,6 @@ export default {
             newReview: "",
             fetched: false,
             newReviewStars: [0, 0, 0, 0, 0],
-            currentUser: {},
         };
     },
     methods: {
@@ -113,24 +112,8 @@ export default {
                 this.fetched = true;
             })
             .catch(error => {
-                console.error(error);
+                console.error("book reviews", error);
             });
-
-        // for checking info about the user viewing the page -------
-        fetch(this.$backend_url + `/users/get`, {
-            headers: {
-                Authorization: window.localStorage.getItem("token")
-            }
-        })
-            .then(response => response.json())
-            .then(result => {
-                this.currentUser = result;
-                console.log(result);
-            })
-            .catch(error => {
-                console.error("current user: ", error);
-            });
-        // ---------------------------------------------------------
     }
 };
 </script>

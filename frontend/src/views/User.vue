@@ -1,7 +1,7 @@
 <template>
     <div>
         <auth-component />
-        <nav-bar navbar_type="authenticated" />
+        <nav-bar navbar_type="authenticated" :currentUser="currentUser" />
         <main>
             <div class="left">
                 <div class="userInfo" v-if="infoLoaded">

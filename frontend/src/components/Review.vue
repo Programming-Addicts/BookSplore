@@ -104,8 +104,6 @@ export default {
                 });
         },
         renderStars: starsAmount => {
-            // let goldenStar = "⭐";
-            // let greyStar = "★";
             let goldenStar = require("../assets/goldenStar.svg");
             let grayStar = require("../assets/grayStar.svg");
             if (starsAmount > 5) {
