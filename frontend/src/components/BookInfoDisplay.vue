@@ -126,7 +126,7 @@ export default {
                 pageCount: this.Book.page_count,
                 ratings: this.Book.total_ratings,
                 avgRating: this.Book.avg_rating,
-                reviewsAmount: this.Book.reviews,
+                reviewsAmount: this.Book.review_count,
                 description: this.Book.description
             },
             descExpanded: false,
