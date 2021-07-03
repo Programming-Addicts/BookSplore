@@ -11,7 +11,7 @@ async def get_reviews(db:Database, book_id = None, user_id = None, offset = 0):
         query += "user_id = $1 "
     else:
         return None
-    query += "ORDER BY timestamp OFFSET $2 LIMIT 10"
+    query += "ORDER BY timestamp DESC OFFSET $2 LIMIT 10"
     records = await db.fetch(query, book_id or user_id, offset)
     reviews = []
     for record in records:

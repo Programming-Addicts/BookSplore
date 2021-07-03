@@ -110,6 +110,8 @@ async def get_books_data(request: Request, book_id: str, authorization: Optional
         recent_books = json.loads(user.recent_books)
         recent_books = [cache['id']] + recent_books
         user.recent_books = json.dumps(list(set(recent_books))[:30])
+        review_count = await db.fetchrow("SELECT COUNT(*) FROM reviews WHERE book_id = $1", book_info['id'])
+        book_info['review_count'] = int(review_count['count'])
         await db.execute("UPDATE users SET recent_books = $1 WHERE id = $2", user.recent_books, user.id)
         return book_info
     else:
@@ -152,6 +154,8 @@ async def get_books_data(request: Request, book_id: str, authorization: Optional
                         'pdf': has_pdf,
                         'epub': has_epub
                         }
+            review_count = await db.fetchrow("SELECT COUNT(*) FROM reviews WHERE book_id = $1", book_info['id'])
+            book_info['review_count'] = int(review_count['count'])
             await request.app.state.db.execute("INSERT INTO cached_searches (book_id, response) VALUES ($1, $2) ON CONFLICT DO NOTHING", id, json.dumps(book_data))
             return book_data
 
