@@ -162,7 +162,8 @@ export default {
 	justify-content: center;
 	color: white;
 	font-size: 24px;
-	flex-direction: column
+	flex-direction: column;
+	font: Lato;
 }
 
 </style>
