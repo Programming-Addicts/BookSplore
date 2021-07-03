@@ -1,5 +1,5 @@
 import json
-import re
+from datetime import timedelta
 from models.reviews import Review
 from typing import Optional
 from fastapi import APIRouter, Request, Header, Form
@@ -40,11 +40,6 @@ async def search(request: Request, query: str, limit: int = 20, offset: int = 0,
 
     if sorting in ['relevance', 'newest']:
         params['orderBy'] = sorting
-
-    # if book_id is not None:
-    #     url = f"https://www.googleapis.com/books/v1/volumes/{book_id}"
-    #     del params
-    #     params = {'key': api_key}
 
     async with aiorequest('GET', url, params=params) as response:
         data = await response.json()
@@ -174,12 +169,16 @@ async def post_review(request: Request, authorization: Optional[str] = Header(No
                       stay_anonymous: bool = Form(...),
                       content: str = Form(...),
                       rating: int = Form(...)):
+
+    db = request.app.state.db
     try:
         user_id = jwt.decode(authorization, secret_key, algorithms="HS256").get("id")
     except:
         return JSONResponse({'Error': 'Incorrect Authorization Token'}, status_code=401)
 
-    # print(book_id, user_id, stay_annonymous, content, rating, sep="\n\n\n\n")
+    last_review = await db.fetchrow("SELECT NOW() - timestamp AS last_review FROM reviews WHERE user_id = $1 ORDER BY timestamp DESC LIMIT 1", user_id)
+    if last_review['last_review'] < timedelta(minutes=1):
+        return JSONResponse({'Error' : 'To prevent spamming, book reviews are rate limited. To post a review again, try again in sometime.'}, status_code=400)
 
     review = Review(book_id=book_id,
                     user_id=user_id,
@@ -187,14 +186,14 @@ async def post_review(request: Request, authorization: Optional[str] = Header(No
                     content=content,
                     rating=rating)
 
-    user = await get_user(request.app.state.db, id=user_id)
+    user = await get_user(db, id=user_id)
     if user is not None:
         try:
-            review = await create_review(request.app.state.db, review=review)
+            review = await create_review(db, review=review)
         except:
             return JSONResponse({'Error' : 'Invalid Request Body'} , status_code=400)
         if not review.stay_anonymous:
-            await review_event(request.app.state.db, performer=user.id, target=review.id)
+            await review_event(db, performer=user.id, target=review.id)
         return {'Success' : 'Review successfully posted'}
     else:
         return JSONResponse({'None': 'No user is authenticated'}, status_code=401)
