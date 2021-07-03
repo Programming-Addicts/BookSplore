@@ -1,14 +1,16 @@
 <template>
 	<div class="dashboard">
+
 		<auth-component />
 		<nav-bar :fixed="true" navbar_type="dashboard" />
 		<recent-books/>
+	
 		<table style="width: 100%;">
 			<tr>
-				<td class="recent-books" style="width: 30%;">
-				</td>
+				<td class="recent-books" style="width: 30%;" />
+
 				<td>
-					<div v-if="events.length > 0" style="padding-top: 80px;">
+					<div v-if="events.length > 0" class="events-container">
 						<Event
 							v-for="(event, index) in events"
 							:key="index"
@@ -23,10 +25,17 @@
 					</div>
 					<div
 					v-if="events.length == 0"
-					style="margin-top: 120px; display: flex; justify-content: center; color: white;font-size: 24px; flex-direction: column"
+					class="not-found-container"
 					>
-						<p style="margin: auto; margin-bottom: 20px;">Looks like you don't have any activity to show.</p>
-						<img :src="require('../assets/NoData.svg')" width="500px" height="500px" style="margin: auto;">
+						<p style="margin: auto; margin-bottom: 20px;">
+							Looks like you don't have any activity to show.
+						</p>
+						<img
+							:src="require('../assets/NoData.svg')"
+							width="500px"
+							height="500px"
+							style="margin: auto;"
+						>
 					</div>
 				</td>
 			</tr>
@@ -101,7 +110,7 @@ export default {
 						try {
 							isJson = JSON.parse(
 										bsEvent.target_book.image_links
-									)&& !!bsEvent.target_book.image_links
+									) && !!bsEvent.target_book.image_links
 						} catch(e) {
 							isJson = false;
 						}
@@ -137,8 +146,23 @@ export default {
 
 <style scoped>
 
+.events-container {
+	padding-top: 80px;
+	overflow: hidden;
+	padding-bottom: 20px;
+}
+
 .recent-books {
   width: 25%;
+}
+
+.not-found-container {
+	margin-top: 120px;
+	display: flex;
+	justify-content: center;
+	color: white;
+	font-size: 24px;
+	flex-direction: column
 }
 
 </style>

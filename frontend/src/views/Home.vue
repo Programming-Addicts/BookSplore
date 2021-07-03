@@ -26,14 +26,8 @@ export default {
 		}	
     },
     async mounted() {
-		await this.sleep(200)
-        let msg = this.$route.query.msg
-        if (msg) {
-			window.history.pushState("", "", "/")
-            alert(msg)
-        }
 
-        let token = window.localStorage.getItem("token")
+	let token = window.localStorage.getItem("token")
         if (token) {
 			fetch(
 			this.$backend_url + "/users/current",
@@ -49,6 +43,15 @@ export default {
 				}
 			)
         }
+		
+		await this.sleep(150)
+        let msg = this.$route.query.msg
+        if (msg) {
+			window.history.pushState("", "", "/")
+            alert(msg)
+        }
+
+        
     }
 };
 </script>
