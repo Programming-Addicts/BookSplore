@@ -95,13 +95,29 @@ export default {
 							)
 						)
 					} else {
+
+						let isJson = false;
+
+						try {
+							isJson = JSON.parse(
+										bsEvent.target_book.image_links
+									)&& !!bsEvent.target_book.image_links
+						} catch(e) {
+							isJson = false;
+						}
+
+
 						this.events.push(
 							new BEvent(
 								bsEvent.performer.username,
 								"review",
 								`100 reviews`,
 								bsEvent.target_book.title.slice(0, 40) + " . . .",
-								bsEvent.target_book.image_links.thumbnail ? bsEvent.target_book.image_links.thumbnail : require("../assets/BookSploreIcon.svg"),
+								
+								isJson
+								? JSON.parse(bsEvent.target_book.image_links).thumbnail
+								: require("../assets/BookSploreIcon.svg"),
+								
 								`/book-info/${bsEvent.target_book.book_id}`,
 								bsEvent.performer.avatar_url
 							)
