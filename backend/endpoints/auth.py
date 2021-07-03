@@ -47,13 +47,13 @@ async def auth(request: Request):
     req_user = await oauth.google.parse_id_token(request, token)
     db = request.app.state.db
     user = await get_user(db, email=req_user['email'])
-    first_name = req_user['given_name']
-    last_name = req_user['family_name']
+    first_name = req_user.get("given_name", "")
+    last_name = req_user.get("family_name", "")
     if user is None:
         user = User(**{'first_name': first_name,
                        'last_name': last_name,
                        'email': req_user['email']})
-        discrims_for_given_name = await db.fetch("SELECT discriminator FROM users WHERE first_name = $1 AND last_name = $2", req_user['given_name'], req_user['family_name'])
+        discrims_for_given_name = await db.fetch("SELECT discriminator FROM users WHERE first_name = $1 AND last_name = $2", first_name, last_name)
         discrims_for_given_name = [record['discriminator'] for record in discrims_for_given_name]
         if len(discrims_for_given_name) >= 8999:
             last_name += str(random.randint(1,100))
