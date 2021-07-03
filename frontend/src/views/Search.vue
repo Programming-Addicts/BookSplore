@@ -134,8 +134,10 @@ export default {
             let response = await fetch(
 				`${this.$backend_url}/users/search?username=${query}`)
 
-            this.resultFoundGlobally = response.status == 200;
-			return response.json()
+            this.resultFoundGlobally = (response.status == 200) && (response.ok);
+
+			let data = response.json()
+			return data
         },
         updateTab(tab) {
             if (tab == "ISBN") {
@@ -162,7 +164,6 @@ export default {
 			} else if (tab == "Users") {
 				this.SearchUser(this.$route.params.query).then(
 					data => {
-						console.log(data)
 						this.books = data
 						this.activeTab = "Users"
 					}

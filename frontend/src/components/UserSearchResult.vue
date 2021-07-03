@@ -1,6 +1,6 @@
 <template>
 
-<router-link :to="'/user/' + user.id" class="container-link">
+<router-link :to="'/user/' + user.id" class="container-link" v-if="currentUser !== null">
     <table style="width: 100%;"><tr style="width: 100%;">
         <td style="width: 100px;">
             <img
@@ -47,6 +47,9 @@ export default {
 		}
 	},
 	created() {
+			
+		console.log(this.user, this.currentUser)
+	
 		fetch(this.$backend_url + `/users/get`, {
             headers: {
                 Authorization: window.localStorage.getItem("token")

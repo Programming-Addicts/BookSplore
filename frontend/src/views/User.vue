@@ -188,16 +188,21 @@ export default {
         })
             .then(response => response.json())
             .then(result => {
-                console.log("Users", result);
                 // fetching information about followers ----------------------(2)
                 fetch(this.$backend_url + `/follow/get?id=${result.id}`, {
                     headers: {
                         Authorization: window.localStorage.getItem("token")
                     }
                 })
-                    .then(response => response.json())
+                    .then(response => {
+						
+						if (response.status != 200) {
+							this.$router.push("/explore")
+						}
+
+						return response.json()
+					})
                     .then(result_ => {
-                        console.log("followers:", result_);
                         this.userInfo = {
                             name: result.username,
                             pfp: result.avatar_url,
@@ -222,7 +227,6 @@ export default {
                         )
                             .then(response => response.json())
                             .then(reviews => {
-                                console.log("reviews :", reviews);
                                 this.reviews = reviews.reverse();
                                 this.reviewsFetched = true;
                                 this.infoLoaded = true;
@@ -241,7 +245,6 @@ export default {
                         )
                             .then(response => response.json())
                             .then(books => {
-                                console.log("recent books: ", books);
                                 let modified = [];
                                 books.forEach(element => {
                                     modified.push({
@@ -258,6 +261,7 @@ export default {
                     })
                     .catch(error => {
                         console.error("followers: ", error);
+						this.$router.push("/explore")
                     });
                 // ----------------------------------------------------(2)
             })
