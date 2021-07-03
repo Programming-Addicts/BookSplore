@@ -1,5 +1,3 @@
-import re
-from database.utils.review import get_reviews
 import json
 from typing import Optional
 import os

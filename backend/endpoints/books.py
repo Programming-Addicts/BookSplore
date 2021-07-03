@@ -108,8 +108,11 @@ async def get_books_data(request: Request, book_id: str, authorization: Optional
         await db.execute("INSERT INTO cached_books (book_id, title, image_links) VALUES ($1, $2, $3) ON CONFLICT DO NOTHING" , book_info['id'], book_info['title'], json.dumps(book_info['image_links']))
         cache = await db.fetchrow("SELECT id FROM cached_books WHERE book_id = $1", book_info['id'])
         recent_books = json.loads(user.recent_books)
+        cached_id = cache.get('id')
+        if cached_id in recent_books:
+            recent_books.remove(cached_id)    
         recent_books = [cache['id']] + recent_books
-        user.recent_books = json.dumps(list(set(recent_books))[:30])
+        user.recent_books = json.dumps(recent_books[:30])
         review_count = await db.fetchrow("SELECT COUNT(*) FROM reviews WHERE book_id = $1", book_info['id'])
         book_info['review_count'] = int(review_count['count'])
         await db.execute("UPDATE users SET recent_books = $1 WHERE id = $2", user.recent_books, user.id)
@@ -135,8 +138,11 @@ async def get_books_data(request: Request, book_id: str, authorization: Optional
             await db.execute("INSERT INTO cached_books (book_id, title, image_links) VALUES ($1, $2, $3) ON CONFLICT DO NOTHING" , id, title, json.dumps(image_links))
             cache = await db.fetchrow("SELECT id FROM cached_books WHERE book_id = $1", id)
             recent_books = json.loads(user.recent_books)
+            cached_id = cache.get('id')
+            if cached_id in recent_books:
+                recent_books.remove(cached_id)
             recent_books = [cache['id']] + recent_books
-            user.recent_books = json.dumps(list(set(recent_books)))
+            user.recent_books = json.dumps(recent_books[:30])
             await db.execute("UPDATE users SET recent_books = $1 WHERE id = $2", user.recent_books, user.id) 
             book_data = {'id': id,
                         'title': title,
