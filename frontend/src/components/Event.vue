@@ -1,7 +1,7 @@
 <template>
     <div class="event">
         <div class="eventMsg">
-            <img :src="myProfileUrl" style="border-radius: 50%; width: 40px; height: 40px; margin-right: 5px; border: 2px white solid;" />
+            <img :src="myProfileUrl" class="performer-pfp" />
 			<p name="action">{{ user.slice(0, -5) }}  {{ eventType == 'follow' ? 'started following' : 'reviewed' }}</p>
             <a name="target" :href="url" class="targetLink">{{ eventType == 'follow' ? '@' : '' }}{{ eventType == 'follow' ? eventTarget.slice(0, -5) : eventTarget }}</a>
         </div>
@@ -36,6 +36,15 @@ export default {
 </script>
 
 <style scoped>
+
+.performer-pfp {
+	border-radius: 50%;
+	width: 40px;
+	height: 40px;
+	margin-right: 5px;
+	filter: drop-shadow(10px 5px 10px rgba(0, 0, 0, 0.5));
+	border: 1px #000 solid;
+}
 
 .targetInfo {
   font-family: Lato;
