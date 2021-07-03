@@ -69,7 +69,7 @@ export default {
             };
         },
         sendQuery: (endpoint, query) => {
-            window.location.href = endpoint.replace("#", query)
+            window.location.href = endpoint.replace("#", query).replace(' ', '%20');
         }
     }
 };
