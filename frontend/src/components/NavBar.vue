@@ -27,9 +27,9 @@
                         v-if="navbar_type != 'landingpage'"
                         class="link-container"
                     >
-                        <a :href="`/user/${_currentUser.id}`" v-if="fetched" class="currPfpOut"
+                        <a :href="`/user/${currentUser_.id}`" v-if="fetched" class="currPfpOut"
                             ><img
-                                :src="_currentUser.avatar_url"
+                                :src="currentUser_.avatar_url"
                                 class="currentUserPfp"
                         /></a>
                         <a
@@ -75,7 +75,7 @@ export default {
     data() {
       return {
         fetched: false,
-        _currentUser: {},
+        currentUser_: {},
       }
     },
     methods: {
@@ -94,7 +94,7 @@ export default {
     },
     created() {
         if (this.currentUser) {
-          this._currentUser = this.currentUser;
+          this.currentUser_ = this.currentUser;
           this.fetched = true;
             return;
         }
@@ -107,7 +107,7 @@ export default {
         })
             .then(response => response.json())
             .then(result => {
-                this._currentUser = result;
+                this.currentUser_ = result;
                 console.log(result);
                 this.fetched = true;
             })
