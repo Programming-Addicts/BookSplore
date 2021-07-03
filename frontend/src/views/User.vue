@@ -1,10 +1,10 @@
 <template>
-    <div>
+    <div v-if="infoLoaded">
         <auth-component />
         <nav-bar navbar_type="authenticated" :currentUser="currentUser" />
         <main>
             <div class="left">
-                <div class="userInfo" v-if="infoLoaded">
+                <div class="userInfo" >
                     <img
                         :src="
                             userInfo.pfp
