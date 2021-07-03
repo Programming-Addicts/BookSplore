@@ -197,7 +197,7 @@ export default {
                     .then(response => {
 						
 						if (response.status != 200) {
-							this.$router.push("/explore")
+							this.$router.push("/404")
 						}
 
 						return response.json()
@@ -261,7 +261,7 @@ export default {
                     })
                     .catch(error => {
                         console.error("followers: ", error);
-						this.$router.push("/explore")
+						this.$router.push("/404")
                     });
                 // ----------------------------------------------------(2)
             })

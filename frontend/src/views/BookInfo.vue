@@ -105,13 +105,19 @@ export default {
 				},
 			}
         )
-            .then(response => response.json())
+            .then(response => {
+				if (!response.ok) {
+					this.$router.push("/404")
+				}
+				return response.json()
+			})
             .then(result => {
                 console.log(result);
                 this.bookData = result;
                 this.fetched = true;
             })
             .catch(error => {
+				this.$router.push("/404")
                 console.error(error);
             });
     }
