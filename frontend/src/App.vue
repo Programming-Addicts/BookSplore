@@ -1,7 +1,7 @@
 <template>
 	<div>
 		<router-view />
-		<Footer v-if="$route.path != '/dashboard'" />
+		<Footer v-if="$route.path != '/dashboard' && !$route.path.startsWith('/read')" />
 	</div>
 </template>
 

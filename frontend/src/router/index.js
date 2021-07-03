@@ -8,6 +8,7 @@ import Search from "../views/Search.vue"
 import Explore from "../views/Explore.vue"
 import User from "../views/User.vue"
 import NotFoundPage from "../views/NotFoundPage.vue"
+import ReadOnline from "../views/ReadOnline.vue"
 
 Vue.use(VueRouter)
 
@@ -46,6 +47,11 @@ const routes = [
     path: '/user/:id',
     name: 'UserProfile',
     component: User
+  },
+  {
+	path: '/read/:isbn',
+	name: 'ReadOnline',
+	component: ReadOnline
   },
   {
     path: '/*',

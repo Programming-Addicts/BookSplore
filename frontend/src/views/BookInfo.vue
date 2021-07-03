@@ -5,17 +5,14 @@
         <div class="bookInfoMain">
             <book-info-display :Book="bookData" />
             <div class="downloadButtons">
-                <button id="pdf" v-on:click="getPdf(bookData.pdf)">
-                    Download Ebook as PDF
-                </button>
-                <button id="Epub" v-on:click="getEpub(bookData.epub)">
-                    Download Ebook as Epub
+                <button id="pdf" v-on:click="readOnline()">
+                    Read Online
                 </button>
                 <button
                     id="WebReader"
                     v-on:click="getWebReader(bookData.preview_link)"
                 >
-                    Read on WebReader
+                    Preview
                 </button>
             </div>
             <div class="bottomSection">
@@ -50,15 +47,8 @@ export default {
         };
     },
     methods: {
-        getPdf: pdfData => {
-            if (pdfData.acsTokenLink) {
-                window.location.href = pdfData.acsTokenLink;
-            }
-        },
-        getEpub: epubData => {
-            if (epubData.acsTokenLink) {
-                window.location.href = epubData.acsTokenLink;
-            }
+		readOnline() {
+			window.location.href = `/read/${this.bookData.isbns[0].identifier}`
         },
         getWebReader: preview_link => {
             if (preview_link) {
@@ -75,22 +65,12 @@ export default {
                 font: "#444444"
             };
             return {
-                "--pdf-button-color": book.pdf.acsTokenLink
-                    ? color.background
-                    : gray.background,
-                "--Epub-button-color": book.epub.acsTokenLink
-                    ? color.background
-                    : gray.background,
+                "--pdf-button-color": color.background,
                 "--WebReader-button-color": book.preview_link
                     ? color.background
                     : gray.background,
 
-                "--pdf-font-color": book.pdf.acsTokenLink
-                    ? color.font
-                    : gray.font,
-                "--Epub-font-color": book.epub.acsTokenLink
-                    ? color.font
-                    : gray.font,
+                "--pdf-font-color": color.font,
                 "--WebReader-font-color": book.preview_link
                     ? color.font
                     : gray.font

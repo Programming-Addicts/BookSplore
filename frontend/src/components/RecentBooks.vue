@@ -4,8 +4,8 @@
         <div class="bookList" v-if="books.length > 0">
             <div v-for="(book, index) in books" :key="index" class="book">
                 <img
-                    :src="book.image_links.smallThumbnail"
-                    :height="scaleHeight(45)"
+                :src="book.image_links.smallThumbnail ? book.image_links.smallThumbnail : require('../assets/BookSploreIcon.svg')"
+                :height="scaleHeight(45)"
                 />
                 <a :href="`/book-info/${book.book_id}`" :style="scaleFont(23)">
                     {{
