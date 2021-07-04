@@ -247,6 +247,9 @@ a:any-link {
         margin: 0% !important;
         padding: 0%;
     }
+    .cover {
+        height: 30vw !important;
+    }
 }
 
 
