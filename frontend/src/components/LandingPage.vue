@@ -3,6 +3,7 @@
         <div class="section1 section">
             <div class="circle" :style="scaleRadius(900)">
                 <div class="textTitle" :style="scaleFont(60)">
+					<img src="../assets/BookSploreIcon.svg" width="50px" height="50px" class="logo">
                     <p class="title bold">Book</p>
                     <p class="title italic">Splore</p>
                 </div>
@@ -13,7 +14,7 @@
                     Experience a whole new world of books, all in your browser!
                 </p>
                 <a :href="backend_url + '/login'">
-                    <button :style="scaleFont(25)">
+                    <button :style="scaleFont(25)" class="get-started-button">
                         Get Started Now!
                     </button>
                 </a>
@@ -48,7 +49,7 @@
                 />
 
                 <div class="bottomLeft" :style="scaleFont(35)">
-                    <p>Well, what are you waiting for?</p>
+                    <p class="unstyled-welcome">Well, what are you waiting for?</p>
                     <p class="createAccount">
                         <a :href="backend_url + '/login'">
                             Create an account on BookSplore for free!
@@ -185,6 +186,9 @@ export default {
     color: white;
     margin-bottom: 0%;
 }
+.logo {
+	display: none;
+}
 .bold {
     font-weight: bold;
 }
@@ -295,4 +299,78 @@ export default {
     margin-top: -35%;
     margin-left: -10%;
 }
+
+
+@media screen and (max-width: 450px) {
+	
+	.section1 {
+		display: flex;
+	}
+
+	.circle {
+		border-radius: 0px;
+		padding-left: 15px;
+	}
+
+	.textTitle {
+		font-size: 35px !important;
+		padding-left: 0;
+	}
+
+	.welcomeWords {
+		display: none;
+	}
+
+	.grayWords {
+		font-size: 24px !important;
+		text-align: left;
+		padding-left: 1vw;
+	}
+
+	.get-started-button {
+		display: none;
+	}
+
+	.reading-img {
+		width: 130vw !important;
+		height: 80vh !important;
+		margin: 0;
+		margin-top: 100px;
+		margin-left: -950px;
+	}
+
+	.outer1-text {
+		font-size: 30px !important;
+		width: 90%;
+	}
+
+	.reading_online {
+		width: 90%;
+		height: 180%;
+	}
+
+	.bottomRight {
+		display: none;
+	}
+
+	.topRight {
+		display: none;
+	}
+
+	.unstyled-welcome {
+		display: none;
+	}
+
+	.createAccount a {
+		margin-top: 200px;
+		width: 100%;
+	}
+
+	.outer2 {
+		display: block
+	}
+
+}
+
+
 </style>
