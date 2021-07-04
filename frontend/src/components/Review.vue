@@ -36,7 +36,8 @@
             <img
                 v-if="
                     coverType === `book`
-                        ? raw_review.user.id === currentUser.id || [1, 2, 3, 4].includes(currentUser.id)
+                        ? raw_review.user.id === currentUser.id ||
+                          [1, 2, 3, 4].includes(currentUser.id)
                         : false
                 "
                 :src="require(`@/assets/delete.png`)"
@@ -228,29 +229,28 @@ export default {
 a:any-link {
     color: #9ac2ff;
 }
+.stars {
+    flex-direction: row !important;
+    column-gap: 5px;
+    margin-top: 10px;
+    margin-left: 0%;
+}
+.stars img {
+    width: 20px !important;
+    margin: 0% !important;
+    padding: 0%;
+}
 
 @media only screen and (max-width: 600px) {
     .reviewHead .headLeft {
-        flex-direction: column !important; 
+        flex-direction: column !important;
     }
     .userDate {
         flex-direction: column !important;
     }
-    .stars {
-        flex-direction: row !important;
-        column-gap: 0%;
-        margin-top: 10px;
-        margin-left: 0%;
-    }
-    .stars img {
-        width: 20px !important;
-        margin: 0% !important;
-        padding: 0%;
-    }
+
     .cover {
         height: 30vw !important;
     }
 }
-
-
 </style>
