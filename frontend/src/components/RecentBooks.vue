@@ -22,7 +22,7 @@
                 </a>
             </div>
         </div>
-        <div v-if="books.length == 0" style="color: white;">
+        <div v-if="!books.length" style="color: white; font-family: Lato;">
             No books read recently
         </div>
     </div>
@@ -48,6 +48,8 @@ export default {
         }
     },
     created() {
+
+		// Find current user
         fetch(this.$backend_url + "/users/get", {
             headers: {
                 Authorization: window.localStorage.getItem("token")
@@ -55,6 +57,7 @@ export default {
         })
             .then(response => response.json())
             .then(data => {
+				// Fetch user's recent books
                 fetch(
                     this.$backend_url +
                         `/users/recent-books?user_id=${data.id}`,

@@ -71,16 +71,6 @@
                             </p>
                         </div>
                         <div>
-                            <p class="lable">Reviews</p>
-                            <p class="notLable">
-                                {{
-                                    bookData.reviewsAmount
-                                        ? bookData.reviewsAmount
-                                        : "-"
-                                }}
-                            </p>
-                        </div>
-                        <div>
                             <p class="lable">ISBN</p>
                             <p class="notLable">
                                 {{ bookData.isbn }}
@@ -114,7 +104,7 @@ import Cover from "./Cover.vue";
 export default {
     name: "BookInfoDisplay",
     components: {
-        Cover
+        Cover,
     },
     props: ["Book"],
     data() {
@@ -125,8 +115,12 @@ export default {
                         ? this.Book.image_links.thumbnail
                         : require("../assets/BookSploreIcon.svg"),
                 title: this.Book.title,
-                author: this.Book.authors.join(", "),
-                published: new Date(this.Book.publish_date),
+                author: this.Book.authors
+                    ? this.Book.authors.join(", ")
+                    : "Anonymous",
+                published: this.Book.publish_date
+                    ? new Date(this.Book.publish_date)
+                    : "None",
                 publisher: this.Book.publisher,
                 language: this.Book.language,
                 pageCount: this.Book.page_count,
@@ -138,10 +132,10 @@ export default {
                     ? this.Book.isbns[0]
                         ? this.Book.isbns[0].identifier
                         : "-"
-                    : "-"
+                    : "-",
             },
             descExpanded: false,
-            descMaxSize: 300
+            descMaxSize: 300,
         };
     },
     methods: {
@@ -167,18 +161,18 @@ export default {
         scaleRadius(num) {
             return {
                 width: `${(window.innerHeight * num) / 796}px`,
-                height: `${(window.innerHeight * num) / 796}px`
+                height: `${(window.innerHeight * num) / 796}px`,
             };
         },
         scaleFont(num) {
             return {
-                "font-size": `${(window.innerHeight * num) / 796}px`
+                "font-size": `${(window.innerHeight * num) / 796}px`,
             };
-        }
+        },
     },
     mounted() {
         this.collapse(this.bookData.description);
-    }
+    },
 };
 </script>
 

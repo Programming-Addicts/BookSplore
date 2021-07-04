@@ -22,16 +22,6 @@
 </template>
 
 <script>
-//class BEvent {
-//constructor(user, eventType, eventDescription, eventTarget, imageUrl) {
-//this.user = user;
-// this.eventType = eventType;
-//    this.eventDescription = eventDescription;
-//    this.eventTarget = eventTarget;
-//  this.imageUrl = imageUrl;
-//}
-//}
-
 import Event from "./Event.vue";
 
 export default {
@@ -59,12 +49,17 @@ export default {
 </script>
 
 <style scoped>
+* {
+	font-family: Lato;
+}
+
 .timeline-inner {
     width: 100%;
     padding: 0;
     margin: 0;
     margin-top: 100px;
 }
+
 .events {
     height: inherit;
 }
