@@ -301,7 +301,7 @@ export default {
 }
 
 
-@media screen and (max-width: 450px) {
+@media screen and (max-width: 600px) {
 	
 	.section1 {
 		display: flex;
@@ -309,7 +309,11 @@ export default {
 
 	.circle {
 		border-radius: 0px;
-		padding-left: 15px;
+		padding-left: 20px;
+		padding-top: 0;
+		background-color: transparent;
+		margin-top: -30%;
+		margin-left: -30%;
 	}
 
 	.textTitle {
@@ -324,7 +328,8 @@ export default {
 	.grayWords {
 		font-size: 24px !important;
 		text-align: left;
-		padding-left: 1vw;
+		padding-left: 0;
+		padding-right: 20px;
 	}
 
 	.get-started-button {
@@ -336,7 +341,11 @@ export default {
 		height: 80vh !important;
 		margin: 0;
 		margin-top: 100px;
-		margin-left: -950px;
+		margin-left: -130%;
+	}
+
+	.sun-img {
+		display: none;
 	}
 
 	.outer1-text {
