@@ -23,20 +23,20 @@
                             {{ review.postDate.toDateString().slice(4) }}
                         </p>
                     </div>
-                    <p>
+                    <div class="stars">
                         <img
                             :src="star"
                             v-for="(star, i) of renderStars(review.stars)"
                             :key="i"
                             style="height: 20px;"
                         />
-                    </p>
+                    </div>
                 </div>
             </div>
             <img
                 v-if="
                     coverType === `book`
-                        ? raw_review.user.id === currentUser.id
+                        ? raw_review.user.id === currentUser.id || [1, 2, 3, 4].includes(currentUser.id)
                         : false
                 "
                 :src="require(`@/assets/delete.png`)"
@@ -187,6 +187,8 @@ export default {
 }
 .reviewHead .headLeft img {
     margin-right: 20px;
+    height: 80px;
+    width: 80px;
 }
 .reviewHead .headLeft .pfp {
     height: 80px;
@@ -223,14 +225,32 @@ export default {
     padding-top: 20px;
 }
 
-/* a:link {
-    text-decoration: none;
-    color: inherit;
-}
-a:visited {
-    color: inherit;
-} */
 a:any-link {
     color: #9ac2ff;
 }
+
+@media only screen and (max-width: 600px) {
+    .reviewHead .headLeft {
+        flex-direction: column !important; 
+    }
+    .userDate {
+        flex-direction: column !important;
+    }
+    .stars {
+        flex-direction: row !important;
+        column-gap: 0%;
+        margin-top: 10px;
+        margin-left: 0%;
+    }
+    .stars img {
+        width: 20px !important;
+        margin: 0% !important;
+        padding: 0%;
+    }
+    .cover {
+        height: 30vw !important;
+    }
+}
+
+
 </style>

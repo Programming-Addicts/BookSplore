@@ -3,7 +3,11 @@
         <p class="top">Similar Book</p>
         <a :href="`/book-info/${book.id}`">
             <Cover
-                :imgUrl="book.image_links.thumbnail"
+                :imgUrl="
+                    book.image_links
+                        ? book.image_links.thumbnail
+                        : require('../assets/BookSploreIcon.svg')
+                "
                 height="25vw"
                 width="17vw"
             />
@@ -34,18 +38,19 @@ export default {
     data() {
         return {
             fetched: false,
-            book: {},
+            book: {}
         };
     },
     mounted() {
         console.log(this.mainBook);
         fetch(
-            this.$backend_url + `/books/search?query=inauthor:${this.mainBook.authors[0]}&limit=15&download=false&sorting=relevance`,
-			{
-				headers: {
-					Authorization: window.localStorage.getItem("token")
-				}
-			}
+            this.$backend_url +
+                `/books/search?query=inauthor:${this.mainBook.authors[0]}&limit=15&download=false&sorting=relevance`,
+            {
+                headers: {
+                    Authorization: window.localStorage.getItem("token")
+                }
+            }
         )
             .then(response => response.json())
             .then(result => {
@@ -69,6 +74,7 @@ export default {
     padding-left: 40px;
     padding-right: 40px;
     height: min-content;
+    width: min-content;
 
     margin-left: 30px;
     /* margin-right: 50px; */
@@ -85,7 +91,7 @@ a:hover {
     transform: scale(1.05);
 }
 a:active {
-    transform: scale(0.95)
+    transform: scale(0.95);
 }
 
 .top {
@@ -95,4 +101,15 @@ a:active {
     font-size: 20px;
     padding-bottom: 5px;
 }
+
+@media only screen and (max-width: 600px) {
+    .cover {
+        width: 65vw;
+        height: 95vw;
+    }
+    .moreBook {
+        margin: 0%;
+    }
+}
+
 </style>

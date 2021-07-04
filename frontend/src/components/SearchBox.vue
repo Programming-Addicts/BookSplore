@@ -3,7 +3,7 @@
         :style="
             cssVars({
                 height: height,
-                width: width,
+                width: width
             })
         "
         class="inputOuter"
@@ -52,7 +52,7 @@ export default {
         font_size: {
             type: String,
             default: "40px"
-       },
+        },
         center: Boolean,
         test: String
     },
@@ -65,11 +65,13 @@ export default {
         cssVars: vars => {
             return {
                 "--box-width": vars.width,
-                "--box-height": vars.height,
+                "--box-height": vars.height
             };
         },
         sendQuery: (endpoint, query) => {
-            window.location.href = endpoint.replace("#", query).replace(' ', '%20');
+            window.location.href = endpoint
+                .replace("#", query)
+                .replace(" ", "%20");
         }
     }
 };

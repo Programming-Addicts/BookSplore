@@ -4,8 +4,14 @@
         <div class="bookList" v-if="books.length > 0">
             <div v-for="(book, index) in books" :key="index" class="book">
                 <img
-                :src="book.image_links.smallThumbnail ? book.image_links.smallThumbnail : require('../assets/BookSploreIcon.svg')"
-                :height="scaleHeight(45)"
+                    :src="
+                        book.image_links
+                            ? book.image_links.smallThumbnail
+                                ? book.image_links.smallThumbnail
+                                : require('../assets/BookSploreIcon.svg')
+                            : require('../assets/BookSploreIcon.svg')
+                    "
+                    :height="scaleHeight(45)"
                 />
                 <a :href="`/book-info/${book.book_id}`" :style="scaleFont(23)">
                     {{
@@ -16,7 +22,7 @@
                 </a>
             </div>
         </div>
-        <div v-if="books.length == 0" style="color: white;">
+        <div v-if="!books.length" style="color: white; font-family: Lato;">
             No books read recently
         </div>
     </div>
@@ -42,6 +48,7 @@ export default {
         }
     },
     created() {
+        // Find current user
         fetch(this.$backend_url + "/users/get", {
             headers: {
                 Authorization: window.localStorage.getItem("token")
@@ -49,6 +56,7 @@ export default {
         })
             .then(response => response.json())
             .then(data => {
+                // Fetch user's recent books
                 fetch(
                     this.$backend_url +
                         `/users/recent-books?user_id=${data.id}`,
@@ -72,14 +80,14 @@ export default {
 .recent {
     display: flex;
     flex-direction: column;
-    position: fixed;
+    /* position: relative; */
     padding-top: 80px;
     padding-right: 5px;
-    width: 27%;
-    height: 100%;
     border-right: 2px solid white;
     font-family: Lato;
     align-items: center;
+    height: inherit;
+    width: inherit;
 }
 
 .readsTitle {
@@ -128,5 +136,17 @@ export default {
 }
 .bookList div img {
     margin: 0%;
+}
+
+@media only screen and (max-width: 600px) {
+    .bookList {
+        margin-bottom: 32px;
+        border-radius: 20px;
+    }
+    .readsTitle {
+        --margin: 18px;
+        margin-top: var(--margin);
+        margin-bottom: var(--margin);
+    }
 }
 </style>

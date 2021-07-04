@@ -1,14 +1,16 @@
 <template>
     <div class="main">
-		<auth-component />
+        <auth-component />
         <nav-bar navbar_type="authenticated" :fixed="false" />
-        <div class="searchBox">
+        <div class="searchBox" :style="scaleFont(50)">
             Explore our wide collection of Books!
             <search-box
-			:endpoint="`/search/${(downloadOnly ? 1 : 0)}/#`"
-			:height="scale(80)"
+                :endpoint="`/search/${downloadOnly ? 1 : 0}/#`"
+                :height="scale(75)"
+                :width="boxSize"
+                :font_size="scale(35)"
             />
-            <p>
+            <p :style="scaleFont(23)">
                 <input type="checkbox" v-model="downloadOnly" />
                 Only show books which are available for download
             </p>
@@ -20,36 +22,46 @@
 <script>
 import NavBar from "../components/NavBar.vue";
 import SearchBox from "../components/SearchBox.vue";
-import AuthComponent from "../components/AuthComponent.vue"
-
+import AuthComponent from "../components/AuthComponent.vue";
 
 export default {
     name: "Explore",
     components: {
         NavBar,
         SearchBox,
-		AuthComponent
+        AuthComponent
     },
     data() {
         return {
-            downloadOnly: false
+            downloadOnly: false,
+            boxSize: screen.width <= 760 ? `79vw` : `60vw`,
         };
     },
-	methods: {
-		scale(num) {
-			return `${window.innerHeight * num / 796}px`
-		}
-	}
+    methods: {
+        scale(num) {
+            return `${(window.innerHeight * num) / 796}px`;
+        },
+        scaleFont(num) {
+            return {
+                "font-size": `${(window.innerHeight * num) / 796}px`
+            };
+        }
+    }
 };
 </script>
 
 <style scoped>
+* {
+    font-family: Lato;
+}
+
 .main {
     height: 100%;
     width: 100%;
     font-family: Lato;
     color: white;
 }
+
 .searchBox {
     display: flex;
     flex-direction: column;
@@ -61,13 +73,14 @@ export default {
     justify-content: center;
     text-align: center;
 
-    font-size: 50px;
     font-weight: 500;
     row-gap: 50px;
 }
+
 .searchBox img {
     padding: 30px;
 }
+
 .searchBox p {
     font-size: 20px;
     padding: 0%;
@@ -81,4 +94,19 @@ export default {
     -ms-transform: scale(2);
     -webkit-transform: scale(2);
 }
+
+
+@media only screen and (max-width: 600px) {
+    .searchBox img {
+        width: 90vw;
+    }
+    .searchBox {
+        font-size: 30px !important;
+    }
+    .searchBox p {
+        font-size: 20px !important;
+    }
+}
+
+
 </style>

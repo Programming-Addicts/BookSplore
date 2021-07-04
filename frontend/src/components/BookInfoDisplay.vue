@@ -61,7 +61,7 @@
                             </p>
                         </div>
                         <div>
-                            <p class="lable">Average Ratings</p>
+                            <p class="lable">Average Rating</p>
                             <p class="notLable">
                                 {{
                                     bookData.avgRating
@@ -71,13 +71,9 @@
                             </p>
                         </div>
                         <div>
-                            <p class="lable">Reviews</p>
+                            <p class="lable">ISBN</p>
                             <p class="notLable">
-                                {{
-                                    bookData.reviewsAmount
-                                        ? bookData.reviewsAmount
-                                        : "-"
-                                }}
+                                {{ bookData.isbn }}
                             </p>
                         </div>
                     </div>
@@ -86,7 +82,7 @@
         </div>
         <div class="descDiv">
             <p class="desc" ref="desc" v-if="bookData.description">
-                {{ bookData.description.slice(0, descMaxSize) }}....
+                {{ bookData.description.slice(0, descMaxSize) }} . . . .
             </p>
             <p class="noDesc" v-else style="color: gray;">
                 No description provided
@@ -108,29 +104,38 @@ import Cover from "./Cover.vue";
 export default {
     name: "BookInfoDisplay",
     components: {
-        Cover
+        Cover,
     },
     props: ["Book"],
     data() {
         return {
             bookData: {
                 cover:
-                    (this.Book.image_links && this.Book.image_links.thumbnail)
-                    ? this.Book.image_links.thumbnail 
-                    : require('../assets/BookSploreIcon.svg'),
+                    this.Book.image_links && this.Book.image_links.thumbnail
+                        ? this.Book.image_links.thumbnail
+                        : require("../assets/BookSploreIcon.svg"),
                 title: this.Book.title,
-                author: this.Book.authors.join(", "),
-                published: new Date(this.Book.publish_date),
+                author: this.Book.authors
+                    ? this.Book.authors.join(", ")
+                    : "Anonymous",
+                published: this.Book.publish_date
+                    ? new Date(this.Book.publish_date)
+                    : "None",
                 publisher: this.Book.publisher,
                 language: this.Book.language,
                 pageCount: this.Book.page_count,
                 ratings: this.Book.total_ratings,
                 avgRating: this.Book.avg_rating,
                 reviewsAmount: this.Book.review_count,
-                description: this.Book.description
+                description: this.Book.description,
+                isbn: this.Book.isbns
+                    ? this.Book.isbns[0]
+                        ? this.Book.isbns[0].identifier
+                        : "-"
+                    : "-",
             },
             descExpanded: false,
-            descMaxSize: 300
+            descMaxSize: 300,
         };
     },
     methods: {
@@ -144,30 +149,30 @@ export default {
         },
         collapse: function(descData) {
             this.$refs.desc.innerHTML =
-                descData.slice(0, this.descMaxSize) + "....";
+                descData.slice(0, this.descMaxSize) + " . . . .";
             this.$refs.descExpand.innerHTML = "Expand";
         },
         scaleDownHeight(num) {
-            return window.innerHeight * num / 796
+            return (window.innerHeight * num) / 796;
         },
         scaleDownWidth(num) {
-            return window.innerWidth * num / 1536
+            return (window.innerWidth * num) / 1536;
         },
         scaleRadius(num) {
             return {
-                width: `${window.innerHeight * num / 796}px`,
-                height: `${window.innerHeight * num / 796}px`
-            }
+                width: `${(window.innerHeight * num) / 796}px`,
+                height: `${(window.innerHeight * num) / 796}px`,
+            };
         },
         scaleFont(num) {
             return {
-                "font-size": `${window.innerHeight * num / 796}px`
-            }
+                "font-size": `${(window.innerHeight * num) / 796}px`,
+            };
         },
     },
     mounted() {
         this.collapse(this.bookData.description);
-    }
+    },
 };
 </script>
 
@@ -207,7 +212,7 @@ export default {
 }
 
 .descDiv {
-    font-size: 27px;
+    font-size: 26px;
     font-weight: 400;
     display: flex;
     flex-direction: column;
@@ -248,8 +253,8 @@ export default {
     display: flex;
     flex-direction: row;
     padding-top: 44px;
-    font-size: 27px;
     width: 100%;
+    font-size: 25px;
 }
 .infoTable .notLable {
     overflow: hidden;
@@ -286,4 +291,28 @@ export default {
     padding-bottom: 13px;
     color: #aac5fa;
 }
+
+@media only screen and (max-width: 600px) {
+    .bookInfoDisplay {
+        margin: 30px;
+    }
+    .top {
+        flex-direction: column;
+    }
+    .infoTable {
+        flex-direction: column;
+    }
+    .infoTable .left {
+        border: none;
+        width: 100%;
+    }
+    .infoTable .right {
+        padding-left: 0%;
+        width: 100%;
+    }
+    .descDiv {
+        padding: 10px;
+    }
+}
+
 </style>

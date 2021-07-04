@@ -1,7 +1,11 @@
 <template>
     <div class="bookInfo" v-if="fetched" :style="cssVars(bookData)">
         <auth-component />
-        <nav-bar :fixed="false" navbar_type="authenticated" :currentUser="currentUser" />
+        <nav-bar
+            :fixed="false"
+            navbar_type="authenticated"
+            :currentUser="currentUser"
+        />
         <div class="bookInfoMain">
             <book-info-display :Book="bookData" />
             <div class="downloadButtons">
@@ -43,12 +47,14 @@ export default {
         return {
             bookData: {},
             fetched: false,
-            currentUser: {},
+            currentUser: {}
         };
     },
     methods: {
-		readOnline() {
-			window.location.href = `/read/${this.bookData.isbns[0].identifier}`
+        readOnline() {
+            if (this.bookData.pdf.acsTokenLink) {
+                window.location.href = `/read/${this.bookData.isbns[0].identifier}`;
+            }
         },
         getWebReader: preview_link => {
             if (preview_link) {
@@ -65,12 +71,16 @@ export default {
                 font: "#444444"
             };
             return {
-                "--pdf-button-color": color.background,
+                "--pdf-button-color": book.pdf.acsTokenLink
+                    ? color.background
+                    : gray.background,
                 "--WebReader-button-color": book.preview_link
                     ? color.background
                     : gray.background,
 
-                "--pdf-font-color": color.font,
+                "--pdf-font-color": book.pdf.acsTokenLink
+                    ? color.font
+                    : gray.font,
                 "--WebReader-font-color": book.preview_link
                     ? color.font
                     : gray.font
@@ -105,14 +115,13 @@ export default {
                     .then(response => response.json())
                     .then(result_ => {
                         this.currentUser = result_;
-                        console.log("current user :" , this.currentUser);
+                        console.log("current user :", this.currentUser);
                         this.fetched = true;
                     })
                     .catch(error => {
                         console.error("current user: ", error);
                     });
                 // ---------------------------------------------------------
-
             })
             .catch(error => {
                 this.$router.push("/404");
@@ -149,23 +158,27 @@ export default {
     cursor: pointer;
     transition: 300ms;
 }
+
 .downloadButtons button:hover {
     transform: scale(1.1);
 }
+
 .downloadButtons button:active {
     transform: scale(0.8);
 }
+
 .downloadButtons #pdf {
     background: var(--pdf-button-color);
     color: var(--pdf-font-color);
+    padding-left: 20px;
+    padding-right: 20px;
 }
-.downloadButtons #Epub {
-    background: var(--Epub-button-color);
-    color: var(--Epub-font-color);
-}
+
 .downloadButtons #WebReader {
     background: var(--WebReader-button-color);
     color: var(--WebReader-font-color);
+    padding-left: 40px;
+    padding-right: 40px;
 }
 
 .bottomSection {
@@ -174,4 +187,18 @@ export default {
     margin: 5vw;
     justify-content: space-evenly;
 }
+
+@media only screen and (max-width: 600px) {
+    .bottomSection {
+        flex-direction: column-reverse;
+        row-gap: 40px;
+        align-items: center;
+    }
+    .downloadButtons button {
+        padding-top: 5vw;
+        padding-bottom: 5vw;
+    }
+}
+
+
 </style>

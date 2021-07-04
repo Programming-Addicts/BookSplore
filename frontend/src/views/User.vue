@@ -1,10 +1,10 @@
 <template>
-    <div>
+    <div v-if="infoLoaded">
         <auth-component />
         <nav-bar navbar_type="authenticated" :currentUser="currentUser" />
         <main>
             <div class="left">
-                <div class="userInfo" v-if="infoLoaded">
+                <div class="userInfo">
                     <img
                         :src="
                             userInfo.pfp
@@ -12,7 +12,7 @@
                                 : require(`../assets/ProfilePicture.svg`)
                         "
                     />
-                    <div class="userInfoText">
+                    <div class="userInfoText" :style="scaleFont(50)">
                         <p class="username">
                             {{ userInfo.name }}
                             <a
@@ -32,17 +32,27 @@
                                         : `Follow`
                                 }}
                             </a>
+                            <span
+                                style="color: grey; font-size: 20px; margin-top: 15px;"
+								v-if="userInfo.id <= 4 && userInfo.id > 0"
+                            >
+								BookSplore Admin
+								</span>
                         </p>
                         <p class="followersEtc">
-                            {{ userInfo.total_reviews }} Reviews |
+                            {{ userInfo.total_reviews }} Reviews
                             <a
                                 @click="
                                     showList1 = !showList1;
                                     showList2 = false;
                                 "
-                                >{{ userInfo.followers.length }} Followers
+                            >
+                                | {{ userInfo.followers.length }} Followers
                                 <transition name="slide-fade">
-                                    <div class="hoverList" v-if="showList1">
+                                    <div
+                                        class="hoverList hoverList1"
+                                        v-if="showList1"
+                                    >
                                         <floating-list
                                             title="Followers"
                                             :items="userInfo.followersArr"
@@ -50,16 +60,19 @@
                                     </div>
                                 </transition>
                             </a>
-                            |
+
                             <a
                                 @click="
                                     showList2 = !showList2;
                                     showList1 = false;
                                 "
                             >
-                                {{ userInfo.following.length }} Following
+                                | {{ userInfo.following.length }} Following
                                 <transition name="slide-fade">
-                                    <div class="hoverList" v-if="showList2">
+                                    <div
+                                        class="hoverList hoverList2"
+                                        v-if="showList2"
+                                    >
                                         <floating-list
                                             title="Following"
                                             :items="userInfo.followingArr"
@@ -89,11 +102,10 @@
                             :descLength="280"
                             :currentUser="currentUser"
                         />
-                        <p style="height:10vh;"></p>
+                        <p class="reviewPadding"></p>
                     </div>
                     <div class="noReviews" v-else>
                         This user has not reviewed any books yet
-                        <p style="height:100vh;"></p>
                     </div>
                 </div>
             </div>
@@ -144,20 +156,20 @@ export default {
         Review,
         Cover,
         FloatingList,
-        AuthComponent
+        AuthComponent,
     },
     data() {
         return {
             reviews: [],
             recentBooks: [],
-            maxRecentBooks: 8,
+            maxRecentBooks: screen.width <= 760 ? 4 : 8,
             userInfo: {},
             currentUser: {},
             showList1: false,
             showList2: false,
             infoLoaded: false,
             booksFetched: true,
-            reviewsFetched: false
+            reviewsFetched: false,
         };
     },
     methods: {
@@ -167,42 +179,46 @@ export default {
                 : `follow`;
             fetch($backend_url + `/${action}?id=${userInfo.id}`, {
                 headers: {
-                    Authorization: window.localStorage.getItem("token")
+                    Authorization: window.localStorage.getItem("token"),
                 },
-                method: "POST"
+                method: "POST",
             })
-                .then(response => response.json())
-                .then(result => {
+                .then((response) => response.json())
+                .then((result) => {
                     console.log(result);
                     $router.go(0);
                 });
-        }
+        },
+        scaleFont(num) {
+            return {
+                "font-size": `${(window.innerHeight * num) / 796}px`,
+            };
+        },
     },
     created() {
         // for fetching the user who's page is being viewed -----------(1)
         let id = this.$route.params.id;
         fetch(this.$backend_url + `/users/get?id=${id}`, {
             headers: {
-                Authorization: window.localStorage.getItem("token")
-            }
+                Authorization: window.localStorage.getItem("token"),
+            },
         })
-            .then(response => response.json())
-            .then(result => {
+            .then((response) => response.json())
+            .then((result) => {
                 // fetching information about followers ----------------------(2)
                 fetch(this.$backend_url + `/follow/get?id=${result.id}`, {
                     headers: {
-                        Authorization: window.localStorage.getItem("token")
-                    }
+                        Authorization: window.localStorage.getItem("token"),
+                    },
                 })
-                    .then(response => {
-						
-						if (response.status != 200) {
-							this.$router.push("/404")
-						}
+                    .then((response) => {
+                        if (response.status != 200) {
+                            this.$router.push("/404");
+                        }
 
-						return response.json()
-					})
-                    .then(result_ => {
+                        return response.json();
+                    })
+                    .then((result_) => {
                         this.userInfo = {
                             name: result.username,
                             pfp: result.avatar_url,
@@ -217,7 +233,7 @@ export default {
                                 : [],
                             followers: result.followers,
                             following: result.following,
-                            total_reviews: result.total_reviews
+                            total_reviews: result.total_reviews,
                         };
                         // for fetching user's recent reviews ----------------------(3)
 
@@ -225,13 +241,13 @@ export default {
                             this.$backend_url +
                                 `/books/reviews?user_id=${this.userInfo.id}`
                         )
-                            .then(response => response.json())
-                            .then(reviews => {
+                            .then((response) => response.json())
+                            .then((reviews) => {
                                 this.reviews = reviews.reverse();
                                 this.reviewsFetched = true;
                                 this.infoLoaded = true;
                             })
-                            .catch(error => {
+                            .catch((error) => {
                                 console.error("reviews :", error);
                             });
 
@@ -243,15 +259,15 @@ export default {
                             this.$backend_url +
                                 `/users/recent-books?user_id=${this.userInfo.id}`
                         )
-                            .then(response => response.json())
-                            .then(books => {
+                            .then((response) => response.json())
+                            .then((books) => {
                                 let modified = [];
-                                books.forEach(element => {
+                                books.forEach((element) => {
                                     modified.push({
                                         cover: element.image_links
                                             ? element.image_links.thumbnail
                                             : null,
-                                        link: `/book-info/${element.book_id}`
+                                        link: `/book-info/${element.book_id}`,
                                     });
                                 });
                                 this.recentBooks = modified;
@@ -259,13 +275,13 @@ export default {
 
                         // ---------------------------------------------------------(3)
                     })
-                    .catch(error => {
+                    .catch((error) => {
                         console.error("followers: ", error);
-						this.$router.push("/404")
+                        this.$router.push("/404");
                     });
                 // ----------------------------------------------------(2)
             })
-            .catch(error => {
+            .catch((error) => {
                 console.error("main", error);
             });
         // ---------------------------------------------------------(1)
@@ -274,19 +290,19 @@ export default {
 
         fetch(this.$backend_url + `/users/get`, {
             headers: {
-                Authorization: window.localStorage.getItem("token")
-            }
+                Authorization: window.localStorage.getItem("token"),
+            },
         })
-            .then(response => response.json())
-            .then(result => {
+            .then((response) => response.json())
+            .then((result) => {
                 this.currentUser = result;
                 console.log(result);
             })
-            .catch(error => {
+            .catch((error) => {
                 console.error("current user: ", error);
             });
         // ---------------------------------------------------------
-    }
+    },
 };
 </script>
 
@@ -294,8 +310,9 @@ export default {
 .hoverList {
     height: 300px;
     width: 300px;
-    margin: 30px;
+    margin-top: 30px;
     position: fixed;
+    z-index: 99 !important;
 }
 
 .slide-fade-enter-active {
@@ -336,18 +353,20 @@ main {
     width: 100%;
 }
 .userInfo img {
-    height: 13vh;
+    --size: 10vw;
+    height: var(--size);
+    width: var(--size);
     border-radius: 50%;
 }
 .userInfo p {
     margin: 0%;
 }
 .userInfoText .username {
-    font-size: 50px;
     font-weight: 500;
-    display: flex;
-    align-items: center;
+    display: inline-block;
+    /* align-items: center; */
     column-gap: 1vw;
+    font-size: inherit;
 
     word-wrap: break-word;
     word-break: break-all;
@@ -390,9 +409,9 @@ main {
     padding-left: 5px;
     padding-right: 5px;
 }
-.userInfoText .followersEtc a:active {
+/* .userInfoText .followersEtc a:active {
     transform: scale(0.9);
-}
+} */
 .reviewsDiv {
     font-size: 35px;
     font-weight: 500;
@@ -410,6 +429,12 @@ main {
 .recentBooksDiv .noRecentBooks {
     color: gray;
     font-size: 25px;
+}
+.reviewPadding {
+    height: 10vh;
+}
+.noReviews {
+    height: 50vh;
 }
 .recentBooksDiv {
     border: 2px solid white;
@@ -442,4 +467,69 @@ main {
 .recentBooksDiv .recentBooks a:active {
     transform: scale(0.9);
 }
+
+/* css for mobiles ------------------------ */
+
+@media only screen and (max-width: 600px) {
+    main {
+        flex-direction: column;
+        margin: 10px;
+    }
+    .left {
+        margin: 0%;
+    }
+    .userInfo {
+        flex-direction: column;
+    }
+    .userInfo img {
+        --size: 24vw;
+        height: var(--size);
+        width: var(--size);
+    }
+    .userInfoText .username {
+        display: inline-flex;
+        flex-direction: column;
+        font-size: 10vw;
+        padding-right: 10px;
+
+        word-wrap: break-word;
+        word-break: break-all;
+    }
+    .userInfoText .username a {
+        text-align: left;
+    }
+    .userInfoText .followersEtc {
+        font-size: 5vw;
+    }
+    .followersEtc .hoverList2 {
+        margin-left: -50%;
+    }
+    .followersEtc .hoverList1 {
+        margin-left: -15%;
+    }
+    .followersEtc a {
+        width: fit-content;
+    }
+
+    .reviewsDiv {
+        row-gap: 30px;
+    }
+    .reviewPadding {
+        height: 50px;
+    }
+    .noReviews {
+        padding-right: 20px;
+    }
+
+    .recentBooksDiv {
+        align-self: center;
+        margin: 0%;
+    }
+    .recentBooks .cover {
+        width: 39vw;
+        height: 55vw;
+    }
+}
+
+/* ---------------------------------------- */
 </style>

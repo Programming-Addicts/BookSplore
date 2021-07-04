@@ -1,169 +1,238 @@
 <template>
-	<div class="dashboard">
+    <div class="dashboard">
+        <auth-component />
+        <nav-bar :fixed="true" navbar_type="dashboard" />
+        <div class="mainStuff">
+            <div class="recentWraper">
+                <recent-books />
+            </div>
 
-		<auth-component />
-		<nav-bar :fixed="true" navbar_type="dashboard" />
-		<recent-books/>
-	
-		<table style="width: 100%;">
-			<tr>
-				<td class="recent-books" style="width: 30%;" />
-
-				<td>
-					<div v-if="events.length > 0" class="events-container">
-						<Event
-							v-for="(event, index) in events"
-							:key="index"
-							:user="event.user"
-							:eventType="event.eventType"
-							:eventDescription="event.eventDescription"
-							:eventTarget="event.eventTarget"
-							:imageUrl="event.imageUrl"
-							:myProfileUrl="event.myProfileUrl"
-							:url="event.url"
-						/>
-					</div>
-					<div
-					v-if="events.length == 0"
-					class="not-found-container"
-					>
-						<p style="margin: auto; margin-bottom: 20px;">
-							Looks like you don't have any activity to show.
-						</p>
-						<img
-							:src="require('../assets/NoData.svg')"
-							width="500px"
-							height="500px"
-							style="margin: auto;"
-						>
-					</div>
-				</td>
-			</tr>
-		</table>
-	</div>
+            <table>
+                <tr>
+                    <td>
+                        <p class="activityTitle">
+                            All Activity
+                        </p>
+                        <div v-if="events.length > 0" class="events-container">
+                            <Event
+                                v-for="(event, index) in events"
+                                :key="index"
+                                :user="event.user"
+                                :eventType="event.eventType"
+                                :eventDescription="event.eventDescription"
+                                :eventTarget="event.eventTarget"
+                                :imageUrl="event.imageUrl"
+                                :myProfileUrl="event.myProfileUrl"
+                                :url="event.url"
+                            />
+                        </div>
+                        <div
+                            v-if="events.length == 0"
+                            class="not-found-container"
+                        >
+                            <p style="margin: auto; margin-bottom: 20px;">
+                                Looks like you don't have any activity to show.
+                                Try searching for books, or following users on
+                                our
+                                <router-link
+                                    to="/explore"
+                                    class="link-to-explore"
+                                    >Explore page</router-link
+                                >!
+                            </p>
+                            <img
+                                :src="require('../assets/NoData.svg')"
+                                width="500px"
+                                height="500px"
+                                style="margin: auto;"
+                            />
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
 </template>
 
 <script>
-
 class BEvent {
-	constructor(user, eventType, eventDescription, eventTarget, imageUrl, url, myProfileUrl) {
-		this.user = user;
-		this.eventType = eventType;
-		this.eventDescription = eventDescription;
-		this.eventTarget = eventTarget;
-		this.imageUrl = imageUrl;
-		this.url = url;
-		this.myProfileUrl = myProfileUrl;
-	}
+    constructor(
+        user,
+        eventType,
+        eventDescription,
+        eventTarget,
+        imageUrl,
+        url,
+        myProfileUrl
+    ) {
+        this.user = user;
+        this.eventType = eventType;
+        this.eventDescription = eventDescription;
+        this.eventTarget = eventTarget;
+        this.imageUrl = imageUrl;
+        this.url = url;
+        this.myProfileUrl = myProfileUrl;
+    }
 }
 
-
-import AuthComponent from "../components/AuthComponent.vue"
+import AuthComponent from "../components/AuthComponent.vue";
 import RecentBooks from "../components/RecentBooks.vue";
 import NavBar from "../components/NavBar.vue";
 import Event from "../components/Event.vue";
 
 export default {
-	name: "Dashboard",
-	components: {
-		RecentBooks,
-		NavBar,
-		AuthComponent,
-		Event
-	},
-	created() {
-		let token = this.$route.query.token;
-		if (token) {
-			window.localStorage.setItem('token', `${token}`);
-			this.$router.push('dashboard');
-		}
-		
-		fetch(
-			this.$backend_url + "/users/events",
-		{
-			headers: {
-				Authorization: window.localStorage.getItem("token")
-			},
-		}
-		).then(
-			response => response.json()
-		).then(
-			data => {
+    name: "Dashboard",
+    components: {
+        RecentBooks,
+        NavBar,
+        AuthComponent,
+        Event
+    },
+    created() {
+        let token = this.$route.query.token;
+        if (token) {
+            window.localStorage.setItem("token", `${token}`);
+            this.$router.push("dashboard");
+        }
 
-				for (var bsEvent of data) {
-					if (bsEvent.type == "follow-you" || bsEvent.type == "follow-user") {
-						this.events.push(
-							new BEvent(
-								bsEvent.performer.username,
-								"follow",
-								`${bsEvent.target_user.total_reviews} reviews, ${bsEvent.target_user.followers} followers`,
-								bsEvent.target_user.username,
-								bsEvent.target_user.avatar_url,
-								`/user/${bsEvent.target_user.id}`,
-								bsEvent.performer.avatar_url
-							)
-						)
-					} else {
+        fetch(this.$backend_url + "/users/events", {
+            headers: {
+                Authorization: window.localStorage.getItem("token")
+            }
+        })
+            .then(response => response.json())
+            .then(data => {
+                for (var bsEvent of data) {
+                    if (
+                        bsEvent.type == "follow-you" ||
+                        bsEvent.type == "follow-user"
+                    ) {
+                        this.events.push(
+                            new BEvent(
+                                bsEvent.performer.username,
+                                "follow",
+                                `${bsEvent.target_user.total_reviews} reviews, ${bsEvent.target_user.followers} followers`,
+                                bsEvent.target_user.username,
+                                bsEvent.target_user.avatar_url,
+                                `/user/${bsEvent.target_user.id}`,
+                                bsEvent.performer.avatar_url
+                            )
+                        );
+                    } else {
+                        let isJson = false;
 
-						let isJson = false;
+                        try {
+                            isJson =
+                                JSON.parse(bsEvent.target_book.image_links) &&
+                                !!bsEvent.target_book.image_links;
+                        } catch (e) {
+                            isJson = false;
+                        }
 
-						try {
-							isJson = JSON.parse(
-										bsEvent.target_book.image_links
-									) && !!bsEvent.target_book.image_links
-						} catch(e) {
-							isJson = false;
-						}
+                        this.events.push(
+                            new BEvent(
+                                bsEvent.performer.username,
+                                "review",
+                                `100 reviews`,
+                                bsEvent.target_book.title.slice(0, 40) +
+                                    " . . .",
 
+                                isJson
+                                    ? JSON.parse(
+                                          bsEvent.target_book.image_links
+                                      ).thumbnail
+                                    : require("../assets/BookSploreIcon.svg"),
 
-						this.events.push(
-							new BEvent(
-								bsEvent.performer.username,
-								"review",
-								`100 reviews`,
-								bsEvent.target_book.title.slice(0, 40) + " . . .",
-								
-								isJson
-								? JSON.parse(bsEvent.target_book.image_links).thumbnail
-								: require("../assets/BookSploreIcon.svg"),
-								
-								`/book-info/${bsEvent.target_book.book_id}`,
-								bsEvent.performer.avatar_url
-							)
-						)
-					}
-				}
-			}
-		)
-	},
-	data() {
-		return {
-			events: []
-		};
-	},
+                                `/book-info/${bsEvent.target_book.book_id}`,
+                                bsEvent.performer.avatar_url
+                            )
+                        );
+                    }
+                }
+            });
+    },
+    data() {
+        return {
+            events: []
+        };
+    }
 };
 </script>
 
 <style scoped>
-
+.link-to-explore {
+    color: #aac5fa;
+}
+table {
+    width: 70%;
+    position: fixed;
+    right: 0%;
+}
+.activityTitle {
+    font-size: 30px;
+    color: white;
+    font-family: Lato;
+    font-weight: 600;
+    padding-top: 80px;
+}
 .events-container {
-	padding-top: 80px;
-	overflow: hidden;
-	padding-bottom: 20px;
+    overflow: hidden;
+    padding-bottom: 20px;
 }
 
-.recent-books {
-  width: 25%;
+.recent {
+    position: fixed;
+    height: 100%;
+    width: 25%;
 }
 
 .not-found-container {
-	margin-top: 120px;
-	display: flex;
-	justify-content: center;
-	color: white;
-	font-size: 24px;
-	flex-direction: column;
-	font: Lato;
+    /* margin-top: 120px; */
+    display: flex;
+    justify-content: center;
+    color: white;
+    font-size: 24px;
+    flex-direction: column;
+    font: Lato;
+    font-family: Lato;
 }
+@media only screen and (max-width: 600px) {
+    .recent {
+        position: relative;
 
+        width: 92vw;
+        background: #20242b;
+        height: 52vh;
+        border: 3px solid #3d475c;
+        box-shadow: 0px 5px 10px 0px #00000080;
+        border-radius: 15px;
+        top: 100px;
+        margin: 0%;
+        padding-top: 0%;
+    }
+    .bookList {
+        margin-bottom: 0%;
+    }
+    .mainStuff {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        row-gap: 6vh;
+    }
+    table {
+        position: relative;
+        text-align: center;
+    }
+    .event {
+        text-align: left;
+    }
+    .activityTitle {
+        padding-top: 50px;
+        margin-bottom: 0%;
+    }
+    .events-container,
+    .not-found-container {
+        position: relative;
+    }
+}
 </style>
