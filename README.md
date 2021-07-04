@@ -24,9 +24,16 @@ This project was made for a [Tech-With-Tim](https://discord.gg/twt) CodeJam, by 
 
 ## 🏁 Introduction
 
-Booksplore is website where you can enjoy, and explore the world of books - with your friends, and in the comfort of your browser! It offers a safe online environment for you to engross yourself in the world of books with your friends.
+Booksplore is a website where you can enjoy, and explore the world of books - with your friends, and in the comfort of your browser! It offers a safe online environment for you to engross yourself in the world of books with your friends.
 
-At BookSplore, you can view information about books, read them, publish reviews, and ratings about them, as well follow other users to come across other interesting books. Please note that we use the Google Books API to obtain information about books and to allow users to read them, so these features alone may not be available for all books. However, every other feature would be available for all books regardless of the book, as they are completely implemented by us.
+BookSplore is a social platform, as well as a site dedicated to books, in accordance with our tagline - `Explore the world of books, with your friends`. So BookSplore offers you the following delights -
+
+1. Searching for books by title, subject, and isbn, and viewing information associated with them, such as a short description, similar books, published versions, etc. Note: This information is provided by the Google Book API.
+2. For some books, the Google Book API also provides a webreader for you to read the book through. This can be used through BookSplore.
+3. BookSplore allows you to publish reviews about books, and rate them, which is then stored in our databases.
+4. On BookSplore, you can follow other users to see what books they read, and be notified whenever they publish a review.
+
+Please note that we use the Google Books API to obtain some information about books and to allow users to read them, so these features alone may not be available for all books. Needless to say, every other feature would be available regardless of the book, as they are completely implemented by us.
 
 ## 💻 Usage
 
@@ -47,6 +54,17 @@ The frontend was written with a popular javascript framework called `Vue.js`
 We used the Google API for books to obtain data about books published by authors.
 
 ## ⛏️  Local Setup
+
+To locally run BookSplore, first fork, and clone this git repository to your machine.
+
+### Setting up the Frontend
+
+Setting up the frontend is very easy -
+1. `cd` into the `frontend` directory
+2. Run `npm install` or `yarn install` to install the packages required
+3. Next, run `./build.sh` to build the project, and move it to the backend directory, so that the backend can serve the html files. If you are on windows, you will need to make some changes to the shell script to suit your operating system.
+
+### Setting up the Backend
 
 ## 📃 Terms of Service
 
