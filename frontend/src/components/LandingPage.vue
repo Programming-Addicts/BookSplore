@@ -225,6 +225,7 @@ export default {
 .section2 {
     display: flex;
     flex-direction: column;
+    padding-top: 20px;
 }
 
 .outer1,

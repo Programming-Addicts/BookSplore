@@ -19,18 +19,22 @@
                         @blur="showMenu = false"
                         class="button-container"
                     >
-                        <a
+                        <div
+                            class="signup-container"
                             v-if="navbar_type == 'landingpage'"
-                            class="signup-link"
-                            :href="this.$backend_url + '/login'"
                         >
-                            Sign In With
-                            <img
-                                src="../assets/google.svg"
-                                width="23"
-                                height="23"
-                            />
-                        </a>
+                            <a
+                                class="signup-link"
+                                :href="this.$backend_url + '/login'"
+                            >
+                                Sign In With
+                                <img
+                                    src="../assets/google.svg"
+                                    width="23"
+                                    height="23"
+                                />
+                            </a>
+                        </div>
 
                         <!---- Navbar items for pages other than landing page ---->
 
@@ -45,8 +49,8 @@
                                 ><img
                                     :src="currentUser_.avatar_url"
                                     class="currentUserPfp"
-                            />
-                            <i v-if="isMobile">Your profile</i>
+                                />
+                                <i v-if="isMobile">Your profile</i>
                             </a>
                             <a
                                 v-if="navbar_type == 'dashboard'"
@@ -94,7 +98,7 @@ export default {
             currentUser_: {},
             isMobile: screen.width <= 760,
             showMenu: false,
-            menuShown: true, 
+            menuShown: true,
             lastScrollPosition: 0
         };
     },
@@ -314,6 +318,7 @@ tr {
     font-size: 35px;
     margin-right: 20px;
     margin-top: 20px;
+    color: white;
 }
 
 .slide-enter-active {
@@ -340,6 +345,14 @@ tr {
         position: relative;
         flex-direction: column;
         background: #181c23;
+    }
+    .signup-container {
+        background: #181c23;
+        width: 100%;
+        padding: 25px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
     }
 }
 </style>
