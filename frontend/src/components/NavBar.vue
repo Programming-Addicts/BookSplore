@@ -1,6 +1,11 @@
 <template>
-    <div id="nav" :class="[centred ? 'centred' : '']" :style="cssVars()">
-        <table class="t">
+    <div id="nav" :style="cssVars()">
+        <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+        />
+
+        <table>
             <tr>
                 <td class="logo-container" @click="redirectToHome()">
                     <img src="../assets/BookSploreIcon.svg" />
@@ -8,47 +13,59 @@
                     <p class="title italic">Splore</p>
                 </td>
 
-                <td v-if="!centred" class="button-container">
-                    <a
-                        v-if="navbar_type == 'landingpage'"
-                        class="signup-link"
-                        :href="this.$backend_url + '/login'"
-                    >
-                        Sign In With
-                        <img
-                            src="../assets/google.svg"
-                            width="23"
-                            height="23"
-                        />
-                    </a>
-
-                    <!---- Navbar items for pages other than landing page ---->
-                    <div
-                        v-if="navbar_type != 'landingpage'"
-                        class="link-container"
+                <transition name="slide">
+                    <td
+                        v-if="!isMobile || (showMenu && menuShown)"
+                        @blur="showMenu = false"
+                        class="button-container"
                     >
                         <a
-                            :href="`/user/${currentUser_.id}`"
-                            v-if="fetched"
-                            class="currPfpOut"
-                            ><img
-                                :src="currentUser_.avatar_url"
-                                class="currentUserPfp"
-                        /></a>
-                        <a
-                            v-if="navbar_type == 'dashboard'"
-                            class="logout-link"
-                            @click="logout"
+                            v-if="navbar_type == 'landingpage'"
+                            class="signup-link"
+                            :href="this.$backend_url + '/login'"
                         >
-                            Logout
+                            Sign In With
+                            <img
+                                src="../assets/google.svg"
+                                width="23"
+                                height="23"
+                            />
                         </a>
-                        <router-link
-                            to="/dashboard"
-                            v-if="navbar_type !== 'dashboard'"
-                            >Dashboard</router-link
+
+                        <!---- Navbar items for pages other than landing page ---->
+
+                        <div
+                            v-if="navbar_type != 'landingpage'"
+                            class="link-container"
                         >
-                        <router-link to="/explore">Explore</router-link>
-                    </div>
+                            <a
+                                :href="`/user/${currentUser_.id}`"
+                                v-if="fetched"
+                                class="currPfpOut"
+                                ><img
+                                    :src="currentUser_.avatar_url"
+                                    class="currentUserPfp"
+                            />
+                            <i v-if="isMobile">Your profile</i>
+                            </a>
+                            <a
+                                v-if="navbar_type == 'dashboard'"
+                                class="logout-link"
+                                @click="logout"
+                            >
+                                Logout
+                            </a>
+                            <router-link
+                                to="/dashboard"
+                                v-if="navbar_type !== 'dashboard'"
+                                >Dashboard</router-link
+                            >
+                            <router-link to="/explore">Explore</router-link>
+                        </div>
+                    </td>
+                </transition>
+                <td v-if="isMobile" class="mobileIcon">
+                    <i class="fa fa-bars" @click="showMenu = !showMenu"></i>
                 </td>
             </tr>
         </table>
@@ -59,10 +76,6 @@
 export default {
     name: "NavBar",
     props: {
-        centred: {
-            type: Boolean,
-            default: false
-        },
         fixed: {
             type: Boolean,
             default: false
@@ -78,7 +91,11 @@ export default {
     data() {
         return {
             fetched: false,
-            currentUser_: {}
+            currentUser_: {},
+            isMobile: screen.width <= 760,
+            showMenu: false,
+            menuShown: true, 
+            lastScrollPosition: 0
         };
     },
     methods: {
@@ -93,9 +110,23 @@ export default {
         logout() {
             window.localStorage.removeItem("token");
             this.$router.push("/?msg=You have successfully logged out");
+        },
+        onScroll() {
+            // Get the current scroll position
+            const currentScrollPosition =
+                window.pageYOffset || document.documentElement.scrollTop;
+            // Because of momentum scrolling on mobiles, we shouldn't continue if it is less than zero
+            if (currentScrollPosition < 0) {
+                return;
+            }
+            // Here we determine whether we need to show or hide the navbar
+            this.menuShown = currentScrollPosition < this.lastScrollPosition;
+            // Set the current scroll position as the last scroll position
+            this.lastScrollPosition = currentScrollPosition;
         }
     },
     created() {
+        console.log(this.isMobile);
         if (this.currentUser) {
             this.currentUser_ = this.currentUser;
             this.fetched = true;
@@ -118,6 +149,12 @@ export default {
                 console.error("current user: ", error);
             });
         // ---------------------------------------------------------
+    },
+    mounted() {
+        window.addEventListener("scroll", this.onScroll);
+    },
+    beforeDestroy() {
+        window.removeEventListener("scroll", this.onScroll);
     }
 };
 </script>
@@ -149,12 +186,6 @@ tr {
     display: inline-flex;
     justify-content: space-between;
     height: 100%;
-}
-
-.centred {
-    display: flex;
-    align-items: center;
-    text-align: center;
 }
 
 .fill-col {
@@ -274,5 +305,41 @@ tr {
 
 .currPfpOut {
     margin-top: 10px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.mobileIcon {
+    font-size: 35px;
+    margin-right: 20px;
+    margin-top: 20px;
+}
+
+.slide-enter-active {
+    transition: all 300ms ease;
+}
+.slide-leave-active {
+    transition: all 300ms cubic-bezier(1, 0.5, 0.8, 1);
+}
+.slide-enter,
+.slide-leave-to {
+    transform: translateY(-10px);
+    opacity: 0;
+}
+
+@media only screen and (max-width: 600px) {
+    .button-container {
+        position: fixed;
+
+        margin-top: 80px;
+        width: 100%;
+    }
+    .link-container {
+        width: 100%;
+        position: relative;
+        flex-direction: column;
+        background: #181c23;
+    }
 }
 </style>

@@ -162,7 +162,7 @@ export default {
         return {
             reviews: [],
             recentBooks: [],
-            maxRecentBooks: typeof screen.orientation !== "undefined" ? 4 : 8,
+            maxRecentBooks: screen.width <= 760 ? 4 : 8,
             userInfo: {},
             currentUser: {},
             showList1: false,
