@@ -25,6 +25,8 @@
                     <div v-if="events.length == 0" class="not-found-container">
                         <p style="margin: auto; margin-bottom: 20px;">
                             Looks like you don't have any activity to show.
+							Try searching for books, or following users on our
+							<router-link to="/explore" class="link-to-explore">Explore page</router-link>!
                         </p>
                         <img
                             :src="require('../assets/NoData.svg')"
@@ -145,6 +147,11 @@ export default {
 </script>
 
 <style scoped>
+
+.link-to-explore {
+	color: #aac5fa;
+}
+
 .events-container {
     padding-top: 80px;
     overflow: hidden;
@@ -163,5 +170,7 @@ export default {
     font-size: 24px;
     flex-direction: column;
     font: Lato;
+	font-family: Lato;
 }
+
 </style>

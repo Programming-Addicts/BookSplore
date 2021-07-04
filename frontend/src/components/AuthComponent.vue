@@ -6,6 +6,8 @@
 export default {
     name: "AuthComponent",
     created() {
+
+		// Check if the token exists, or is provided in the url
         let token = window.localStorage.getItem("token");
 
         if (!token && !this.$route.query.token) {
@@ -14,6 +16,7 @@ export default {
             );
         }
 
+		// Check if the token is valid, by trying to authenticate with it
         fetch(this.$backend_url + "/users/current", {
             headers: {
                 Authorization: token

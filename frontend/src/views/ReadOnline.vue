@@ -43,8 +43,10 @@ export default {
             this.viewer = new google.books.DefaultViewer(
                 document.getElementById("view")
             );
-            this.viewer.load(`ISBN:${this.$route.params.isbn}`, () =>
-                this.$router.push("/404")
+            this.viewer.load(`ISBN:${this.$route.params.isbn}`, () => {
+					alert("Oops! It looks like this book isn't available to read!")
+					this.$router.push("/explore")
+				}
             );
         },
         containerStyles() {

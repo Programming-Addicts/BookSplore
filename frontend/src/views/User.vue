@@ -32,6 +32,12 @@
                                         : `Follow`
                                 }}
                             </a>
+                            <span
+                                style="color: grey; font-size: 20px; margin-top: 15px;"
+								v-if="userInfo.id <= 4 && userInfo.id > 0"
+                            >
+								BookSplore Admin
+								</span>
                         </p>
                         <p class="followersEtc">
                             {{ userInfo.total_reviews }} Reviews
@@ -150,7 +156,7 @@ export default {
         Review,
         Cover,
         FloatingList,
-        AuthComponent
+        AuthComponent,
     },
     data() {
         return {
@@ -163,7 +169,7 @@ export default {
             showList2: false,
             infoLoaded: false,
             booksFetched: true,
-            reviewsFetched: false
+            reviewsFetched: false,
         };
     },
     methods: {
@@ -173,46 +179,46 @@ export default {
                 : `follow`;
             fetch($backend_url + `/${action}?id=${userInfo.id}`, {
                 headers: {
-                    Authorization: window.localStorage.getItem("token")
+                    Authorization: window.localStorage.getItem("token"),
                 },
-                method: "POST"
+                method: "POST",
             })
-                .then(response => response.json())
-                .then(result => {
+                .then((response) => response.json())
+                .then((result) => {
                     console.log(result);
                     $router.go(0);
                 });
         },
         scaleFont(num) {
             return {
-                "font-size": `${(window.innerHeight * num) / 796}px`
+                "font-size": `${(window.innerHeight * num) / 796}px`,
             };
-        }
+        },
     },
     created() {
         // for fetching the user who's page is being viewed -----------(1)
         let id = this.$route.params.id;
         fetch(this.$backend_url + `/users/get?id=${id}`, {
             headers: {
-                Authorization: window.localStorage.getItem("token")
-            }
+                Authorization: window.localStorage.getItem("token"),
+            },
         })
-            .then(response => response.json())
-            .then(result => {
+            .then((response) => response.json())
+            .then((result) => {
                 // fetching information about followers ----------------------(2)
                 fetch(this.$backend_url + `/follow/get?id=${result.id}`, {
                     headers: {
-                        Authorization: window.localStorage.getItem("token")
-                    }
+                        Authorization: window.localStorage.getItem("token"),
+                    },
                 })
-                    .then(response => {
+                    .then((response) => {
                         if (response.status != 200) {
                             this.$router.push("/404");
                         }
 
                         return response.json();
                     })
-                    .then(result_ => {
+                    .then((result_) => {
                         this.userInfo = {
                             name: result.username,
                             pfp: result.avatar_url,
@@ -227,7 +233,7 @@ export default {
                                 : [],
                             followers: result.followers,
                             following: result.following,
-                            total_reviews: result.total_reviews
+                            total_reviews: result.total_reviews,
                         };
                         // for fetching user's recent reviews ----------------------(3)
 
@@ -235,13 +241,13 @@ export default {
                             this.$backend_url +
                                 `/books/reviews?user_id=${this.userInfo.id}`
                         )
-                            .then(response => response.json())
-                            .then(reviews => {
+                            .then((response) => response.json())
+                            .then((reviews) => {
                                 this.reviews = reviews.reverse();
                                 this.reviewsFetched = true;
                                 this.infoLoaded = true;
                             })
-                            .catch(error => {
+                            .catch((error) => {
                                 console.error("reviews :", error);
                             });
 
@@ -253,15 +259,15 @@ export default {
                             this.$backend_url +
                                 `/users/recent-books?user_id=${this.userInfo.id}`
                         )
-                            .then(response => response.json())
-                            .then(books => {
+                            .then((response) => response.json())
+                            .then((books) => {
                                 let modified = [];
-                                books.forEach(element => {
+                                books.forEach((element) => {
                                     modified.push({
                                         cover: element.image_links
                                             ? element.image_links.thumbnail
                                             : null,
-                                        link: `/book-info/${element.book_id}`
+                                        link: `/book-info/${element.book_id}`,
                                     });
                                 });
                                 this.recentBooks = modified;
@@ -269,13 +275,13 @@ export default {
 
                         // ---------------------------------------------------------(3)
                     })
-                    .catch(error => {
+                    .catch((error) => {
                         console.error("followers: ", error);
                         this.$router.push("/404");
                     });
                 // ----------------------------------------------------(2)
             })
-            .catch(error => {
+            .catch((error) => {
                 console.error("main", error);
             });
         // ---------------------------------------------------------(1)
@@ -284,19 +290,19 @@ export default {
 
         fetch(this.$backend_url + `/users/get`, {
             headers: {
-                Authorization: window.localStorage.getItem("token")
-            }
+                Authorization: window.localStorage.getItem("token"),
+            },
         })
-            .then(response => response.json())
-            .then(result => {
+            .then((response) => response.json())
+            .then((result) => {
                 this.currentUser = result;
                 console.log(result);
             })
-            .catch(error => {
+            .catch((error) => {
                 console.error("current user: ", error);
             });
         // ---------------------------------------------------------
-    }
+    },
 };
 </script>
 
