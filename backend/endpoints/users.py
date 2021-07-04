@@ -72,8 +72,8 @@ async def get_recent_books(request: Request, user_id: int):
             continue
         book_data = {'book_id': book['book_id'],
                      'title': book['title'],
-                     'image_links': json.loads(book.get('image_links')),
-                     'categories': json.loads(book.get('categories'))}
+                     'image_links': json.loads(book.get('image_links'))
+                     }
         recent_books.append(book_data)
 
     return recent_books
