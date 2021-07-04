@@ -2,13 +2,14 @@
     <div class="main">
 		<auth-component />
         <nav-bar navbar_type="authenticated" :fixed="false" />
-        <div class="searchBox">
+        <div class="searchBox" :style="scaleFont(50)">
             Explore our wide collection of Books!
             <search-box
 			:endpoint="`/search/${(downloadOnly ? 1 : 0)}/#`"
-			:height="scale(80)"
+			:height="scale(75)"
+			:font_size="scale(35)"
             />
-            <p>
+            <p :style="scaleFont(23)">
                 <input type="checkbox" v-model="downloadOnly" />
                 Only show books which are available for download
             </p>
@@ -38,18 +39,29 @@ export default {
 	methods: {
 		scale(num) {
 			return `${window.innerHeight * num / 796}px`
+		},
+		scaleFont(num) {
+			return {
+				"font-size": `${window.innerHeight * num / 796}px`
+			}
 		}
 	}
 };
 </script>
 
 <style scoped>
+
+* {
+	font-family: Lato;
+}
+
 .main {
     height: 100%;
     width: 100%;
     font-family: Lato;
     color: white;
 }
+
 .searchBox {
     display: flex;
     flex-direction: column;
@@ -61,13 +73,14 @@ export default {
     justify-content: center;
     text-align: center;
 
-    font-size: 50px;
     font-weight: 500;
     row-gap: 50px;
 }
+
 .searchBox img {
     padding: 30px;
 }
+
 .searchBox p {
     font-size: 20px;
     padding: 0%;

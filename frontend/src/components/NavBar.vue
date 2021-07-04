@@ -166,6 +166,7 @@ table, tr {
     flex-direction: row;
     align-items: center;
 }
+
 .link-container {
     display: flex;
     flex-direction: row-reverse;
@@ -199,16 +200,20 @@ table, tr {
     justify-content: center;
     align-items: center;
 }
+
 .signup-link img {
     padding-left: 7px;
     margin-top: -3px;
 }
+
 .signup-link:active {
     transform: scale(0.9);
 }
+
 .signup-link:hover {
     color: black;
 }
+
 .logo-container {
     overflow: hidden;
     white-space: nowrap;
@@ -218,16 +223,20 @@ table, tr {
     align-items: center;
     cursor: pointer;
 }
+
 .logo-container img {
     height: 66px;
 }
+
 .logo-container p {
     margin: 0%;
 }
+
 .title-div {
     display: flex;
     justify-content: center;
 }
+
 #nav {
     width: 100%;
     height: 80px;
@@ -235,24 +244,30 @@ table, tr {
     position: var(--position);
     z-index: 2;
 }
+
 .title {
     font-family: "Cabin";
     font-size: 37px;
     text-align: center;
     color: white;
 }
+
 .bold {
     font-weight: bold;
 }
+
 .italic {
     font-style: italic;
+	padding-right: 15px;
 }
+
 .currPfpOut .currentUserPfp {
   height: 50px;
   border-radius: 50%;
   margin: 0px;
   cursor: pointer;
 }
+
 .currPfpOut {
   margin-top: 10px;
 }

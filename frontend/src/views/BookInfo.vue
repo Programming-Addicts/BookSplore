@@ -1,7 +1,11 @@
 <template>
     <div class="bookInfo" v-if="fetched" :style="cssVars(bookData)">
         <auth-component />
-        <nav-bar :fixed="false" navbar_type="authenticated" :currentUser="currentUser" />
+        <nav-bar
+            :fixed="false"
+            navbar_type="authenticated"
+            :currentUser="currentUser"
+        />
         <div class="bookInfoMain">
             <book-info-display :Book="bookData" />
             <div class="downloadButtons">
@@ -37,7 +41,7 @@ export default {
         BookInfoDisplay,
         BookReviews,
         MoreByAuthor,
-        AuthComponent
+        AuthComponent,
     },
     data() {
         return {
@@ -47,78 +51,83 @@ export default {
         };
     },
     methods: {
-		readOnline() {
-			window.location.href = `/read/${this.bookData.isbns[0].identifier}`
+        readOnline() {
+            if (this.bookData.pdf.acsTokenLink) {
+                window.location.href = `/read/${this.bookData.isbns[0].identifier}`;
+            }
         },
-        getWebReader: preview_link => {
+        getWebReader: (preview_link) => {
             if (preview_link) {
                 window.location.href = preview_link;
             }
         },
-        cssVars: book => {
+        cssVars: (book) => {
             let color = {
                 background: "#7fb6f8",
-                font: "black"
+                font: "black",
             };
             let gray = {
                 background: "#95979A",
-                font: "#444444"
+                font: "#444444",
             };
             return {
-                "--pdf-button-color": color.background,
+                "--pdf-button-color": book.pdf.acsTokenLink
+                    ? color.background
+                    : gray.background,
                 "--WebReader-button-color": book.preview_link
                     ? color.background
                     : gray.background,
 
-                "--pdf-font-color": color.font,
+                "--pdf-font-color": book.pdf.acsTokenLink
+                    ? color.font
+                    : gray.font,
                 "--WebReader-font-color": book.preview_link
                     ? color.font
-                    : gray.font
+                    : gray.font,
             };
-        }
+        },
     },
     created() {
         fetch(
             this.$backend_url + `/books/get?book_id=${this.$route.params.id}`,
             {
                 headers: {
-                    Authorization: window.localStorage.getItem("token")
-                }
+                    Authorization: window.localStorage.getItem("token"),
+                },
             }
         )
-            .then(response => {
+            .then((response) => {
                 if (!response.ok) {
                     this.$router.push("/404");
                 }
                 return response.json();
             })
-            .then(result => {
+            .then((result) => {
                 console.log(result);
                 this.bookData = result;
 
                 // for checking info about the user viewing the page -------
                 fetch(this.$backend_url + `/users/get`, {
                     headers: {
-                        Authorization: window.localStorage.getItem("token")
-                    }
+                        Authorization: window.localStorage.getItem("token"),
+                    },
                 })
-                    .then(response => response.json())
-                    .then(result_ => {
+                    .then((response) => response.json())
+                    .then((result_) => {
                         this.currentUser = result_;
-                        console.log("current user :" , this.currentUser);
+                        console.log("current user :", this.currentUser);
                         this.fetched = true;
                     })
-                    .catch(error => {
+                    .catch((error) => {
                         console.error("current user: ", error);
                     });
                 // ---------------------------------------------------------
-
             })
-            .catch(error => {
+            .catch((error) => {
                 this.$router.push("/404");
                 console.error(error);
             });
-    }
+    },
 };
 </script>
 
@@ -149,23 +158,27 @@ export default {
     cursor: pointer;
     transition: 300ms;
 }
+
 .downloadButtons button:hover {
     transform: scale(1.1);
 }
+
 .downloadButtons button:active {
     transform: scale(0.8);
 }
+
 .downloadButtons #pdf {
     background: var(--pdf-button-color);
     color: var(--pdf-font-color);
+	padding-left: 20px;
+	padding-right: 20px;
 }
-.downloadButtons #Epub {
-    background: var(--Epub-button-color);
-    color: var(--Epub-font-color);
-}
+
 .downloadButtons #WebReader {
     background: var(--WebReader-button-color);
     color: var(--WebReader-font-color);
+	padding-left: 40px;
+	padding-right: 40px;
 }
 
 .bottomSection {

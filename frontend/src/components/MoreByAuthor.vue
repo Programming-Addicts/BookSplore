@@ -3,7 +3,7 @@
         <p class="top">Similar Book</p>
         <a :href="`/book-info/${book.id}`">
             <Cover
-                :imgUrl="book.image_links.thumbnail"
+                :imgUrl="book.image_links ? book.image_links.thumbnail : require('../assets/BookSploreIcon.svg')"
                 height="25vw"
                 width="17vw"
             />

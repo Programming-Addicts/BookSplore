@@ -33,45 +33,47 @@ export default {
         endpoint: {
             type: String,
             default: "/search/#",
-            validator: value => {
+            validator: (value) => {
                 return value.includes("#");
-            }
+            },
         },
         placeholder_: {
             type: String,
-            default: "Search for a book"
+            default: "Search for a book",
         },
         height: {
             type: String,
-            default: `95px`
+            default: `95px`,
         },
         width: {
             type: String,
-            default: `60vw`
+            default: `60vw`,
         },
         font_size: {
             type: String,
-            default: "40px"
-       },
+            default: "40px",
+        },
         center: Boolean,
-        test: String
+        test: String,
     },
     data() {
         return {
-            query: ""
+            query: "",
         };
     },
     methods: {
-        cssVars: vars => {
+        cssVars: (vars) => {
             return {
                 "--box-width": vars.width,
                 "--box-height": vars.height,
             };
         },
         sendQuery: (endpoint, query) => {
-            window.location.href = endpoint.replace("#", query).replace(' ', '%20');
-        }
-    }
+            window.location.href = endpoint
+                .replace("#", query)
+                .replace(" ", "%20");
+        },
+    },
 };
 </script>
 
