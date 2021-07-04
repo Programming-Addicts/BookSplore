@@ -7,6 +7,7 @@
             <search-box
                 :endpoint="`/search/${downloadOnly ? 1 : 0}/#`"
                 :height="scale(75)"
+                :width="boxSize"
                 :font_size="scale(35)"
             />
             <p :style="scaleFont(23)">
@@ -32,7 +33,8 @@ export default {
     },
     data() {
         return {
-            downloadOnly: false
+            downloadOnly: false,
+            boxSize: screen.width <= 760 ? `79vw` : `60vw`,
         };
     },
     methods: {
@@ -92,4 +94,19 @@ export default {
     -ms-transform: scale(2);
     -webkit-transform: scale(2);
 }
+
+
+@media only screen and (max-width: 600px) {
+    .searchBox img {
+        width: 90vw;
+    }
+    .searchBox {
+        font-size: 30px !important;
+    }
+    .searchBox p {
+        font-size: 20px !important;
+    }
+}
+
+
 </style>
