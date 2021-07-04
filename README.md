@@ -60,11 +60,24 @@ To locally run BookSplore, first fork, and clone this git repository to your mac
 ### Setting up the Frontend
 
 Setting up the frontend is very easy -
-1. `cd` into the `frontend` directory
-2. Run `npm install` or `yarn install` to install the packages required
+1. `cd` into the `frontend` directory.
+2. Run `npm install` or `yarn install` to install the packages required.
 3. Next, run `./build.sh` to build the project, and move it to the backend directory, so that the backend can serve the html files. If you are on windows, you will need to make some changes to the shell script to suit your operating system.
 
 ### Setting up the Backend
+1.  `cd` into the `backend` directory.
+2.  You may create a virtualenv for the project and then run `pip install -r requirements.txt` to install the dependency modules.
+3.  Create a `.env` file in the same directory as the `example.env` and copy the format as shown in the example file.
+4.  Set the `SECRET_KEY` for JWT tokens.
+5.  Create a postgres database and fill out the `DB_URI` in the `.env`
+6.  To set up the Google authentication, go to [Google Cloud Console](https://console.cloud.google.com/), login with your google account and create a project. 
+7.  Go to `APIs & Services` section and click on `+ Add Credentials` and create an Oauth Client ID
+8.  Select `Web Application` for Application type and add the following entries:
+`http://127.0.0.1:8000` for `Authorized JavaScript origins` and `http://127.0.0.1:8000/api/auth` for `Authorized redirect URIs`
+Click `Create`
+9.  Go ahead and fill out `GOOGLE_CLIENT_ID` and `GOOGLE_CLIENT_SECRET` in the `.env`
+10. Click on `+ Add Credentials` and click on `API key` to create an API key for Google Books API. Make sure you enable the Google Books API from the Google API libraries. Fill out the `GOOGLE_API_KEY` in the `.env` file.
+11. Run the command `uvicorn main:app`. If all steps were followed correctly and dependencies were installed, it will start the FastAPI server and initialize all the tables for you in the database.
 
 ## 📃 Terms of Service
 
@@ -75,6 +88,6 @@ Please read this short, yet important passage. By using our website, registering
 - Please refrain from creating multiple accounts (alt accounts) on the site.
 - Please do not attempt anything malicious with the API, like trying to obtain information about other users.
 - All services of BookSplore are completely free, and open-source. Some of our content may not be available evenly for all books, since we use the Google API to obtain information about books. So by using BookSplore, you agree not to market any of the code, or claim it to be any of your own.
-- All rights are reserved by the admins of BookSplore, namely [Milind](https://github.com/milindmadhukar), [class PythonAddict](https://github.com/classPythonAddike/) and [devnull](https://github.com/devnull03). If they find any content to be irrelevant or users to be misusing the site, they reserve the rights to remove the content, or disable the user's account
+- All rights are reserved by the admins of BookSplore, namely [Milind](https://github.com/milindmadhukar), [class PythonAddict](https://github.com/classPythonAddike/) and [devnull](https://github.com/devnull03). If they find any content to be irrelevant or users to be misusing the site, they reserve the rights to remove the content, or disable the user's account.
 
 
