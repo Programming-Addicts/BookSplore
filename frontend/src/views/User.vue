@@ -128,8 +128,8 @@
                         :href="book.link"
                     >
                         <Cover
-                            width="10vw"
-                            height="15vw"
+                            :width="coverWidth"
+                            :height="coverHeight"
                             :imgUrl="book.cover"
                         />
                     </a>
@@ -170,6 +170,8 @@ export default {
             infoLoaded: false,
             booksFetched: true,
             reviewsFetched: false,
+            coverHeight: screen.width <= 760 ? `55vw` : `15vw`, 
+            coverWidth: screen.width <= 760 ? `32vw` : `10vw`,
         };
     },
     methods: {
@@ -525,10 +527,10 @@ main {
         align-self: center;
         margin: 0%;
     }
-    .recentBooks .cover {
+    /* .recentBooks .cover {
         width: 39vw;
         height: 55vw;
-    }
+    } */
 }
 
 /* ---------------------------------------- */

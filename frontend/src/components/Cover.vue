@@ -36,7 +36,7 @@ export default {
 <style scoped>
 .cover {
     width: var(--width);
-    height: var(--height);
+    height: var(--height) !important;
     background: #181c23;
     border: 3px solid #3d475c;
     border-radius: 10px;
