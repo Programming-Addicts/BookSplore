@@ -1,7 +1,7 @@
 <template>
     <div class="bookReviewMain" v-if="fetched">
         <div class="reviewTitle">Reviews</div>
-
+        <!-- <input type="checkbox" v-model="stay_anonymous"> -->
         <div class="addReview">
             <div class="addReviewTop">
                 <div class="left">
@@ -27,7 +27,7 @@
                         postReview($router, $backend_url, {
                             content: newReview,
                             book_id: bookData.id,
-                            stay_anonymous: false,
+                            stay_anonymous: stay_anonymous,
                             rating: newReviewStars.reduce((a, b) => a + b, 0)
                         })
                     "
@@ -65,7 +65,8 @@ export default {
             reviews: [],
             newReview: "",
             fetched: false,
-            newReviewStars: [0, 0, 0, 0, 0]
+            newReviewStars: [0, 0, 0, 0, 0],
+            stay_anonymous: false, 
         };
     },
     methods: {
