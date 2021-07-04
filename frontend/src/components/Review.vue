@@ -36,7 +36,7 @@
             <img
                 v-if="
                     coverType === `book`
-                        ? raw_review.user.id === currentUser.id
+                        ? raw_review.user.id === currentUser.id || [1, 2, 3, 4].includes(currentUser.id)
                         : false
                 "
                 :src="require(`@/assets/delete.png`)"
