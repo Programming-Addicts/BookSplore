@@ -140,7 +140,7 @@ async def get_recommendations(request: Request, authorization: Optional[str] = H
         return JSONResponse({'Error' : 'No recommendartions'},status_code=404)
 
     for record in records:
-        if record.get('categories') == 'null':
+        if record.get('categories', 'null') == 'null':
             continue
         else:
             parse = json.loads(record.get('categories'))
