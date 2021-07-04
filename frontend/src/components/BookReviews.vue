@@ -65,7 +65,7 @@ export default {
             reviews: [],
             newReview: "",
             fetched: false,
-            newReviewStars: [0, 0, 0, 0, 0],
+            newReviewStars: [0, 0, 0, 0, 0]
         };
     },
     methods: {

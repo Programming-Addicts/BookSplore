@@ -1,5 +1,9 @@
 <template>
-    <img :src="imgUrl ? imgUrl: require(`../assets/BookSploreIcon.svg`)" class="cover" :style="cssVars(width, height)" />
+    <img
+        :src="imgUrl ? imgUrl : require(`../assets/BookSploreIcon.svg`)"
+        class="cover"
+        :style="cssVars(width, height)"
+    />
 </template>
 
 <script>
@@ -11,19 +15,19 @@ export default {
         },
         width: {
             type: String,
-            default: '250px'
+            default: "250px"
         },
         height: {
             type: String,
-            default: '350px'
+            default: "350px"
         }
     },
     methods: {
         cssVars: (width, height) => {
             return {
-                '--width': width,
-                '--height': height,
-            }
+                "--width": width,
+                "--height": height
+            };
         }
     }
 };

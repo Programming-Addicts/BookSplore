@@ -27,7 +27,10 @@
                         v-if="navbar_type != 'landingpage'"
                         class="link-container"
                     >
-                        <a :href="`/user/${currentUser_.id}`" v-if="fetched" class="currPfpOut"
+                        <a
+                            :href="`/user/${currentUser_.id}`"
+                            v-if="fetched"
+                            class="currPfpOut"
                             ><img
                                 :src="currentUser_.avatar_url"
                                 class="currentUserPfp"
@@ -73,10 +76,10 @@ export default {
         }
     },
     data() {
-      return {
-        fetched: false,
-        currentUser_: {},
-      }
+        return {
+            fetched: false,
+            currentUser_: {}
+        };
     },
     methods: {
         cssVars() {
@@ -94,8 +97,8 @@ export default {
     },
     created() {
         if (this.currentUser) {
-          this.currentUser_ = this.currentUser;
-          this.fetched = true;
+            this.currentUser_ = this.currentUser;
+            this.fetched = true;
             return;
         }
         // for checking info about the user viewing the page -------
@@ -140,7 +143,8 @@ a:hover {
     cursor: pointer;
 }
 
-table, tr {
+table,
+tr {
     width: 100%;
     display: inline-flex;
     justify-content: space-between;
@@ -258,17 +262,17 @@ table, tr {
 
 .italic {
     font-style: italic;
-	padding-right: 15px;
+    padding-right: 15px;
 }
 
 .currPfpOut .currentUserPfp {
-  height: 50px;
-  border-radius: 50%;
-  margin: 0px;
-  cursor: pointer;
+    height: 50px;
+    border-radius: 50%;
+    margin: 0px;
+    cursor: pointer;
 }
 
 .currPfpOut {
-  margin-top: 10px;
+    margin-top: 10px;
 }
 </style>

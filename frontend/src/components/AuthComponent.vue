@@ -16,10 +16,10 @@ export default {
 
         fetch(this.$backend_url + "/users/current", {
             headers: {
-                Authorization: token,
-            },
+                Authorization: token
+            }
         })
-            .then((response) => {
+            .then(response => {
                 if (response.status != 200) {
                     window.localStorage.removeItem("token");
                     this.$router.push(
@@ -27,13 +27,13 @@ export default {
                     );
                 }
             })
-            .catch((_) => {
+            .catch(_ => {
                 window.localStorage.removeItem("token");
                 this.$router.push(
                     "/?msg=You are not logged in. Please authenticate yourself to continue"
                 );
                 console.error(_);
             });
-    },
+    }
 };
 </script>

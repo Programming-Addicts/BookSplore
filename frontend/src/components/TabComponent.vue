@@ -1,5 +1,4 @@
 <template>
-
     <div class="container">
         <div class="inner-container">
             <div style="width: 30px; border-bottom: 1px #999999 solid;" />
@@ -15,36 +14,27 @@
             <div style="width: 100%; border-bottom: 1px #999999 solid;" />
         </div>
     </div>
-
 </template>
 
 <script>
-
 export default {
     name: "TabComponent",
     data() {
         return {
-            tabs: [
-                "Books",
-                "Genres",
-                "ISBN",
-                "Users"
-            ],
+            tabs: ["Books", "Genres", "ISBN", "Users"],
             active: "Books"
-        }
+        };
     },
     methods: {
         updateTab(tab) {
-            this.active = tab
-            this.$emit("tabupdated", tab)
+            this.active = tab;
+            this.$emit("tabupdated", tab);
         }
-     },
-}
-
+    }
+};
 </script>
 
 <style scoped>
-
 .container {
     width: 100%;
     display: flex;
@@ -60,7 +50,7 @@ export default {
 }
 
 .selected {
-    color: #99DCFD;
+    color: #99dcfd;
     border: 1px #999999 solid;
     border-bottom: none;
     border-radius: 10px;
@@ -85,7 +75,7 @@ export default {
 }
 
 .tab:hover {
-    color: #77BAF9;
+    color: #77baf9;
     transition: 0.2s all;
 }
 </style>

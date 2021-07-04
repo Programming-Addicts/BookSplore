@@ -16,7 +16,8 @@
                         "
                     />
                     {{ item.username }}
-                </div></a>
+                </div></a
+            >
         </div>
     </div>
 </template>
@@ -29,7 +30,7 @@ export default {
         go: ($router, link) => {
             $router.push(link);
         }
-    },
+    }
 };
 </script>
 

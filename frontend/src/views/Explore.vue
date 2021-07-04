@@ -1,13 +1,13 @@
 <template>
     <div class="main">
-		<auth-component />
+        <auth-component />
         <nav-bar navbar_type="authenticated" :fixed="false" />
         <div class="searchBox" :style="scaleFont(50)">
             Explore our wide collection of Books!
             <search-box
-			:endpoint="`/search/${(downloadOnly ? 1 : 0)}/#`"
-			:height="scale(75)"
-			:font_size="scale(35)"
+                :endpoint="`/search/${downloadOnly ? 1 : 0}/#`"
+                :height="scale(75)"
+                :font_size="scale(35)"
             />
             <p :style="scaleFont(23)">
                 <input type="checkbox" v-model="downloadOnly" />
@@ -21,38 +21,36 @@
 <script>
 import NavBar from "../components/NavBar.vue";
 import SearchBox from "../components/SearchBox.vue";
-import AuthComponent from "../components/AuthComponent.vue"
-
+import AuthComponent from "../components/AuthComponent.vue";
 
 export default {
     name: "Explore",
     components: {
         NavBar,
         SearchBox,
-		AuthComponent
+        AuthComponent
     },
     data() {
         return {
             downloadOnly: false
         };
     },
-	methods: {
-		scale(num) {
-			return `${window.innerHeight * num / 796}px`
-		},
-		scaleFont(num) {
-			return {
-				"font-size": `${window.innerHeight * num / 796}px`
-			}
-		}
-	}
+    methods: {
+        scale(num) {
+            return `${(window.innerHeight * num) / 796}px`;
+        },
+        scaleFont(num) {
+            return {
+                "font-size": `${(window.innerHeight * num) / 796}px`
+            };
+        }
+    }
 };
 </script>
 
 <style scoped>
-
 * {
-	font-family: Lato;
+    font-family: Lato;
 }
 
 .main {

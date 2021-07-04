@@ -1,21 +1,23 @@
 <template>
-	<div>
-		<router-view />
-		<Footer v-if="$route.path != '/dashboard' && !$route.path.startsWith('/read')" />
-	</div>
+    <div>
+        <router-view />
+        <Footer
+            v-if="
+                $route.path != '/dashboard' && !$route.path.startsWith('/read')
+            "
+        />
+    </div>
 </template>
 
 <script>
-
-import Footer from "./components/Footer.vue"
+import Footer from "./components/Footer.vue";
 
 export default {
     name: "App",
-	components: {
-		Footer
-	}
+    components: {
+        Footer
+    }
 };
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>

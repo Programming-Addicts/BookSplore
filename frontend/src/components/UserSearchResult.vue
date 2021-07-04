@@ -26,13 +26,9 @@
                             <h3>
                                 {{ user.username }}
                                 <div class="follower">
-                                    {{
-                                        JSON.parse(user.followers).length
-                                    }}
+                                    {{ JSON.parse(user.followers).length }}
                                     Followers |
-                                    {{
-                                        JSON.parse(user.following).length
-                                    }}
+                                    {{ JSON.parse(user.following).length }}
                                     Following
                                 </div>
                             </h3>
