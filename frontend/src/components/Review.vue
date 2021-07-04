@@ -9,7 +9,7 @@
                 />
                 <Cover
                     :imgUrl="review.imageUrl"
-                    height="115px"
+                    :height="coverHeight"
                     width="75px"
                     v-else
                 />
@@ -84,7 +84,8 @@ export default {
     },
     data() {
         return {
-            review: {}
+            review: {},
+            coverHeight: screen.width <= 760 ? `30vw`: `116px`,
         };
     },
     methods: {
@@ -247,10 +248,6 @@ a:any-link {
     }
     .userDate {
         flex-direction: column !important;
-    }
-
-    .cover {
-        height: 30vw !important;
     }
 }
 </style>

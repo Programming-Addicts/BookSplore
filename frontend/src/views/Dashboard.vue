@@ -102,6 +102,7 @@ export default {
         })
             .then(response => response.json())
             .then(data => {
+                console.log(data);
                 for (var bsEvent of data) {
                     if (
                         bsEvent.type == "follow-you" ||
@@ -133,7 +134,7 @@ export default {
                             new BEvent(
                                 bsEvent.performer.username,
                                 "review",
-                                `100 reviews`,
+                                this.renderStars(bsEvent.rating_given),
                                 bsEvent.target_book.title.slice(0, 40) +
                                     " . . .",
 
@@ -155,6 +156,24 @@ export default {
         return {
             events: []
         };
+    },
+    methods: {
+        renderStars: starsAmount => {
+            let goldenStar = "⭐";
+            let grayStar = "★";
+            if (starsAmount > 5) {
+                console.error(`Invalid Amount of stars: ${starsAmount}`);
+                return;
+            }
+            let arr = [];
+            for (let index = 0; index < starsAmount; index++) {
+                arr.push(goldenStar);
+            }
+            for (let index = 0; index < 5 - starsAmount; index++) {
+                arr.push(grayStar);
+            }
+            return arr.join(' ');
+        }
     }
 };
 </script>
