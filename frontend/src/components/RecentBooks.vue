@@ -48,8 +48,7 @@ export default {
         }
     },
     created() {
-
-		// Find current user
+        // Find current user
         fetch(this.$backend_url + "/users/get", {
             headers: {
                 Authorization: window.localStorage.getItem("token")
@@ -57,7 +56,7 @@ export default {
         })
             .then(response => response.json())
             .then(data => {
-				// Fetch user's recent books
+                // Fetch user's recent books
                 fetch(
                     this.$backend_url +
                         `/users/recent-books?user_id=${data.id}`,
@@ -81,14 +80,14 @@ export default {
 .recent {
     display: flex;
     flex-direction: column;
-    position: fixed;
+    /* position: relative; */
     padding-top: 80px;
     padding-right: 5px;
-    width: 27%;
-    height: 100%;
     border-right: 2px solid white;
     font-family: Lato;
     align-items: center;
+    height: inherit;
+    width: inherit;
 }
 
 .readsTitle {
@@ -137,5 +136,17 @@ export default {
 }
 .bookList div img {
     margin: 0%;
+}
+
+@media only screen and (max-width: 600px) {
+    .bookList {
+        margin-bottom: 32px;
+        border-radius: 20px;
+    }
+    .readsTitle {
+        --margin: 18px;
+        margin-top: var(--margin);
+        margin-bottom: var(--margin);
+    }
 }
 </style>

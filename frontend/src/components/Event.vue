@@ -83,7 +83,7 @@ export default {
     flex-direction: column;
     width: 90%;
     margin: 25px;
-    margin-bottom: -10px;
+    /* margin-bottom: -10px; */
     position: relative;
 
     font-family: Lato;
@@ -114,10 +114,13 @@ export default {
     flex-direction: row;
     align-items: center;
 }
-/* .userInfo {} */
-.eventBox img {
+.userInfo img {
+    border-radius: 50%;
     height: 60px;
-    padding-right: 10px;
+    width: 60px;
+}
+.userInfo div {
+    padding-left: 10px;
 }
 
 .targetLink {

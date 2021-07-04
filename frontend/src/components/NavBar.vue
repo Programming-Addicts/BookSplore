@@ -96,7 +96,7 @@ export default {
         return {
             fetched: false,
             currentUser_: {},
-            isMobile: screen.width <= 760,
+            isMobile: screen.width <= 600,
             showMenu: false,
             menuShown: true,
             lastScrollPosition: 0

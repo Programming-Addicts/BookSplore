@@ -2,42 +2,55 @@
     <div class="dashboard">
         <auth-component />
         <nav-bar :fixed="true" navbar_type="dashboard" />
-        <recent-books />
+        <div class="mainStuff">
+            <div class="recentWraper">
+                <recent-books />
+            </div>
 
-        <table style="width: 100%;">
-            <tr>
-                <td class="recent-books" style="width: 30%;" />
-
-                <td>
-                    <div v-if="events.length > 0" class="events-container">
-                        <Event
-                            v-for="(event, index) in events"
-                            :key="index"
-                            :user="event.user"
-                            :eventType="event.eventType"
-                            :eventDescription="event.eventDescription"
-                            :eventTarget="event.eventTarget"
-                            :imageUrl="event.imageUrl"
-                            :myProfileUrl="event.myProfileUrl"
-                            :url="event.url"
-                        />
-                    </div>
-                    <div v-if="events.length == 0" class="not-found-container">
-                        <p style="margin: auto; margin-bottom: 20px;">
-                            Looks like you don't have any activity to show.
-							Try searching for books, or following users on our
-							<router-link to="/explore" class="link-to-explore">Explore page</router-link>!
+            <table>
+                <tr>
+                    <td>
+                        <p class="activityTitle">
+                            All Activity
                         </p>
-                        <img
-                            :src="require('../assets/NoData.svg')"
-                            width="500px"
-                            height="500px"
-                            style="margin: auto;"
-                        />
-                    </div>
-                </td>
-            </tr>
-        </table>
+                        <div v-if="events.length > 0" class="events-container">
+                            <Event
+                                v-for="(event, index) in events"
+                                :key="index"
+                                :user="event.user"
+                                :eventType="event.eventType"
+                                :eventDescription="event.eventDescription"
+                                :eventTarget="event.eventTarget"
+                                :imageUrl="event.imageUrl"
+                                :myProfileUrl="event.myProfileUrl"
+                                :url="event.url"
+                            />
+                        </div>
+                        <div
+                            v-if="events.length == 0"
+                            class="not-found-container"
+                        >
+                            <p style="margin: auto; margin-bottom: 20px;">
+                                Looks like you don't have any activity to show.
+                                Try searching for books, or following users on
+                                our
+                                <router-link
+                                    to="/explore"
+                                    class="link-to-explore"
+                                    >Explore page</router-link
+                                >!
+                            </p>
+                            <img
+                                :src="require('../assets/NoData.svg')"
+                                width="500px"
+                                height="500px"
+                                style="margin: auto;"
+                            />
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
     </div>
 </template>
 
@@ -147,30 +160,79 @@ export default {
 </script>
 
 <style scoped>
-
 .link-to-explore {
-	color: #aac5fa;
+    color: #aac5fa;
 }
-
-.events-container {
+table {
+    width: 70%;
+    position: fixed;
+    right: 0%;
+}
+.activityTitle {
+    font-size: 30px;
+    color: white;
+    font-family: Lato;
+    font-weight: 600;
     padding-top: 80px;
+}
+.events-container {
     overflow: hidden;
     padding-bottom: 20px;
 }
 
-.recent-books {
+.recent {
+    position: fixed;
+    height: 100%;
     width: 25%;
 }
 
 .not-found-container {
-    margin-top: 120px;
+    /* margin-top: 120px; */
     display: flex;
     justify-content: center;
     color: white;
     font-size: 24px;
     flex-direction: column;
     font: Lato;
-	font-family: Lato;
+    font-family: Lato;
 }
+@media only screen and (max-width: 600px) {
+    .recent {
+        position: relative;
 
+        width: 92vw;
+        background: #20242b;
+        height: 52vh;
+        border: 3px solid #3d475c;
+        box-shadow: 0px 5px 10px 0px #00000080;
+        border-radius: 15px;
+        top: 100px;
+        margin: 0%;
+        padding-top: 0%;
+    }
+    .bookList {
+        margin-bottom: 0%;
+    }
+    .mainStuff {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        row-gap: 6vh;
+    }
+    table {
+        position: relative;
+        text-align: center;
+    }
+    .event {
+        text-align: left;
+    }
+    .activityTitle {
+        padding-top: 50px;
+        margin-bottom: 0%;
+    }
+    .events-container,
+    .not-found-container {
+        position: relative;
+    }
+}
 </style>
