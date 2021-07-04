@@ -2,22 +2,22 @@
 
 <h1>BookSplore - A Place to Enjoy Books</h1>
 
-This project was made for a [Tech-With-Tim](https://discord.gg/twt) CodeJam.
+This project was made for a [Tech-With-Tim](https://discord.gg/twt) CodeJam, by the **Programming Addicts**.
 
 <br>
 
 <p align="center">
 
 <a href="https://github.com/milindmadhukar/">
-	<img src="https://avatars.githubusercontent.com/u/68477234?v=4" width="100" height="100" style="border-radius: 50px; border: 3px #79a9d1 solid; margin-left: 100px;" align="left">
+	<img src="https://images.weserv.nl/?url=avatars.githubusercontent.com/u/68477234?v=4&h=100&w=100&fit=cover&mask=circle&maxage=7d">
 </a>
-
+ 
 <a href="https://github.com/classPythonAddike/">
-	<img src="https://avatars.githubusercontent.com/u/72556571?v=4" width="100" height="100" style="border-radius: 50px; border: 3px #79a9d1 solid;" align="center">
+	<img src="https://images.weserv.nl/?url=avatars.githubusercontent.com/u/72556571?v=4&h=100&w=100&fit=cover&mask=circle&maxage=7d">
 </a>
-
+ 
 <a href="https://github.com/devnull03/">
-	<img src="https://avatars.githubusercontent.com/u/56480041?v=4" width="100" height="100" style="border-radius: 50px; border: 3px #79a9d1 solid; margin-right: 100px;" align="right">
+	<img src="https://images.weserv.nl/?url=avatars.githubusercontent.com/u/56480041?v=4&h=100&w=100&fit=cover&mask=circle&maxage=7d">
 </a>
 
 </p>
