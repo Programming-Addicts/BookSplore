@@ -136,11 +136,14 @@ async def get_recommendations(request: Request, authorization: Optional[str] = H
     records = await db.fetch(f"SELECT categories FROM cached_books WHERE id IN ({','.join(recent_books)})")
     categories = dict()
 
+    if not records:
+        return JSONResponse({'Error' : 'No recommendartions'},status_code=404)
+
     for record in records:
-        if record['categories'] == 'null':
+        if record.get('categories', 'null') == 'null':
             continue
         else:
-            parse = json.loads(record['categories'])
+            parse = json.loads(record.get('categories'))
             for category in parse:
                 categories[category] = categories.get(category, 0) + 1 
 
