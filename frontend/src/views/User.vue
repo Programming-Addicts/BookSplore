@@ -13,7 +13,7 @@
                         "
                     />
                     <div class="userInfoText" :style="scaleFont(50)">
-                        <p class="username" :style="scaleFont(50)">
+                        <p class="username">
                             {{ userInfo.name }}
                             <a
                                 @click="
@@ -34,15 +34,19 @@
                             </a>
                         </p>
                         <p class="followersEtc">
-                            {{ userInfo.total_reviews }} Reviews |
+                            {{ userInfo.total_reviews }} Reviews
                             <a
                                 @click="
                                     showList1 = !showList1;
                                     showList2 = false;
                                 "
-                                >{{ userInfo.followers.length }} Followers
+                            >
+                                | {{ userInfo.followers.length }} Followers
                                 <transition name="slide-fade">
-                                    <div class="hoverList" v-if="showList1">
+                                    <div
+                                        class="hoverList hoverList1"
+                                        v-if="showList1"
+                                    >
                                         <floating-list
                                             title="Followers"
                                             :items="userInfo.followersArr"
@@ -50,16 +54,19 @@
                                     </div>
                                 </transition>
                             </a>
-                            |
+
                             <a
                                 @click="
                                     showList2 = !showList2;
                                     showList1 = false;
                                 "
                             >
-                                {{ userInfo.following.length }} Following
+                                | {{ userInfo.following.length }} Following
                                 <transition name="slide-fade">
-                                    <div class="hoverList" v-if="showList2">
+                                    <div
+                                        class="hoverList hoverList2"
+                                        v-if="showList2"
+                                    >
                                         <floating-list
                                             title="Following"
                                             :items="userInfo.followingArr"
@@ -89,11 +96,10 @@
                             :descLength="280"
                             :currentUser="currentUser"
                         />
-                        <p style="height:10vh;"></p>
+                        <p class="reviewPadding"></p>
                     </div>
                     <div class="noReviews" v-else>
                         This user has not reviewed any books yet
-                        <p style="height:100vh;"></p>
                     </div>
                 </div>
             </div>
@@ -150,7 +156,7 @@ export default {
         return {
             reviews: [],
             recentBooks: [],
-            maxRecentBooks: 8,
+            maxRecentBooks: typeof screen.orientation !== "undefined" ? 4 : 8,
             userInfo: {},
             currentUser: {},
             showList1: false,
@@ -298,8 +304,9 @@ export default {
 .hoverList {
     height: 300px;
     width: 300px;
-    margin: 30px;
+    margin-top: 30px;
     position: fixed;
+    z-index: 99 !important;
 }
 
 .slide-fade-enter-active {
@@ -340,7 +347,9 @@ main {
     width: 100%;
 }
 .userInfo img {
-    height: 13vh;
+    --size: 10vw;
+    height: var(--size);
+    width: var(--size);
     border-radius: 50%;
 }
 .userInfo p {
@@ -348,9 +357,10 @@ main {
 }
 .userInfoText .username {
     font-weight: 500;
-    display: flex;
-    align-items: center;
+    display: inline-block;
+    /* align-items: center; */
     column-gap: 1vw;
+    font-size: inherit;
 
     word-wrap: break-word;
     word-break: break-all;
@@ -393,9 +403,9 @@ main {
     padding-left: 5px;
     padding-right: 5px;
 }
-.userInfoText .followersEtc a:active {
+/* .userInfoText .followersEtc a:active {
     transform: scale(0.9);
-}
+} */
 .reviewsDiv {
     font-size: 35px;
     font-weight: 500;
@@ -413,6 +423,12 @@ main {
 .recentBooksDiv .noRecentBooks {
     color: gray;
     font-size: 25px;
+}
+.reviewPadding {
+    height: 10vh;
+}
+.noReviews {
+    height: 50vh;
 }
 .recentBooksDiv {
     border: 2px solid white;
@@ -445,4 +461,69 @@ main {
 .recentBooksDiv .recentBooks a:active {
     transform: scale(0.9);
 }
+
+/* css for mobiles ------------------------ */
+
+@media only screen and (max-width: 600px) {
+    main {
+        flex-direction: column;
+        margin: 10px;
+    }
+    .left {
+        margin: 0%;
+    }
+    .userInfo {
+        flex-direction: column;
+    }
+    .userInfo img {
+        --size: 24vw;
+        height: var(--size);
+        width: var(--size);
+    }
+    .userInfoText .username {
+        display: inline-flex;
+        flex-direction: column;
+        font-size: 10vw;
+        padding-right: 10px;
+
+        word-wrap: break-word;
+        word-break: break-all;
+    }
+    .userInfoText .username a {
+        text-align: left;
+    }
+    .userInfoText .followersEtc {
+        font-size: 5vw;
+    }
+    .followersEtc .hoverList2 {
+        margin-left: -50%;
+    }
+    .followersEtc .hoverList1 {
+        margin-left: -15%;
+    }
+    .followersEtc a {
+        width: fit-content;
+    }
+
+    .reviewsDiv {
+        row-gap: 30px;
+    }
+    .reviewPadding {
+        height: 50px;
+    }
+    .noReviews {
+        padding-right: 20px;
+    }
+
+    .recentBooksDiv {
+        align-self: center;
+        margin: 0%;
+    }
+    .recentBooks .cover {
+        width: 39vw;
+        height: 55vw;
+    }
+}
+
+/* ---------------------------------------- */
 </style>
