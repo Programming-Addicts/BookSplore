@@ -28,7 +28,8 @@ CREATE TABLE cached_books(
     id BIGSERIAL PRIMARY KEY,
     book_id VARCHAR(150) UNIQUE NOT NULL,
     title VARCHAR(500),
-    image_links JSON
+    image_links JSON,
+    categories JSON,
 );
 
 CREATE TABLE cached_searches(

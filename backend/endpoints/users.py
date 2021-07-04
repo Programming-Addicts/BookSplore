@@ -72,7 +72,8 @@ async def get_recent_books(request: Request, user_id: int):
             continue
         book_data = {'book_id': book['book_id'],
                      'title': book['title'],
-                     'image_links': json.loads(book['image_links'])}
+                     'image_links': json.loads(book['image_links']),
+                     'categories': json.loads(book['categories'])}
         recent_books.append(book_data)
 
     return recent_books
@@ -119,3 +120,28 @@ async def get_events(request: Request, offset: int = 0, authorization: Optional[
         return events
     else:
         return JSONResponse({'None': 'No user is authenticated'}, status_code=401)
+
+@router.get("/recommendations")
+async def get_recommendations(request: Request, authorization: Optional[str] = Header(None)):
+    try:
+        user_id = jwt.decode(authorization, secret_key, algorithms="HS256").get("id")
+    except:
+        return JSONResponse({'Error': 'Incorrect Authorization Token'}, status_code=401)
+    
+    db = request.app.state.db
+    user = await get_user(db, id=user_id)
+
+    recent_books = map(str, json.loads(user.recent_books))
+
+    records = await db.fetch(f"SELECT categories FROM cached_books WHERE id IN ({','.join(recent_books)})")
+    categories = dict()
+
+    for record in records:
+        if record['categories'] == 'null':
+            continue
+        else:
+            parse = json.loads(record['categories'])
+            for category in parse:
+                categories[category] = categories.get(category, 0) + 1 
+
+    return categories

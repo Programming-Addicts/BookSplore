@@ -1,5 +1,5 @@
 import json
-from datetime import timedelta
+from datetime import time, timedelta
 from models.reviews import Review
 from typing import Optional
 from fastapi import APIRouter, Request, Header, Form
@@ -69,16 +69,17 @@ async def search(request: Request, query: str, limit: int = 20, offset: int = 0,
                          'image_links': image_links,
                          }
             books.append(book_data)
-            extras = {'publisher': book_info.get('publisher'),
-                         'publish_date': book_info.get('publishedDate'),
-                         'language': get_language(book_info.get('language')),
-                         'avg_rating': book_info.get('averageRating'),
-                         'total_ratings': book_info.get('ratingsCount'),
-                         'isbns': book_info.get('industryIdentifiers'),
-                         'page_count': book_info.get('pageCount'),
-                         'preview_link': book_info.get('previewLink'),
-                         'pdf': has_pdf,
-                         'epub': has_epub
+            extras =  {'publisher': book_info.get('publisher'),
+                       'categories' : book_info.get('categories'),
+                       'publish_date': book_info.get('publishedDate'),
+                       'language': get_language(book_info.get('language')),
+                       'avg_rating': book_info.get('averageRating'),
+                       'total_ratings': book_info.get('ratingsCount'),
+                       'isbns': book_info.get('industryIdentifiers'),
+                       'page_count': book_info.get('pageCount'),
+                       'preview_link': book_info.get('previewLink'),
+                       'pdf': has_pdf,
+                       'epub': has_epub
                          }
             save_data = book_data.copy()
             save_data.update(extras)
@@ -100,7 +101,8 @@ async def get_books_data(request: Request, book_id: str, authorization: Optional
     book_data = await db.fetchrow("SELECT response FROM cached_searches WHERE book_id = $1", book_id)
     if book_data:
         book_info = json.loads(book_data['response'])
-        await db.execute("INSERT INTO cached_books (book_id, title, image_links) VALUES ($1, $2, $3) ON CONFLICT DO NOTHING" , book_info['id'], book_info['title'], json.dumps(book_info['image_links']))
+        cache_query = """INSERT INTO cached_books (book_id, title, image_links, categories) VALUES ($1, $2, $3, $4) ON CONFLICT DO NOTHING"""
+        await db.execute(cache_query , book_info['id'], book_info.get('title'), json.dumps(book_info.get('image_links')), json.dumps(book_info.get('categories', "")))
         cache = await db.fetchrow("SELECT id FROM cached_books WHERE book_id = $1", book_info['id'])
         recent_books = json.loads(user.recent_books)
         cached_id = cache.get('id')
@@ -108,8 +110,6 @@ async def get_books_data(request: Request, book_id: str, authorization: Optional
             recent_books.remove(cached_id)    
         recent_books = [cache['id']] + recent_books
         user.recent_books = json.dumps(recent_books[:30])
-        review_count = await db.fetchrow("SELECT COUNT(*) FROM reviews WHERE book_id = $1", book_info['id'])
-        book_info['review_count'] = int(review_count['count'])
         await db.execute("UPDATE users SET recent_books = $1 WHERE id = $2", user.recent_books, user.id)
         return book_info
     else:
@@ -130,7 +130,9 @@ async def get_books_data(request: Request, book_id: str, authorization: Optional
             image_links = book_info.get('imageLinks')
             authors = book_info.get('authors')
             description = book_info.get('description')
-            await db.execute("INSERT INTO cached_books (book_id, title, image_links) VALUES ($1, $2, $3) ON CONFLICT DO NOTHING" , id, title, json.dumps(image_links))
+            categories = book_info.get('categories')
+            cache_query = """INSERT INTO cached_books (book_id, title, image_links, categories) VALUES ($1, $2, $3, $4) ON CONFLICT DO NOTHING"""
+            await db.execute(cache_query , id, title, json.dumps(image_links), json.dumps(categories))
             cache = await db.fetchrow("SELECT id FROM cached_books WHERE book_id = $1", id)
             recent_books = json.loads(user.recent_books)
             cached_id = cache.get('id')
@@ -143,6 +145,7 @@ async def get_books_data(request: Request, book_id: str, authorization: Optional
                         'title': title,
                         'authors': authors,
                         'description': description,
+                        'categories' : categories,
                         'publisher': book_info.get('publisher'),
                         'publish_date': book_info.get('publishedDate'),
                         'language': get_language(book_info.get('language')),
@@ -155,8 +158,6 @@ async def get_books_data(request: Request, book_id: str, authorization: Optional
                         'pdf': has_pdf,
                         'epub': has_epub
                         }
-            review_count = await db.fetchrow("SELECT COUNT(*) FROM reviews WHERE book_id = $1", book_info['id'])
-            book_info['review_count'] = int(review_count['count'])
             await request.app.state.db.execute("INSERT INTO cached_searches (book_id, response) VALUES ($1, $2) ON CONFLICT DO NOTHING", id, json.dumps(book_data))
             return book_data
 
@@ -177,7 +178,7 @@ async def post_review(request: Request, authorization: Optional[str] = Header(No
         return JSONResponse({'Error': 'Incorrect Authorization Token'}, status_code=401)
 
     last_review = await db.fetchrow("SELECT NOW() - timestamp AS last_review FROM reviews WHERE user_id = $1 ORDER BY timestamp DESC LIMIT 1", user_id)
-    if last_review['last_review'] < timedelta(minutes=1):
+    if last_review is not None and last_review.get('last_review') < timedelta(minutes=1):
         return JSONResponse({'Error' : 'To prevent spamming, book reviews are rate limited. To post a review again, try again in sometime.'}, status_code=400)
 
     review = Review(book_id=book_id,
