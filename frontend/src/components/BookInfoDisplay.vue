@@ -291,4 +291,28 @@ export default {
     padding-bottom: 13px;
     color: #aac5fa;
 }
+
+@media only screen and (max-width: 600px) {
+    .bookInfoDisplay {
+        margin: 30px;
+    }
+    .top {
+        flex-direction: column;
+    }
+    .infoTable {
+        flex-direction: column;
+    }
+    .infoTable .left {
+        border: none;
+        width: 100%;
+    }
+    .infoTable .right {
+        padding-left: 0%;
+        width: 100%;
+    }
+    .descDiv {
+        padding: 10px;
+    }
+}
+
 </style>

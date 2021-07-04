@@ -187,4 +187,18 @@ export default {
     margin: 5vw;
     justify-content: space-evenly;
 }
+
+@media only screen and (max-width: 600px) {
+    .bottomSection {
+        flex-direction: column-reverse;
+        row-gap: 40px;
+        align-items: center;
+    }
+    .downloadButtons button {
+        padding-top: 5vw;
+        padding-bottom: 5vw;
+    }
+}
+
+
 </style>

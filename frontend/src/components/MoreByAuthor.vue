@@ -74,6 +74,7 @@ export default {
     padding-left: 40px;
     padding-right: 40px;
     height: min-content;
+    width: min-content;
 
     margin-left: 30px;
     /* margin-right: 50px; */
@@ -100,4 +101,15 @@ a:active {
     font-size: 20px;
     padding-bottom: 5px;
 }
+
+@media only screen and (max-width: 600px) {
+    .cover {
+        width: 65vw;
+        height: 95vw;
+    }
+    .moreBook {
+        margin: 0%;
+    }
+}
+
 </style>
