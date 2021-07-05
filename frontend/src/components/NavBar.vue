@@ -130,7 +130,6 @@ export default {
         }
     },
     created() {
-        console.log(this.isMobile);
         if (this.currentUser) {
             this.currentUser_ = this.currentUser;
             this.fetched = true;
@@ -146,7 +145,6 @@ export default {
             .then(response => response.json())
             .then(result => {
                 this.currentUser_ = result;
-                console.log(result);
                 this.fetched = true;
             })
             .catch(error => {

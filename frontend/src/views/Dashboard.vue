@@ -140,9 +140,8 @@ export default {
 								`/user/${bsEvent.performer.id}`,
                                 "review",
                                 this.renderStars(bsEvent.rating_given),
-                                bsEvent.target_book.title.slice(0, 40) +
-                                    " . . .",
-
+                                bsEvent.target_book.title,
+								
                                 isJson
                                     ? JSON.parse(
                                           bsEvent.target_book.image_links

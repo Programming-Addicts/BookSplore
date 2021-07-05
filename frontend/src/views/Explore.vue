@@ -14,14 +14,15 @@
                 <input type="checkbox" v-model="downloadOnly" />
                 Only show books which are available for download
             </p>
-            <img :src="require(`../assets/searching.svg`)" />
-        </div>
+			<recommendations />
+		</div>
     </div>
 </template>
 
 <script>
 import NavBar from "../components/NavBar.vue";
 import SearchBox from "../components/SearchBox.vue";
+import Recommendations from "../components/Recommendations.vue";
 import AuthComponent from "../components/AuthComponent.vue";
 
 export default {
@@ -29,7 +30,8 @@ export default {
     components: {
         NavBar,
         SearchBox,
-        AuthComponent
+        AuthComponent,
+		Recommendations
     },
     data() {
         return {
@@ -78,7 +80,7 @@ export default {
 }
 
 .searchBox img {
-    padding: 30px;
+	display: none;
 }
 
 .searchBox p {
@@ -99,6 +101,7 @@ export default {
 @media only screen and (max-width: 600px) {
     .searchBox img {
         width: 90vw;
+		padding: 30px;
     }
     .searchBox {
         font-size: 30px !important;

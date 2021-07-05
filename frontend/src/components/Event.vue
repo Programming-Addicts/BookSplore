@@ -2,7 +2,7 @@
     <div class="event">
         <div class="eventMsg">
             <img :src="myProfileUrl" class="performer-pfp" />
-            <p name="action">
+            <p name="action" class="event-desc">
                 <router-link class="performer-url" :to="userUrl">{{ user.slice(0, -5) }}</router-link>
                 {{ eventType == "follow" ? "started following" : "reviewed" }}
             </p>
@@ -19,9 +19,17 @@
             <div class="userInfo">
                 <img :src="imageUrl" />
                 <div>
-                    <a name="targetName" class="targetName">{{
-                        eventTarget
-                    }}</a>
+                    <a name="targetName" class="targetName">
+						{{
+							window.innerWidth > 600
+							? (
+								eventTarget.slice(0, 40) + (eventTarget.length > 40 ? '. . .' : '')
+							)
+							: (
+								eventTarget.slice(0, 20) + (eventTarget.length > 20 ? '. . .' : '')
+							)
+						}}
+					</a>
                     <p name="targetInfo" class="targetInfo">
                         {{ eventDescription }}
                     </p>
@@ -46,15 +54,20 @@ export default {
         imageUrl: String,
         url: String,
         myProfileUrl: String
-    }
+    },
+	data() {
+		return {
+			window: window
+		}
+	}
 };
 </script>
 
 <style scoped>
 .performer-pfp {
     border-radius: 50%;
-    width: 35px;
-    height: 35px;
+    width: 40px;
+    height: 40px;
     margin-right: 5px;
     filter: drop-shadow(1px 5px 10px rgba(0, 0, 0, 0.6));
     border: 1px #fff solid;
@@ -64,7 +77,7 @@ export default {
     font-family: Lato;
     font-style: normal;
     font-weight: normal;
-    font-size: 15px;
+    font-size: 1.3vw;
     line-height: 30px;
     color: rgba(255, 255, 255, 0.6);
     margin: 0px;
@@ -74,8 +87,7 @@ export default {
     font-family: Lato;
     font-style: normal;
     font-weight: normal;
-    font-size: 20px;
-
+	font-size: 1.5vw;
     color: rgba(255, 255, 255, 0.8);
 }
 
@@ -84,7 +96,6 @@ export default {
     flex-direction: column;
     width: 90%;
     margin: 25px;
-    /* margin-bottom: -10px; */
     position: relative;
 
     font-family: Lato;
@@ -153,7 +164,32 @@ export default {
     font-family: Lato;
     font-style: normal;
     font-weight: normal;
-    font-size: 18px;
+    font-size: 1.4vw;
     text-decoration: none !important;
 }
+
+.event-desc {
+	font-size: 1.4vw;
+}
+
+@media screen and (max-width: 600px) {
+	
+	.event-desc {
+		font-size: 18px;
+	}
+
+	.action {
+		font-size: 18px;
+	}
+
+	.targetName {
+		font-size: 20px;
+	}
+
+	.targetInfo {
+		font-size: 18px;
+	}
+
+}
+
 </style>
