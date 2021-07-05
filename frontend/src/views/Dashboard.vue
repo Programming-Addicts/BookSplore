@@ -17,8 +17,8 @@
                             <Event
                                 v-for="(event, index) in events"
                                 :key="index"
-								:user="event.user"
-								:userUrl="event.userUrl"
+                                :user="event.user"
+                                :userUrl="event.userUrl"
                                 :eventType="event.eventType"
                                 :eventDescription="event.eventDescription"
                                 :eventTarget="event.eventTarget"
@@ -59,7 +59,7 @@
 class BEvent {
     constructor(
         user, // User who performed the action
-		userUrl, // Link to the users profile page
+        userUrl, // Link to the users profile page
         eventType, // What the user did
         eventDescription, // Description of the event
         eventTarget, // What the action was performed on
@@ -68,7 +68,7 @@ class BEvent {
         myProfileUrl // profile of the user who performed the action
     ) {
         this.user = user;
-		this.userUrl = userUrl;
+        this.userUrl = userUrl;
         this.eventType = eventType;
         this.eventDescription = eventDescription;
         this.eventTarget = eventTarget;
@@ -105,7 +105,6 @@ export default {
         })
             .then(response => response.json())
             .then(data => {
-                console.log(data);
                 for (var bsEvent of data) {
                     if (
                         bsEvent.type == "follow-you" ||
@@ -114,7 +113,7 @@ export default {
                         this.events.push(
                             new BEvent(
                                 bsEvent.performer.username,
-								`/user/${bsEvent.performer.id}`,
+                                `/user/${bsEvent.performer.id}`,
                                 "follow",
                                 `${bsEvent.target_user.total_reviews} reviews, ${bsEvent.target_user.followers} followers`,
                                 bsEvent.target_user.username,
@@ -137,11 +136,11 @@ export default {
                         this.events.push(
                             new BEvent(
                                 bsEvent.performer.username,
-								`/user/${bsEvent.performer.id}`,
+                                `/user/${bsEvent.performer.id}`,
                                 "review",
                                 this.renderStars(bsEvent.rating_given),
                                 bsEvent.target_book.title,
-								
+
                                 isJson
                                     ? JSON.parse(
                                           bsEvent.target_book.image_links
@@ -176,7 +175,7 @@ export default {
             for (let index = 0; index < 5 - starsAmount; index++) {
                 arr.push(grayStar);
             }
-            return arr.join(' ');
+            return arr.join(" ");
         }
     }
 };
@@ -188,7 +187,7 @@ export default {
 }
 table {
     width: 70%;
-    position: fixed;
+    position: absolute;
     right: 0%;
 }
 .activityTitle {
@@ -197,8 +196,8 @@ table {
     font-family: Lato;
     font-weight: 600;
     padding-top: 80px;
-	padding-left: 30px;
-	margin-bottom: 0px;
+    padding-left: 30px;
+    margin-bottom: 0px;
 }
 .events-container {
     overflow: hidden;
@@ -245,7 +244,7 @@ table {
         row-gap: 6vh;
     }
     table {
-        position: relative;
+        position: relative !important;
         text-align: center;
     }
     .event {

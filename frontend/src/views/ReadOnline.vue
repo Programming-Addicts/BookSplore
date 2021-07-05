@@ -44,10 +44,9 @@ export default {
                 document.getElementById("view")
             );
             this.viewer.load(`ISBN:${this.$route.params.isbn}`, () => {
-					alert("Oops! It looks like this book isn't available to read!")
-					this.$router.push("/explore")
-				}
-            );
+                alert("Oops! It looks like this book isn't available to read!");
+                this.$router.push("/explore");
+            });
         },
         containerStyles() {
             return {

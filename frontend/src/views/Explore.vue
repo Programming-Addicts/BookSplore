@@ -14,8 +14,8 @@
                 <input type="checkbox" v-model="downloadOnly" />
                 Only show books which are available for download
             </p>
-			<recommendations />
-		</div>
+            <recommendations />
+        </div>
     </div>
 </template>
 
@@ -31,12 +31,12 @@ export default {
         NavBar,
         SearchBox,
         AuthComponent,
-		Recommendations
+        Recommendations
     },
     data() {
         return {
             downloadOnly: false,
-            boxSize: screen.width <= 760 ? `79vw` : `60vw`,
+            boxSize: screen.width <= 760 ? `79vw` : `60vw`
         };
     },
     methods: {
@@ -80,7 +80,7 @@ export default {
 }
 
 .searchBox img {
-	display: none;
+    display: none;
 }
 
 .searchBox p {
@@ -97,11 +97,10 @@ export default {
     -webkit-transform: scale(2);
 }
 
-
 @media only screen and (max-width: 600px) {
     .searchBox img {
         width: 90vw;
-		padding: 30px;
+        padding: 30px;
     }
     .searchBox {
         font-size: 30px !important;
@@ -110,6 +109,4 @@ export default {
         font-size: 20px !important;
     }
 }
-
-
 </style>

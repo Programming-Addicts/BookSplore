@@ -66,7 +66,7 @@ export default {
             newReview: "",
             fetched: false,
             newReviewStars: [0, 0, 0, 0, 0],
-            stay_anonymous: false, 
+            stay_anonymous: false
         };
     },
     methods: {

@@ -199,6 +199,4 @@ export default {
         padding-bottom: 5vw;
     }
 }
-
-
 </style>

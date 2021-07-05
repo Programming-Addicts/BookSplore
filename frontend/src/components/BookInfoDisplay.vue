@@ -104,7 +104,7 @@ import Cover from "./Cover.vue";
 export default {
     name: "BookInfoDisplay",
     components: {
-        Cover,
+        Cover
     },
     props: ["Book"],
     data() {
@@ -132,10 +132,10 @@ export default {
                     ? this.Book.isbns[0]
                         ? this.Book.isbns[0].identifier
                         : "-"
-                    : "-",
+                    : "-"
             },
             descExpanded: false,
-            descMaxSize: 300,
+            descMaxSize: 300
         };
     },
     methods: {
@@ -161,18 +161,18 @@ export default {
         scaleRadius(num) {
             return {
                 width: `${(window.innerHeight * num) / 796}px`,
-                height: `${(window.innerHeight * num) / 796}px`,
+                height: `${(window.innerHeight * num) / 796}px`
             };
         },
         scaleFont(num) {
             return {
-                "font-size": `${(window.innerHeight * num) / 796}px`,
+                "font-size": `${(window.innerHeight * num) / 796}px`
             };
-        },
+        }
     },
     mounted() {
         this.collapse(this.bookData.description);
-    },
+    }
 };
 </script>
 
@@ -314,5 +314,4 @@ export default {
         padding: 10px;
     }
 }
-
 </style>

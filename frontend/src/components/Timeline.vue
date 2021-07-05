@@ -50,7 +50,7 @@ export default {
 
 <style scoped>
 * {
-	font-family: Lato;
+    font-family: Lato;
 }
 
 .timeline-inner {

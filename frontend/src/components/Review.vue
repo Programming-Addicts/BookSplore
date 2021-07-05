@@ -85,7 +85,7 @@ export default {
     data() {
         return {
             review: {},
-            coverHeight: screen.width <= 760 ? `30vw`: `116px`,
+            coverHeight: screen.width <= 760 ? `30vw` : `116px`
         };
     },
     methods: {

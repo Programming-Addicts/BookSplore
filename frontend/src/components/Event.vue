@@ -3,7 +3,9 @@
         <div class="eventMsg">
             <img :src="myProfileUrl" class="performer-pfp" />
             <p name="action" class="event-desc">
-                <router-link class="performer-url" :to="userUrl">{{ user.slice(0, -5) }}</router-link>
+                <router-link class="performer-url" :to="userUrl">{{
+                    user.slice(0, -5)
+                }}</router-link>
                 {{ eventType == "follow" ? "started following" : "reviewed" }}
             </p>
             <a name="target" :href="url" class="targetLink"
@@ -20,16 +22,14 @@
                 <img :src="imageUrl" />
                 <div>
                     <a name="targetName" class="targetName">
-						{{
-							window.innerWidth > 600
-							? (
-								eventTarget.slice(0, 40) + (eventTarget.length > 40 ? '. . .' : '')
-							)
-							: (
-								eventTarget.slice(0, 20) + (eventTarget.length > 20 ? '. . .' : '')
-							)
-						}}
-					</a>
+                        {{
+                            window.innerWidth > 600
+                                ? eventTarget.slice(0, 40) +
+                                  (eventTarget.length > 40 ? ". . ." : "")
+                                : eventTarget.slice(0, 20) +
+                                  (eventTarget.length > 20 ? ". . ." : "")
+                        }}
+                    </a>
                     <p name="targetInfo" class="targetInfo">
                         {{ eventDescription }}
                     </p>
@@ -47,7 +47,7 @@ export default {
     name: "Event",
     props: {
         user: String,
-		userUrl: String,
+        userUrl: String,
         eventType: String,
         eventDescription: String,
         eventTarget: String, // User that was followed / Book that was reviewed
@@ -55,11 +55,11 @@ export default {
         url: String,
         myProfileUrl: String
     },
-	data() {
-		return {
-			window: window
-		}
-	}
+    data() {
+        return {
+            window: window
+        };
+    }
 };
 </script>
 
@@ -87,7 +87,7 @@ export default {
     font-family: Lato;
     font-style: normal;
     font-weight: normal;
-	font-size: 1.5vw;
+    font-size: 1.5vw;
     color: rgba(255, 255, 255, 0.8);
 }
 
@@ -169,27 +169,24 @@ export default {
 }
 
 .event-desc {
-	font-size: 1.4vw;
+    font-size: 1.4vw;
 }
 
 @media screen and (max-width: 600px) {
-	
-	.event-desc {
-		font-size: 18px;
-	}
+    .event-desc {
+        font-size: 18px;
+    }
 
-	.action {
-		font-size: 18px;
-	}
+    .action {
+        font-size: 18px;
+    }
 
-	.targetName {
-		font-size: 20px;
-	}
+    .targetName {
+        font-size: 20px;
+    }
 
-	.targetInfo {
-		font-size: 18px;
-	}
-
+    .targetInfo {
+        font-size: 18px;
+    }
 }
-
 </style>
