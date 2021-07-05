@@ -3,7 +3,7 @@
         <div class="eventMsg">
             <img :src="myProfileUrl" class="performer-pfp" />
             <p name="action">
-                {{ user.slice(0, -5) }}
+                <router-link class="performer-url" :to="userUrl">{{ user.slice(0, -5) }}</router-link>
                 {{ eventType == "follow" ? "started following" : "reviewed" }}
             </p>
             <a name="target" :href="url" class="targetLink"
@@ -39,6 +39,7 @@ export default {
     name: "Event",
     props: {
         user: String,
+		userUrl: String,
         eventType: String,
         eventDescription: String,
         eventTarget: String, // User that was followed / Book that was reviewed
@@ -130,7 +131,7 @@ export default {
     padding-left: 5px;
 }
 
-.userLink {
+.performer-url {
     text-decoration: underline;
     padding: 3px;
     color: white;

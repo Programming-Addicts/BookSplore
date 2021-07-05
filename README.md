@@ -29,9 +29,8 @@ Booksplore is a website where you can enjoy, and explore the world of books - wi
 BookSplore is a social platform, as well as a site dedicated to books, in accordance with our tagline - `Explore the world of books, with your friends`. So BookSplore offers you the following delights -
 
 1. Searching for books by title, subject, and isbn, and viewing information associated with them, such as a short description, similar books, published versions, etc. Note: This information is provided by the Google Book API.
-2. For some books, the Google Book API also provides a webreader for you to read the book through. This can be used through BookSplore.
-3. BookSplore allows you to publish reviews about books, and rate them, which is then stored in our databases.
-4. On BookSplore, you can follow other users to see what books they read, and be notified whenever they publish a review.
+2. BookSplore allows you to publish reviews about books, and rate them, which is then stored in our own databases.
+3. On BookSplore, you can follow other users to see what books they read, and be notified whenever they publish a review.
 
 Please note that we use the Google Books API to obtain some information about books and to allow users to read them, so these features alone may not be available for all books. Needless to say, every other feature would be available regardless of the book, as they are completely implemented by us.
 
@@ -90,4 +89,4 @@ Please read this short, yet important passage. By using our website, registering
 - All services of BookSplore are completely free, and open-source. Some of our content may not be available evenly for all books, since we use the Google API to obtain information about books. So by using BookSplore, you agree not to market any of the code, or claim it to be any of your own.
 - All rights are reserved by the admins of BookSplore, namely [Milind](https://github.com/milindmadhukar), [class PythonAddict](https://github.com/classPythonAddike/) and [devnull](https://github.com/devnull03). If they find any content to be irrelevant or users to be misusing the site, they reserve the rights to remove the content, or disable the user's account.
 
-
+<h3 align="center">BookSplore - Explore the world of books, with your friends! </h3>

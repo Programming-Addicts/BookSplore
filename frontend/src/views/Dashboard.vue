@@ -17,7 +17,8 @@
                             <Event
                                 v-for="(event, index) in events"
                                 :key="index"
-                                :user="event.user"
+								:user="event.user"
+								:userUrl="event.userUrl"
                                 :eventType="event.eventType"
                                 :eventDescription="event.eventDescription"
                                 :eventTarget="event.eventTarget"
@@ -57,15 +58,17 @@
 <script>
 class BEvent {
     constructor(
-        user,
-        eventType,
-        eventDescription,
-        eventTarget,
-        imageUrl,
-        url,
-        myProfileUrl
+        user, // User who performed the action
+		userUrl, // Link to the users profile page
+        eventType, // What the user did
+        eventDescription, // Description of the event
+        eventTarget, // What the action was performed on
+        imageUrl, // Profile pic / cover image of the target
+        url, // Link to the target
+        myProfileUrl // profile of the user who performed the action
     ) {
         this.user = user;
+		this.userUrl = userUrl;
         this.eventType = eventType;
         this.eventDescription = eventDescription;
         this.eventTarget = eventTarget;
@@ -111,6 +114,7 @@ export default {
                         this.events.push(
                             new BEvent(
                                 bsEvent.performer.username,
+								`/user/${bsEvent.performer.id}`,
                                 "follow",
                                 `${bsEvent.target_user.total_reviews} reviews, ${bsEvent.target_user.followers} followers`,
                                 bsEvent.target_user.username,
@@ -133,6 +137,7 @@ export default {
                         this.events.push(
                             new BEvent(
                                 bsEvent.performer.username,
+								`/user/${bsEvent.performer.id}`,
                                 "review",
                                 this.renderStars(bsEvent.rating_given),
                                 bsEvent.target_book.title.slice(0, 40) +
@@ -193,6 +198,8 @@ table {
     font-family: Lato;
     font-weight: 600;
     padding-top: 80px;
+	padding-left: 30px;
+	margin-bottom: 0px;
 }
 .events-container {
     overflow: hidden;
