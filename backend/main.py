@@ -18,6 +18,7 @@ config = Config(".env")
 
 app = FastAPI()
 
+# Specifying directories for serving files in development, production uses nginx.
 app.mount("/dist", StaticFiles(directory="dist/"), name="dist")
 app.mount("/css", StaticFiles(directory="dist/css"), name="css")
 app.mount("/img", StaticFiles(directory="dist/img"), name="img")
@@ -26,12 +27,13 @@ app.mount("/js", StaticFiles(directory="dist/js"), name="js")
 templates = Jinja2Templates(directory="dist")
 
 origins = [
-    "http://localhost:8000",
-    "https://booksplore.milindm.me",
+    "https://booksplore.tech"
 ]
 
+# Sessions middleware for Google Authentication.
 app.add_middleware(SessionMiddleware, secret_key=os.environ.get("SECRET_KEY"))
 
+# Setting uprintp CORS middleware.
 app.add_middleware(
     CORSMiddleware,
     allow_origins=origins,
@@ -45,6 +47,7 @@ app.include_router(auth.router, prefix="/api")
 app.include_router(books.router, prefix="/api/books")
 app.include_router(users.router, prefix="/api/users")
 
+# Connecting to the database and setting it as a state variable.
 @app.on_event("startup")
 async def on_startup():
     dotenv.load_dotenv('.env')
@@ -54,10 +57,12 @@ async def on_startup():
             await app.state.db.execute(f.read())
         print("Initialized the database. You may now turn INIT to false in your .env")
 
+#Closing the database connection when shutting down the app.
 @app.on_event("shutdown")
 async def shutdown():
     await app.state.db.close_connection()
 
+# Serving index.html from backend from where Vue takes control.
 @app.get("/{full_path:path}")
 async def serve_frontend(request: Request, full_path: str):
     if full_path == "favicon.ico":

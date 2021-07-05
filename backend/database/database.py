@@ -3,6 +3,7 @@ import asyncio
 
 
 class Database(object):
+    # Initializing the Database object
     def __init__(self, app, pool, loop=None, timeout: float = 60.0):
         self.app = app
         self._pool = pool
@@ -10,6 +11,7 @@ class Database(object):
         self.timeout = timeout
         self._rate_limit = asyncio.Semaphore(value=self._pool._maxsize, loop=self._loop)
 
+    #
     @classmethod
     async def create_pool(cls, app, uri=None, *, min_connections=10, max_connections=10,
                           timeout=60.0, loop=None, **kwargs):

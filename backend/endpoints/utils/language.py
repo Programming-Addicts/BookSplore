@@ -1,3 +1,5 @@
+# Converts language codes to names as returned by the google API
+
 LANGUAGES = {'am': 'Amharic', 'ar': 'Arabic', 'eu': 'Basque', 'bn': 'Bengali', 'en-GB': 'English (UK)',
        'pt-BR': 'Portuguese (Brazil)', 'bg': 'Bulgarian', 'ca': 'Catalan', 'chr': 'Cherokee', 'hr': 'Croatian',
        'cs': 'Czech', 'da': 'Danish', 'nl': 'Dutch', 'en': 'English (US)', 'et': 'Estonian', 'fil': 'Filipino',
@@ -9,5 +11,6 @@ LANGUAGES = {'am': 'Amharic', 'ar': 'Arabic', 'eu': 'Basque', 'bn': 'Bengali', '
        'sv': 'Swedish', 'ta': 'Tamil', 'te': 'Telugu', 'th': 'Thai', 'zh-TW': 'Chinese (Taiwan)', 'tr': 'Turkish',
        'ur': 'Urdu', 'uk': 'Ukrainian', 'vi': 'Vietnamese', 'cy': 'Welsh'}
 
+
 def get_language(code):
-    return LANGUAGES.get(code)
+    return LANGUAGES.get(code, "Not Specified")

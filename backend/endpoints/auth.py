@@ -50,6 +50,7 @@ async def auth(request: Request):
     first_name = req_user.get("given_name", "")
     last_name = req_user.get("family_name", "")
     if user is None:
+        # Create a new user in the database if the user doesn't exist.
         user = User(**{'first_name': first_name,
                        'last_name': last_name,
                        'email': req_user['email']})
@@ -71,14 +72,16 @@ async def auth(request: Request):
     user.avatar_url = req_user['picture']
     await update_user(db, user)
 
+    # Encodes user's id and sends it to the frontend to store in localstorage.
     token = jwt.encode(
         {"id": user.id},
         key=secret_key,
         algorithm="HS256"
     )
-    return RedirectResponse(f"/dashboard?token={token}")
+    return RedirectResponse(f"/dashboard?snowflake=sdkjwurwiwenvcdsskeowpASJDSFKDFREIOakskjfsdfhdfjwoioemxsndDIWHjsdfmsegiwesnQOEEQWP&token={token}")
 
 
+# Clears authentication token and redirects to landing page.
 @router.get('/logout')
 async def logout():
     return RedirectResponse(url='/')
