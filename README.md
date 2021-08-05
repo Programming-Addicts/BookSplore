@@ -12,9 +12,11 @@ This project was made for a [Tech-With-Tim](https://discord.gg/twt) CodeJam, by 
 	<img src="https://images.weserv.nl/?url=avatars.githubusercontent.com/u/68477234?v=4&h=100&w=100&fit=cover&mask=circle&maxage=7d">
 </a>
  
+ 
 <a href="https://github.com/classPythonAddike/">
 	<img src="https://images.weserv.nl/?url=avatars.githubusercontent.com/u/72556571?v=4&h=100&w=100&fit=cover&mask=circle&maxage=7d">
 </a>
+ 
  
 <a href="https://github.com/devnull03/">
 	<img src="https://images.weserv.nl/?url=avatars.githubusercontent.com/u/56480041?v=4&h=100&w=100&fit=cover&mask=circle&maxage=7d">
@@ -48,7 +50,7 @@ This project was written in `Python3`, and primarily, `Javascript` for the front
 
 The backend made use of `FastAPI`, which is a fast, asynchronous API framework for Python, and `Postgres` for the database. `Asyncpg` was used to establish connections to the database.
 
-The frontend was written with a popular javascript framework called `Vue.js`
+The frontend was written with a popular javascript framework - `Vue.js`
 
 We used the Google API for books to obtain data about books published by authors.
 
@@ -60,8 +62,8 @@ To locally run BookSplore, first fork, and clone this git repository to your mac
 
 Setting up the frontend is very easy -
 1. `cd` into the `frontend` directory.
-2. Run `npm install` or `yarn install` to install the packages required.
-3. Next, run `./build.sh` to build the project, and move it to the backend directory, so that the backend can serve the html files. If you are on windows, you will need to make some changes to the shell script to suit your operating system.
+2. Run `npm install` to install the packages required.
+3. Next, run `npm run serve` to build the project, and move it into the required directory. If you are on Windows, you will need to run this in git bash.
 
 ### Setting up the Backend
 1.  `cd` into the `backend` directory.
@@ -78,6 +80,12 @@ Click `Create`
 10. Click on `+ Add Credentials` and click on `API key` to create an API key for Google Books API. Make sure you enable the Google Books API from the Google API libraries. Fill out the `GOOGLE_API_KEY` in the `.env` file.
 11. Run the command `uvicorn main:app`. If all steps were followed correctly and dependencies were installed, it will start the FastAPI server and initialize all the tables for you in the database.
 
+## ⬅️ Contributing
+
+To contribute to BookSplore, first fork this repository, clone it, and switch to another branch which describes your contribution.
+
+Once you finish your changes, make sure to lint the files with a linter like prettier, or black. Then push your changes, and open a Pull Request!
+
 ## 📃 Terms of Service
 
 Please read this short, yet important passage. By using our website, registering for an account, you agree to these guidelines.
@@ -87,6 +95,6 @@ Please read this short, yet important passage. By using our website, registering
 - Please refrain from creating multiple accounts (alt accounts) on the site.
 - Please do not attempt anything malicious with the API, like trying to obtain information about other users.
 - All services of BookSplore are completely free, and open-source. Some of our content may not be available evenly for all books, since we use the Google API to obtain information about books. So by using BookSplore, you agree not to market any of the code, or claim it to be any of your own.
-- All rights are reserved by the admins of BookSplore, namely [Milind](https://github.com/milindmadhukar), [class PythonAddict](https://github.com/classPythonAddike/) and [devnull](https://github.com/devnull03). If they find any content to be irrelevant or users to be misusing the site, they reserve the rights to remove the content, or disable the user's account.
+- All rights are reserved by the admins of BookSplore, namely [Milind](https://booksplore.tech/user/2), [class PythonAddict](https://booksplore.tech/user/4) and [devnull](https://booksplore.tech/user/3). If they find any content to be irrelevant or users to be misusing the site, they reserve the rights to remove the content, or disable the user's account.
 
 <h3 align="center">BookSplore - Explore the world of books, with your friends! </h3>

@@ -13,10 +13,13 @@
                     "
                     :height="scaleHeight(45)"
                 />
-                <a :href="`/book-info/${book.book_id}`" :style="scaleFont(23)">
+                <a :href="`/book-info/${book.book_id}`" :style="scaleFont(13)">
                     {{
                         book.title.length > 29
-                            ? book.title.slice(0, 23) + " . . ."
+                            ? book.title.slice(
+                                0,
+                                20
+                            ) + " . . ."
                             : book.title
                     }}
                 </a>
@@ -34,13 +37,14 @@ export default {
     data() {
         return {
             books: null,
-            fetched: false
+            fetched: false,
+            window: window
         };
     },
     methods: {
         scaleFont(num) {
             return {
-                "font-size": `${(num * window.innerHeight) / 796}px`
+                "font-size": `${(num * window.innerWidth) / 800}px`
             };
         },
         scaleHeight(num) {
@@ -82,7 +86,7 @@ export default {
     flex-direction: column;
     /* position: relative; */
     padding-top: 80px;
-    padding-right: 5px;
+    padding-right: 10px;
     border-right: 2px solid white;
     font-family: Lato;
     align-items: center;
@@ -108,6 +112,7 @@ export default {
     overflow-y: scroll;
     margin-right: 6px;
     padding-top: 10px;
+    padding-right: 10px;
 }
 
 .bookList div {
