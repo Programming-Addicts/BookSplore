@@ -95,7 +95,7 @@ export default {
     display: flex;
     flex-direction: column;
     width: 90%;
-    margin: 25px;
+    margin: 2vh;
     position: relative;
 
     font-family: Lato;
@@ -111,8 +111,8 @@ export default {
 .eventBox {
     display: flex;
     flex-direction: row;
-    padding: 10px;
-    padding-left: 15px;
+    padding: 1.5vw;
+    padding-left: 20px;
     align-items: center;
     justify-content: space-between;
 
@@ -168,8 +168,8 @@ export default {
     text-decoration: none !important;
 }
 
-.event-desc {
-    font-size: 1.4vw;
+.eventMsg {
+    font-size: 1.6vw;
 }
 
 @media screen and (max-width: 600px) {
