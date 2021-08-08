@@ -1,4 +1,4 @@
-<img align="left" width=70px height=70px src="https://booksplore.tech/favicon.ico" alt="Booksplore logo">
+<img align="left" width=70px height=70px src="/frontend/src/assets/BookSploreIcon_PNG.png" alt="Booksplore logo">
 
 <h1>BookSplore - A Place to Enjoy Books</h1>
 
