@@ -40,7 +40,7 @@ Please note that we use the Google Books API to obtain some information about bo
 
 To get started, head over to our website - [booksplore.tech](https://booksplore.tech). Once you register yourself, you will be redirected to your dashboard.
 
-To explore our collection of books, ratings, reviews, and users, head over to the [Explore page](https://booksplore.tech), and search for a book, or user you want to view! When searching for books, you can search by name, by subject, and by its ISBN - International Standard Book Number.
+To explore our collection of books, ratings, reviews, and users, head over to the [Explore page](https://booksplore.tech/explore), and search for a book, or user you want to view! When searching for books, you can search by name, by subject, and by its ISBN - International Standard Book Number.
 
 Once you provide your search query, BookSplore will fetch data from the Google Books API, and our own databases for a wide collection of books, and users. You can browse these, at your leisure!
 
