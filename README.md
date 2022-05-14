@@ -4,6 +4,8 @@
 
 This project was made for a [Tech-With-Tim](https://discord.gg/twt) CodeJam, by the **Programming Addicts**.
 
+> Please note: This website is **no longer hosted**. If you wish to try it out, please clone the repo, and follow the instructions to set it up locally!
+
 <br>
 
 <p align="center">
