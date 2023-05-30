@@ -17,4 +17,4 @@ COPY backend/.env .env
 EXPOSE 2500
 
 # Specify the command to run your Python program
-CMD ["uvicorn", "--port", "2500" "main:app"]
+CMD ["uvicorn", "main:app", "--port", "2500"]
