@@ -14,6 +14,8 @@ from fastapi.middleware.cors import CORSMiddleware
 from endpoints import follow, auth, users, books
 from database.database import Database
 
+print("Starting")
+
 config = Config(".env")
 
 app = FastAPI()
@@ -26,9 +28,7 @@ app.mount("/js", StaticFiles(directory="dist/js"), name="js")
 
 templates = Jinja2Templates(directory="dist")
 
-origins = [
-    "https://booksplore.tech"
-]
+origins = ["https://booksplore.tech", "http://localhost:8000" "*"]
 
 # Sessions middleware for Google Authentication.
 app.add_middleware(SessionMiddleware, secret_key=os.environ.get("SECRET_KEY"))
@@ -47,20 +47,26 @@ app.include_router(auth.router, prefix="/api")
 app.include_router(books.router, prefix="/api/books")
 app.include_router(users.router, prefix="/api/users")
 
+
 # Connecting to the database and setting it as a state variable.
 @app.on_event("startup")
 async def on_startup():
-    dotenv.load_dotenv('.env')
+    print("Starting the server")
+    dotenv.load_dotenv(".env")
+    print(os.environ["DB_URI"])
     app.state.db = await Database.create_pool(app, uri=os.environ.get("DB_URI"))
-    if os.environ.get('INIT') == 'True':
-        with open('tables.sql') as f:
+    print("Database pool created")
+    if os.environ.get("INIT") == "True":
+        with open("tables.sql") as f:
             await app.state.db.execute(f.read())
         print("Initialized the database. You may now turn INIT to false in your .env")
 
-#Closing the database connection when shutting down the app.
+
+# Closing the database connection when shutting down the app.
 @app.on_event("shutdown")
 async def shutdown():
     await app.state.db.close_connection()
+
 
 # Serving index.html from backend from where Vue takes control.
 @app.get("/{full_path:path}")
