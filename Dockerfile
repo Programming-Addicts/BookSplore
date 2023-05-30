@@ -14,7 +14,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY backend .
 COPY backend/.env .env
 
-EXPOSE 8000
+EXPOSE 2500
 
 # Specify the command to run your Python program
 CMD ["uvicorn", "--port", "2500" "main:app"]
