@@ -1,5 +1,8 @@
 # Use the official Python image as the base image
-FROM python:3.8
+FROM python:3.8-alpine3.17
+
+RUN apk add --update alpine-sdk
+RUN apk add libffi-dev libffi
 
 # Set the working directory inside the container
 WORKDIR /app
@@ -14,7 +17,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY backend .
 COPY backend/.env .env
 
-EXPOSE 2500
+EXPOSE 8000
 
 # Specify the command to run your Python program
-CMD ["uvicorn", "main:app", "--port", "2500"]
+CMD ["uvicorn", "main:app"]

@@ -13,11 +13,26 @@ class Database(object):
 
     #
     @classmethod
-    async def create_pool(cls, app, uri=None, *, min_connections=10, max_connections=10,
-                          timeout=60.0, loop=None, **kwargs):
-        pool = await asyncpg.create_pool(uri, min_size=min_connections, max_size=max_connections, **kwargs)
+    async def create_pool(
+        cls,
+        app,
+        uri=None,
+        *,
+        min_connections=10,
+        max_connections=10,
+        timeout=60.0,
+        loop=None,
+        **kwargs
+    ):
+        pool = await asyncpg.create_pool(
+            uri, min_size=min_connections, max_size=max_connections, **kwargs
+        )
         self = cls(app=app, pool=pool, loop=loop, timeout=timeout)
-        print('Established DataBase pool with {} - {} connections\n'.format(min_connections, max_connections))
+        print(
+            "Established DataBase pool with {} - {} connections\n".format(
+                min_connections, max_connections
+            )
+        )
         return self
 
     async def close_connection(self):
