@@ -4,8 +4,6 @@
 
 This project was made for a [Tech-With-Tim](https://discord.gg/twt) CodeJam, by the **Programming Addicts**.
 
-> Please note: This website is **no longer hosted**. If you wish to try it out, please clone the repo, and follow the instructions to set it up locally!
-
 <br>
 
 <p align="center">
@@ -40,9 +38,9 @@ Please note that we use the Google Books API to obtain some information about bo
 
 ## 💻 Usage
 
-To get started, head over to our website - [booksplore.tech](https://booksplore.tech). Once you register yourself, you will be redirected to your dashboard.
+To get started, head over to our website - [booksplore.milind.lol](https://booksplore.milind.lol). Once you register yourself, you will be redirected to your dashboard.
 
-To explore our collection of books, ratings, reviews, and users, head over to the [Explore page](https://booksplore.tech/explore), and search for a book, or user you want to view! When searching for books, you can search by name, by subject, and by its ISBN - International Standard Book Number.
+To explore our collection of books, ratings, reviews, and users, head over to the [Explore page](https://booksplore.milind.lol/explore), and search for a book, or user you want to view! When searching for books, you can search by name, by subject, and by its ISBN - International Standard Book Number.
 
 Once you provide your search query, BookSplore will fetch data from the Google Books API, and our own databases for a wide collection of books, and users. You can browse these, at your leisure!
 
@@ -97,6 +95,6 @@ Please read this short, yet important passage. By using our website, registering
 - Please refrain from creating multiple accounts (alt accounts) on the site.
 - Please do not attempt anything malicious with the API, like trying to obtain information about other users.
 - All services of BookSplore are completely free, and open-source. Some of our content may not be available evenly for all books, since we use the Google API to obtain information about books. So by using BookSplore, you agree not to market any of the code, or claim it to be any of your own.
-- All rights are reserved by the admins of BookSplore, namely [Milind](https://booksplore.tech/user/2), [class PythonAddict](https://booksplore.tech/user/4) and [devnull](https://booksplore.tech/user/3). If they find any content to be irrelevant or users to be misusing the site, they reserve the rights to remove the content, or disable the user's account.
+- All rights are reserved by the admins of BookSplore, namely [Milind](https://booksplore.milind.lol/user/2), [class PythonAddict](https://booksplore.milind.lol/user/4) and [devnull](https://booksplore.milind.lol/user/3). If they find any content to be irrelevant or users to be misusing the site, they reserve the rights to remove the content, or disable the user's account.
 
 <h3 align="center">BookSplore - Explore the world of books, with your friends! </h3>
