@@ -1,8 +1,22 @@
-# Use the official Python image as the base image
-FROM python:3.8-alpine3.17
+FROM node:16.6.0-alpine AS frontend_builder
 
-RUN apk add --update alpine-sdk
-RUN apk add libffi-dev libffi
+WORKDIR /app
+
+RUN apk update && apk upgrade && apk add curl py-pip make g++
+COPY frontend/package*.json ./
+
+RUN npm install
+
+COPY frontend .
+
+RUN npx vue-cli-service build
+
+RUN ls
+
+CMD ["npx", "vue-cli-service", "serve"]
+
+# Use the official Python image as the base image
+FROM python:3.8
 
 # Set the working directory inside the container
 WORKDIR /app
@@ -16,6 +30,8 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copy the rest of the application code to the working directory
 COPY backend .
 COPY backend/.env .env
+
+COPY --from=frontend_builder app/dist/ ./dist/
 
 EXPOSE 8000
 

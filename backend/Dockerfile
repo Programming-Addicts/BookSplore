@@ -1,21 +1,18 @@
 # Use the official Python image as the base image
-FROM python:3.8-alpine3.17
-
-RUN apk add --update alpine-sdk
-RUN apk add libffi-dev libffi
+FROM python:3.8
 
 # Set the working directory inside the container
 WORKDIR /app
 
 # Copy the requirements file to the working directory
-COPY backend/requirements.txt .
+COPY requirements.txt .
 
 # Install the required packages
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Copy the rest of the application code to the working directory
-COPY backend .
-COPY backend/.env .env
+COPY . .
+COPY .env .env
 
 EXPOSE 8000
 

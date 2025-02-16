@@ -1,0 +1,9 @@
+services:
+  booksplore:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: always
+    network_mode: "host"
+    expose:
+      - "8000"
